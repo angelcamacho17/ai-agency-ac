@@ -1,59 +1,137 @@
-# AiAgencyAc
+# AI Agency Landing Page
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
+Landing page profesional de agencia de IA construida con Angular 21 y diseño minimalista. Diseñada para mostrar servicios, portfolio y capturar leads de manera elegante y efectiva.
 
-## Development server
+## Características
 
-To start a local development server, run:
+- **Angular 21** - Framework moderno y performante
+- **Diseño Minimalista** - Enfoque en contenido y conversión
+- **Tailwind CSS** - Estilos utilitarios y responsive
+- **SEO Optimizado** - Meta tags y estructura semántica
+- **Accesibilidad** - ARIA labels y navegación por teclado
+- **Animaciones suaves** - Transiciones elegantes sin distracciones
+- **100% Responsive** - Diseño adaptable a todos los dispositivos
+
+## Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── hero/          # Sección principal con CTA
+│   │   ├── about/         # Información sobre la agencia
+│   │   ├── portfolio/     # Proyectos destacados
+│   │   └── contact/       # Formulario de contacto
+│   ├── app.ts
+│   ├── app.html
+│   └── app.scss
+├── styles.scss            # Estilos globales
+└── index.html            # HTML principal con meta tags SEO
+```
+
+## Instalación y Desarrollo
+
+### Prerequisitos
+
+- Node.js 22+
+- npm 10+
+- Angular CLI 21+
+
+### Instalación
 
 ```bash
+# Clonar el repositorio
+git clone git@github.com:angelcamacho17/ai-agency-ac.git
+
+# Instalar dependencias
+npm install
+
+# Iniciar servidor de desarrollo
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navega a `http://localhost:4200/` para ver la aplicación.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Build para Producción
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Los archivos compilados estarán en el directorio `dist/`.
 
-## Running unit tests
+## Personalización
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Colores y Estilos
 
-```bash
-ng test
+Los colores principales están definidos en `tailwind.config.js`:
+
+```javascript
+colors: {
+  dark: {
+    900: '#0A0A0A',
+    800: '#121212',
+    700: '#1A1A1A',
+  },
+}
 ```
 
-## Running end-to-end tests
+### Contenido
 
-For end-to-end (e2e) testing, run:
+Edita los componentes en `src/app/components/` para personalizar:
 
-```bash
-ng e2e
+- **Hero**: Título principal y CTAs
+- **About**: Descripción de servicios y expertise
+- **Portfolio**: Proyectos y casos de estudio
+- **Contact**: Información de contacto y formulario
+
+### Meta Tags y SEO
+
+Actualiza los meta tags en `src/index.html`:
+
+```html
+<title>Tu Título</title>
+<meta name="description" content="Tu descripción">
+<meta name="author" content="Tu Nombre">
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Directrices de Diseño
 
-## Additional Resources
+Este proyecto sigue principios específicos de diseño minimalista:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Espaciado generoso** (80-120px entre secciones)
+- **Tipografía clara** (Inter font, line-height 1.6)
+- **Animaciones sutiles** (0.8s fade-in, scale hover 0.3s)
+- **Contraste alto** para legibilidad (WCAG AA)
+- **Sin elementos innecesarios** (sin popups, auto-play, etc.)
+
+## Tecnologías Utilizadas
+
+- [Angular 21](https://angular.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [PostCSS](https://postcss.org/)
+
+## Siguientes Pasos
+
+1. ✅ Estructura base completa
+2. ✅ Componentes implementados
+3. ✅ Diseño responsive
+4. ⏳ Integrar Tailwind CSS completamente
+5. ⏳ Agregar animaciones con GSAP o Framer Motion
+6. ⏳ Conectar formulario con backend/API
+7. ⏳ Deploy a Vercel/Netlify
+
+## Notas de Desarrollo
+
+- El proyecto usa Tailwind CSS v4 que requiere `@tailwindcss/postcss`
+- Las directivas de Tailwind están temporalmente deshabilitadas en `styles.scss`
+- Para habilitar Tailwind, descomentar las directivas en `src/styles.scss`
+
+## Licencia
+
+MIT
+
+## Contacto
+
+Para preguntas o soporte, contacta a través del formulario en la landing page.
