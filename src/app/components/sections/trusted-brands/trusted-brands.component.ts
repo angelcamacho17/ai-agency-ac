@@ -107,10 +107,12 @@ export class TrustedBrandsComponent {
     { name: 'Safaera', logo: 'brands/safaera_icon_white_transparent.png' },
     { name: 'Turismo de Playa', logo: 'brands/turismodeplaya_white_transparent.png' },
     { name: 'Xup', logo: 'brands/xup_white_transparent.png' },
+    { name: 'VIC', logo: 'brands/vic_white_transparent.png' },
     { name: 'Amplify', logo: 'brands/amplify_white_transparent.png' },
     { name: 'Axial', logo: 'brands/axial_white_transparent.png' },
     { name: 'Safaera', logo: 'brands/safaera_icon_white_transparent.png' },
     { name: 'Turismo de Playa', logo: 'brands/turismodeplaya_white_transparent.png' },
-    { name: 'Xup', logo: 'brands/xup_white_transparent.png' }
+    { name: 'Xup', logo: 'brands/xup_white_transparent.png' },
+    { name: 'VIC', logo: 'brands/vic_white_transparent.png' }
   ];
 }
