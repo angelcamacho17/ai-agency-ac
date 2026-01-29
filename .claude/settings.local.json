@@ -3,7 +3,10 @@
     "allow": [
       "Bash(npm run build)",
       "Bash(npx ng serve:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: complete landing page with interactive demos and Render deployment config\n\n- Add all sections: Hero, Work, Process, Philosophy, Stats, CTA, Footer\n- Add trusted brands carousel with 5 company logos\n- Add interactive project demo modals for AI, Web, Mobile, E-commerce, and APIs\n- Add atmospheric effects: nebula background and particles\n- Add custom directives: scroll reveal, magnetic buttons, custom cursor\n- Translate entire app to Spanish (except \"WE WRITE CODE\" motto)\n- Add Render deployment configuration with render.yaml and .nvmrc\n- Update all CTAs to link to Calendly booking\n- Update social media links and contact email\n- Add comprehensive deployment documentation\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
