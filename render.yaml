@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: ai-agency-ac
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist/ai-agency-ac/browser
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

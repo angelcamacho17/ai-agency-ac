@@ -1,137 +1,257 @@
-# AI Agency Landing Page
+# Michelangelo Devs - Atmospheric Landing Page
 
-Landing page profesional de agencia de IA construida con Angular 21 y diseño minimalista. Diseñada para mostrar servicios, portfolio y capturar leads de manera elegante y efectiva.
+**We write art, not code.**
 
-## Características
+A stunning, atmospheric landing page for Michelangelo Devs built with Angular 21+ and Tailwind CSS. Features nebula-inspired backgrounds, glassmorphism effects, particle animations, and an immersive user experience.
 
-- **Angular 21** - Framework moderno y performante
-- **Diseño Minimalista** - Enfoque en contenido y conversión
-- **Tailwind CSS** - Estilos utilitarios y responsive
-- **SEO Optimizado** - Meta tags y estructura semántica
-- **Accesibilidad** - ARIA labels y navegación por teclado
-- **Animaciones suaves** - Transiciones elegantes sin distracciones
-- **100% Responsive** - Diseño adaptable a todos los dispositivos
+---
 
-## Estructura del Proyecto
+## Features
+
+### Design Philosophy
+- **Atmospheric & Dimensional**: Nebula gradients with heavy blur effects
+- **Glassmorphism**: Translucent UI elements with backdrop blur
+- **Glow Effects**: Strategic use of neon green glow on interactive elements
+- **Particle System**: Canvas-based floating particles
+- **Parallax Scrolling**: Nebula backgrounds move at different speeds
+- **Smooth Animations**: Fade-in, glow expansion, and stagger effects
+- **Custom Cursor**: Glowing cursor effect on desktop
+- **Magnetic Buttons**: Interactive buttons that follow the cursor
+
+### Sections
+1. **Hero** - Full viewport with animated nebula backgrounds
+2. **Philosophy** - Three glassmorphism cards with hover effects
+3. **What We Build** - Bento grid layout with glow effects
+4. **Process** - 4-step process with animated connectors
+5. **Stats** - Counter animations with glow effects
+6. **CTA** - Hero button with intense glow
+7. **Footer** - Clean footer with social links
+
+### Technical Stack
+- **Angular 21+** with standalone components
+- **Tailwind CSS** with custom theme
+- **TypeScript** for type safety
+- **Canvas API** for particle effects
+- **Intersection Observer** for scroll animations
+- **CSS Animations** with custom easing curves
+
+---
+
+## Prerequisites
+
+Before you begin, ensure you have:
+- **Node.js** v20.19+ or v22.12+ (Angular 21 requirement)
+- **npm** 10.9.4+
+
+---
+
+## Installation
+
+1. **Clone the repository** (if not already cloned)
+   ```bash
+   git clone git@github.com:angelcamacho17/ai-agency-ac.git
+   cd ai-agency-ac
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+---
+
+## Development
+
+Start the development server:
+```bash
+npm start
+```
+
+Navigate to `http://localhost:4200/`. The application will automatically reload when you make changes.
+
+---
+
+## Build
+
+Build the project for production:
+```bash
+npm run build
+```
+
+The build artifacts will be stored in the `dist/` directory with production optimizations enabled.
+
+---
+
+## Project Structure
 
 ```
 src/
 ├── app/
 │   ├── components/
-│   │   ├── hero/          # Sección principal con CTA
-│   │   ├── about/         # Información sobre la agencia
-│   │   ├── portfolio/     # Proyectos destacados
-│   │   └── contact/       # Formulario de contacto
-│   ├── app.ts
-│   ├── app.html
-│   └── app.scss
-├── styles.scss            # Estilos globales
-└── index.html            # HTML principal con meta tags SEO
+│   │   ├── hero/                    # Hero section
+│   │   ├── shared/
+│   │   │   ├── navigation/          # Glassmorphism nav
+│   │   │   ├── nebula-background/   # Animated nebula
+│   │   │   └── particles/           # Canvas particles
+│   │   └── sections/
+│   │       ├── philosophy/          # Philosophy cards
+│   │       ├── work/                # Bento grid
+│   │       ├── process/             # Process steps
+│   │       ├── stats/               # Counter animations
+│   │       ├── cta/                 # Call to action
+│   │       └── footer/              # Footer
+│   ├── directives/
+│   │   ├── scroll-reveal.directive.ts      # Scroll animations
+│   │   ├── magnetic-button.directive.ts    # Magnetic effect
+│   │   └── custom-cursor.directive.ts      # Custom cursor
+│   ├── app.ts                       # Root component
+│   └── app.html                     # Main template
+├── styles.scss                      # Global styles
+└── index.html                       # HTML entry point
 ```
 
-## Instalación y Desarrollo
+---
 
-### Prerequisitos
+## Customization
 
-- Node.js 22+
-- npm 10+
-- Angular CLI 21+
-
-### Instalación
-
-```bash
-# Clonar el repositorio
-git clone git@github.com:angelcamacho17/ai-agency-ac.git
-
-# Instalar dependencias
-npm install
-
-# Iniciar servidor de desarrollo
-ng serve
-```
-
-Navega a `http://localhost:4200/` para ver la aplicación.
-
-### Build para Producción
-
-```bash
-ng build
-```
-
-Los archivos compilados estarán en el directorio `dist/`.
-
-## Personalización
-
-### Colores y Estilos
-
-Los colores principales están definidos en `tailwind.config.js`:
-
+### Colors
+Edit `tailwind.config.js` to customize the nebula colors:
 ```javascript
 colors: {
-  dark: {
-    900: '#0A0A0A',
-    800: '#121212',
-    700: '#1A1A1A',
-  },
+  neon: {
+    green: '#10b981',
+    teal: '#14b8a6',
+    orange: '#fb923c',
+  }
 }
 ```
 
-### Contenido
-
-Edita los componentes en `src/app/components/` para personalizar:
-
-- **Hero**: Título principal y CTAs
-- **About**: Descripción de servicios y expertise
-- **Portfolio**: Proyectos y casos de estudio
-- **Contact**: Información de contacto y formulario
-
-### Meta Tags y SEO
-
-Actualiza los meta tags en `src/index.html`:
-
-```html
-<title>Tu Título</title>
-<meta name="description" content="Tu descripción">
-<meta name="author" content="Tu Nombre">
+### Animations
+Adjust animation timings in `tailwind.config.js`:
+```javascript
+animation: {
+  'float': 'float 20s ease-in-out infinite',
+  'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+}
 ```
 
-## Directrices de Diseño
+### Content
+Update component templates to change text content:
+- Hero: `src/app/components/hero/hero.html`
+- Philosophy: `src/app/components/sections/philosophy/philosophy.component.ts`
+- Work: `src/app/components/sections/work/work.component.ts`
 
-Este proyecto sigue principios específicos de diseño minimalista:
+---
 
-- **Espaciado generoso** (80-120px entre secciones)
-- **Tipografía clara** (Inter font, line-height 1.6)
-- **Animaciones sutiles** (0.8s fade-in, scale hover 0.3s)
-- **Contraste alto** para legibilidad (WCAG AA)
-- **Sin elementos innecesarios** (sin popups, auto-play, etc.)
+## Performance Optimizations
 
-## Tecnologías Utilizadas
+### Implemented
+- GPU acceleration for animated elements (`translateZ(0)`)
+- Lazy loading for non-critical components
+- Intersection Observer for scroll animations
+- `will-change` hints for transformed elements
+- Reduced motion support for accessibility
 
-- [Angular 21](https://angular.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [PostCSS](https://postcss.org/)
+### Recommendations
+- Add WebP images for mockups
+- Implement code splitting for routes
+- Use `NgOptimizedImage` for hero images
+- Enable Brotli compression on server
+- Set up CDN (Cloudflare recommended)
 
-## Siguientes Pasos
+---
 
-1. ✅ Estructura base completa
-2. ✅ Componentes implementados
-3. ✅ Diseño responsive
-4. ⏳ Integrar Tailwind CSS completamente
-5. ⏳ Agregar animaciones con GSAP o Framer Motion
-6. ⏳ Conectar formulario con backend/API
-7. ⏳ Deploy a Vercel/Netlify
+## Accessibility
 
-## Notas de Desarrollo
+- **WCAG AA compliant** contrast ratios
+- **Keyboard navigation** with visible focus states
+- **ARIA labels** on all interactive elements
+- **Semantic HTML** structure
+- **Screen reader** friendly content
+- **Reduced motion** support via `prefers-reduced-motion`
 
-- El proyecto usa Tailwind CSS v4 que requiere `@tailwindcss/postcss`
-- Las directivas de Tailwind están temporalmente deshabilitadas en `styles.scss`
-- Para habilitar Tailwind, descomentar las directivas en `src/styles.scss`
+---
 
-## Licencia
+## Browser Support
 
-MIT
+- Chrome/Edge 90+
+- Firefox 88+
+- Safari 14+
+- Opera 76+
 
-## Contacto
+**Note**: Custom cursor and some advanced effects are desktop-only (viewport ≥ 1024px)
 
-Para preguntas o soporte, contacta a través del formulario en la landing page.
+---
+
+## Deployment
+
+### Vercel (Recommended)
+```bash
+npm i -g vercel
+vercel
+```
+
+### Netlify
+```bash
+npm run build
+# Upload dist/ folder to Netlify
+```
+
+### Other Platforms
+Build the project and serve the `dist/` directory as a static site.
+
+---
+
+## Troubleshooting
+
+### Node Version Error
+```bash
+# Check Node version
+node --version
+
+# Update Node using nvm
+nvm install 20.19
+nvm use 20.19
+```
+
+### Build Errors
+```bash
+# Clear cache and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Styling Issues
+```bash
+# Rebuild Tailwind
+npm run build
+```
+
+---
+
+## Credits
+
+**Design Inspiration**: Nebulae, spatial aesthetics, glassmorphism trends
+**Framework**: Angular 21+
+**Styling**: Tailwind CSS
+**Fonts**: Google Fonts (Inter, Playfair Display)
+
+---
+
+## License
+
+This project is proprietary and confidential.
+© 2026 Michelangelo Devs. All rights reserved.
+
+---
+
+## Contact
+
+- **Email**: hello@michelangelodevs.com
+- **Instagram**: [@michelangelodevs](https://instagram.com)
+- **LinkedIn**: [Michelangelo Devs](https://linkedin.com)
+- **Twitter/X**: [@michelangelodevs](https://twitter.com)
+
+---
+
+**Built with ❤️ and Angular 21 in Venezuela**
