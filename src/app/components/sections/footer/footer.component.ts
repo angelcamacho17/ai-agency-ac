@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
             </div>
             <p class="text-text-tertiary text-sm">
               we write art,<br />
-              not code
+              not just code
             </p>
           </div>
 
@@ -48,7 +48,7 @@ import { CommonModule } from '@angular/common';
         <!-- Copyright -->
         <div class="text-center text-text-tertiary text-sm">
           <p>© 2026 Michelangelo Devs</p>
-          <p class="mt-2">Hecho con 🤍 en Venezuela</p>
+          <!-- <p class="mt-2">Hecho con 🤍 en Venezuela</p> -->
         </div>
       </div>
     </footer>

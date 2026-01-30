@@ -1,15 +1,14 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
-import { ProjectDemoModalComponent, DemoProject } from '../../shared/project-demo-modal/project-demo-modal.component';
 
 @Component({
   selector: 'app-work',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective, ProjectDemoModalComponent],
+  imports: [CommonModule, ScrollRevealDirective],
   template: `
     <section id="work" class="relative py-32 overflow-hidden bg-dark-950">
-      <!-- Orange nebula gradient -->
+      <!-- Background gradient -->
       <div
         class="absolute top-0 right-0 w-[1000px] h-[1000px] rounded-full opacity-20 pointer-events-none"
         style="background: radial-gradient(circle, rgba(251, 146, 60, 0.15) 0%, transparent 50%); filter: blur(100px)"
@@ -19,191 +18,274 @@ import { ProjectDemoModalComponent, DemoProject } from '../../shared/project-dem
         <!-- Section Title -->
         <h2
           appScrollReveal
-          class="text-section font-bold text-text-primary mb-20 text-glow-green"
+          class="text-4xl md:text-5xl font-bold text-center text-text-primary mb-6 text-glow-green"
         >
           QUÉ CONSTRUIMOS
         </h2>
+        <p
+          appScrollReveal
+          class="text-lg text-text-secondary text-center mb-20 max-w-3xl mx-auto"
+        >
+          Soluciones de automatización e inteligencia artificial que transforman tu operación
+        </p>
 
-        <!-- Bento Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <!-- Item 1 - Large -->
-          <div
-            appScrollReveal
-            class="work-item lg:col-span-1 glassmorphism-card border border-neon-green/20 rounded-[2rem] p-16 relative overflow-hidden group hover:border-neon-green/40 transition-all duration-500"
-          >
-            <div class="relative z-10">
-              <h3 class="text-4xl font-bold text-text-primary mb-6">
-                AGENTES DE IA<br />
-                <span class="text-neon-green">que funcionan</span>
-              </h3>
-              <p class="text-text-tertiary leading-relaxed mb-8">
-                No demos. No prototipos. Arquitectura de producción que genera resultados
-                medibles desde el día uno. Instagram, WhatsApp, Web. Trabajando 24/7 mientras
-                tú duermes.
-              </p>
-              <button
-                (click)="openDemo('ai', 'Agentes de IA', 'Soluciones inteligentes que automatizan conversaciones y procesos')"
-                class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-neon-green to-neon-teal text-dark-950 font-bold rounded-lg transition-all duration-300 hover:shadow-glow-green-lg hover:scale-105"
-              >
-                Ver Demo Interactivo
-              </button>
-            </div>
-            <div class="work-item-glow"></div>
-          </div>
+        <!-- Services Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-          <!-- Item 2 - Mobile Apps -->
-          <div
-            appScrollReveal
-            class="work-item glassmorphism-card border border-neon-green/10 rounded-[2rem] p-12 flex flex-col items-center justify-center min-h-[300px] hover:border-neon-green/30 transition-all duration-500 cursor-pointer group"
-            (click)="openDemo('mobile', 'Apps Móviles', 'Experiencias móviles nativas premium para iOS y Android')"
-          >
-            <div class="text-center">
-              <div
-                class="w-24 h-24 mx-auto mb-6 text-neon-green group-hover:scale-110 transition-transform duration-300"
-                style="filter: drop-shadow(0 0 30px rgba(16, 185, 129, 0.6))"
-              >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                  ></path>
-                </svg>
+          <!-- Card 1: Agentes AI -->
+          <div appScrollReveal class="service-card group">
+            <div class="card-icon">🤖</div>
+            <h3 class="card-title">
+              Agentes <span class="text-neon-green">AI</span>
+            </h3>
+            <p class="card-description">
+              Asistentes inteligentes que automatizan tareas complejas usando Claude, GPT y modelos especializados
+            </p>
+
+            <div class="card-features">
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>Atención al cliente 24/7</span>
               </div>
-              <p class="text-text-secondary text-lg mb-4 group-hover:text-neon-green transition-colors">Apps Móviles</p>
-              <span class="text-sm text-neon-green opacity-0 group-hover:opacity-100 transition-opacity">Click para ver demo</span>
-            </div>
-            <div class="work-item-glow"></div>
-          </div>
-
-          <!-- Item 3 - Web Apps -->
-          <div
-            appScrollReveal
-            class="work-item glassmorphism-card border border-neon-teal/20 rounded-[2rem] p-12 flex flex-col items-center justify-center min-h-[300px] hover:border-neon-teal/40 transition-all duration-500 cursor-pointer group"
-            (click)="openDemo('web', 'Aplicaciones Web', 'Plataformas web escalables y de alto rendimiento')"
-          >
-            <div class="text-center">
-              <div
-                class="w-24 h-24 mx-auto mb-6 text-neon-teal group-hover:scale-110 transition-transform duration-300"
-                style="filter: drop-shadow(0 0 30px rgba(20, 184, 166, 0.6))"
-              >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  ></path>
-                </svg>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>Cualificación de leads automática</span>
               </div>
-              <p class="text-text-secondary text-lg mb-4 group-hover:text-neon-teal transition-colors">Aplicaciones Web</p>
-              <span class="text-sm text-neon-teal opacity-0 group-hover:opacity-100 transition-opacity">Click para ver demo</span>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>Análisis de datos en tiempo real</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>Integración con CRM y APIs</span>
+              </div>
             </div>
-            <div class="work-item-glow"></div>
+
+            <div class="card-tech">
+              <span class="tech-badge">Claude</span>
+              <span class="tech-badge">n8n</span>
+              <span class="tech-badge">OpenAI</span>
+            </div>
           </div>
 
-          <!-- Item 4 - Large -->
-          <div
-            appScrollReveal
-            class="work-item lg:col-span-1 glassmorphism-card border border-neon-green/20 rounded-[2rem] p-16 relative overflow-hidden group hover:border-neon-green/40 transition-all duration-500"
-          >
-            <div class="relative z-10">
-              <h3 class="text-4xl font-bold text-text-primary mb-6">
-                AUTOMATIZACIÓN<br />
-                <span class="text-neon-teal">que piensa</span>
-              </h3>
-              <p class="text-text-tertiary leading-relaxed mb-8">
-                Setter y closer en uno. Califica leads automáticamente y vende productos
-                digitales sin intervención humana. Tu Instagram genera ingresos en piloto
-                automático.
-              </p>
-              <button
-                (click)="openDemo('ecommerce', 'E-commerce & Automatización', 'Plataformas de comercio electrónico con automatización inteligente')"
-                class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-neon-teal to-blue-500 text-dark-950 font-bold rounded-lg transition-all duration-300 hover:shadow-glow-teal-lg hover:scale-105"
-              >
-                Ver Demo Interactivo
-              </button>
+          <!-- Card 2: Automatizaciones -->
+          <div appScrollReveal class="service-card group">
+            <div class="card-icon">⚡</div>
+            <h3 class="card-title">
+              Automatizaciones <span class="text-neon-green">Operativas</span>
+            </h3>
+            <p class="card-description">
+              Workflows inteligentes que conectan tus herramientas y eliminan trabajo manual repetitivo
+            </p>
+
+            <div class="card-features">
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>Sincronización entre plataformas</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>Notificaciones y alertas smart</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>Generación de reportes automáticos</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>Procesamiento de pagos y facturas</span>
+              </div>
             </div>
-            <div class="work-item-glow"></div>
+
+            <div class="card-tech">
+              <span class="tech-badge">n8n</span>
+              <span class="tech-badge">Make</span>
+              <span class="tech-badge">Zapier</span>
+            </div>
           </div>
 
-          <!-- Item 5 - Full width -->
-          <div
-            appScrollReveal
-            class="work-item lg:col-span-2 glassmorphism-card border border-neon-green/20 rounded-[2rem] p-16 relative overflow-hidden group hover:border-neon-green/40 transition-all duration-500"
-          >
-            <div class="relative z-10 text-center max-w-4xl mx-auto">
-              <h3 class="text-5xl font-bold text-text-primary mb-6">
-                RESULTADOS<br />
-                <span class="text-neon-green">no promesas</span>
-              </h3>
-              <p class="text-text-tertiary text-xl leading-relaxed mb-8">
-                ROI promedio de 800%. Cada dólar invertido genera 8. No es magia, son
-                matemáticas. Implementación en 4 semanas, resultados desde el mes 1.
-              </p>
-              <button
-                (click)="openDemo('api', 'APIs & Integraciones', 'Arquitectura de APIs robusta y escalable')"
-                class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-neon-green to-neon-teal text-dark-950 font-bold rounded-xl transition-all duration-300 hover:shadow-glow-green-lg hover:scale-105 text-lg"
-              >
-                Ver Demo de APIs
-              </button>
+          <!-- Card 3: Aplicaciones Web -->
+          <div appScrollReveal class="service-card group">
+            <div class="card-icon">💻</div>
+            <h3 class="card-title">
+              Aplicaciones <span class="text-neon-green">Web</span>
+            </h3>
+            <p class="card-description">
+              Interfaces modernas y escalables con las últimas tecnologías frontend y backend
+            </p>
+
+            <div class="card-features">
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>SaaS y plataformas empresariales</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>Dashboards y paneles admin</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>E-commerce y marketplaces</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✓</span>
+                <span>APIs RESTful y GraphQL</span>
+              </div>
             </div>
-            <div class="work-item-glow"></div>
+
+            <div class="card-tech">
+              <span class="tech-badge">React</span>
+              <span class="tech-badge">Angular</span>
+              <span class="tech-badge">Node.js</span>
+            </div>
           </div>
+
         </div>
       </div>
-
-      <!-- Demo Modal -->
-      <app-project-demo-modal
-        [project]="selectedProject()"
-        [isOpen]="isModalOpen()"
-        (close)="closeModal()"
-      ></app-project-demo-modal>
     </section>
   `,
   styles: [`
-    .work-item {
+    /* Service Cards */
+    .service-card {
       position: relative;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      min-height: 550px;
     }
 
-    .work-item-glow {
+    .service-card::before {
       content: '';
       position: absolute;
-      inset: -2px;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(20, 184, 166, 0.5));
-      border-radius: inherit;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #10b981, #14b8a6);
+      border-radius: 1.5rem 1.5rem 0 0;
       opacity: 0;
-      filter: blur(20px);
-      transition: all 0.5s;
-      z-index: 0;
-      pointer-events: none;
+      transition: opacity 0.3s ease;
     }
 
-    .work-item:hover {
-      transform: scale(1.02);
+    .service-card:hover {
+      border-color: rgba(16, 185, 129, 0.5);
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.2);
+      transform: translateY(-8px);
     }
 
-    .work-item:hover .work-item-glow {
+    .service-card:hover::before {
       opacity: 1;
-      filter: blur(30px);
+    }
+
+    /* Card Icon */
+    .card-icon {
+      font-size: 4rem;
+      text-align: center;
+      filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.6));
+    }
+
+    /* Card Title */
+    .card-title {
+      font-size: 1.75rem;
+      font-weight: bold;
+      color: #FFFFFF;
+      text-align: center;
+      text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+
+    /* Card Description */
+    .card-description {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      text-align: center;
+      line-height: 1.6;
+      min-height: 60px;
+    }
+
+    /* Features List */
+    .card-features {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: #d1d5db;
+      line-height: 1.5;
+    }
+
+    .feature-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      font-size: 0.75rem;
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Tech Badges */
+    .card-tech {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(16, 185, 129, 0.1);
+    }
+
+    .tech-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 0.375rem 0.875rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .tech-badge:hover {
+      background: rgba(16, 185, 129, 0.2);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .service-card {
+        padding: 2rem;
+        min-height: auto;
+      }
+
+      .card-icon {
+        font-size: 3rem;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+      }
+
+      .card-description {
+        font-size: 0.875rem;
+        min-height: auto;
+      }
     }
   `]
 })
-export class WorkComponent {
-  isModalOpen = signal(false);
-  selectedProject = signal<DemoProject | null>(null);
-
-  openDemo(type: string, title: string, description: string) {
-    this.selectedProject.set({ type, title, description });
-    this.isModalOpen.set(true);
-  }
-
-  closeModal() {
-    this.isModalOpen.set(false);
-    setTimeout(() => {
-      this.selectedProject.set(null);
-    }, 300);
-  }
-}
+export class WorkComponent {}

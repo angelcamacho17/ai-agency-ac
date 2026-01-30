@@ -20,7 +20,7 @@ import { MagneticButtonDirective } from '../../../directives/magnetic-button.dir
             <img
               src="logo_white.png"
               alt="Michelangelo Devs Logo"
-              class="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-110"
+              class="h-20 w-20 object-contain transition-transform duration-300 group-hover:scale-110"
             />
             <div class="text-2xl font-bold text-text-primary tracking-tight">
               michelangelo <span class="text-neon-green">devs</span>

@@ -4,6 +4,7 @@ import { NavigationComponent } from './components/shared/navigation/navigation.c
 import { Hero } from './components/hero/hero';
 import { PhilosophyComponent } from './components/sections/philosophy/philosophy.component';
 import { TrustedBrandsComponent } from './components/sections/trusted-brands/trusted-brands.component';
+import { RoiComponent } from './components/sections/roi/roi.component';
 import { WorkComponent } from './components/sections/work/work.component';
 import { ProcessComponent } from './components/sections/process/process.component';
 import { StatsComponent } from './components/sections/stats/stats.component';
@@ -19,6 +20,7 @@ import { CustomCursorDirective } from './directives/custom-cursor.directive';
     Hero,
     PhilosophyComponent,
     TrustedBrandsComponent,
+    RoiComponent,
     WorkComponent,
     ProcessComponent,
     StatsComponent,
