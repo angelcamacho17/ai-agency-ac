@@ -51,10 +51,10 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
         <p appScrollReveal class="text-text-tertiary">
           o escríbenos a
           <a
-            href="mailto:angelcamacho.developer@gmail.com"
+            href="mailto:angel.camacho@michelangelodevs.com"
             class="text-text-secondary hover:text-neon-green transition-all duration-300 underline underline-offset-4 decoration-neon-green/50 hover:decoration-neon-green"
           >
-            angelcamacho.developer&#64;gmail.com
+            angel.camacho&#64;michelangelodevs.com
           </a>
         </p>
       </div>
