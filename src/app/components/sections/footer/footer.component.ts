@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   template: `
     <footer class="relative bg-dark-900 border-t border-neon-green/30">
       <div class="max-w-7xl mx-auto px-6 py-24">
@@ -21,8 +22,29 @@ import { CommonModule } from '@angular/common';
             </p>
           </div>
 
-          <!-- Empty spacer for grid -->
-          <div></div>
+          <!-- Legal Links -->
+          <div class="text-center space-y-3">
+            <a
+              routerLink="/terms"
+              class="block text-text-secondary hover:text-neon-green transition-all duration-300 relative group"
+            >
+              Términos y Condiciones
+              <span
+                class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-neon-green to-neon-teal group-hover:w-full transition-all duration-300"
+                style="box-shadow: 0 0 10px rgba(16, 185, 129, 0.6)"
+              ></span>
+            </a>
+            <a
+              routerLink="/privacy"
+              class="block text-text-secondary hover:text-neon-green transition-all duration-300 relative group"
+            >
+              Política de Privacidad
+              <span
+                class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-neon-green to-neon-teal group-hover:w-full transition-all duration-300"
+                style="box-shadow: 0 0 10px rgba(16, 185, 129, 0.6)"
+              ></span>
+            </a>
+          </div>
 
           <!-- Social Links -->
           <div class="text-center md:text-right space-y-3">
