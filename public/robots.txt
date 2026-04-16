@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /roi
 Sitemap: https://www.michelangelodevs.com/sitemap.xml
