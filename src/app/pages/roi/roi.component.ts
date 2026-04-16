@@ -3,6 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
+type AgentKey = 'ig' | 'wa' | 'web';
+
+interface Agent {
+  key: AgentKey;
+  name: string;
+  basePrice: number;
+  icon: string;
+}
+
 @Component({
   selector: 'app-roi',
   standalone: true,
@@ -17,19 +26,72 @@ import { RouterLink } from '@angular/router';
             Calculadora de <span class="text-neon-green">ROI</span>
           </h1>
           <p class="text-lg md:text-xl text-text-tertiary max-w-2xl mx-auto">
-            Descubre en cuánto tiempo recuperas la inversión del agente de IA y cuánto más ganarías al cierre del año.
+            Descubre en cuánto tiempo recuperas la inversión y cuánto más ganarías al cierre del año.
           </p>
           <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neon-green/10 border border-neon-green/30">
             <span class="w-2 h-2 rounded-full bg-neon-green animate-pulse"></span>
-            <span class="text-sm text-neon-green font-medium">Inversión única: $1,997</span>
+            <span class="text-sm text-neon-green font-medium">Inversión total: \${{ formatNumber(totalInvestment()) }}</span>
           </div>
+        </div>
+
+        <!-- Agent selector -->
+        <div class="bg-dark-800/50 backdrop-blur-glass border border-white/5 rounded-2xl p-8 mb-8">
+          <h2 class="text-2xl font-semibold text-text-primary mb-2 flex items-center gap-3">
+            <span class="w-8 h-8 rounded-lg bg-neon-green/20 flex items-center justify-center text-neon-green">1</span>
+            Elige tus agentes
+          </h2>
+          <p class="text-sm text-text-tertiary mb-6">Selecciona uno o más. Los combos tienen descuentos automáticos.</p>
+
+          <div class="grid md:grid-cols-3 gap-4">
+            @for (agent of agents; track agent.key) {
+              <button type="button"
+                      (click)="toggleAgent(agent.key)"
+                      [class.selected]="isSelected(agent.key)"
+                      class="agent-card text-left p-5 rounded-xl border transition-all duration-300">
+                <div class="flex items-start justify-between mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-dark-900/60 flex items-center justify-center text-xl">
+                    {{ agent.icon }}
+                  </div>
+                  <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center checkbox-indicator">
+                    @if (isSelected(agent.key)) {
+                      <span class="w-2.5 h-2.5 rounded-full bg-neon-green"></span>
+                    }
+                  </div>
+                </div>
+                <p class="font-semibold text-text-primary mb-1">{{ agent.name }}</p>
+                <p class="text-xs text-text-tertiary mb-3">
+                  @if (agent.key === 'web' && webHasDiscount()) {
+                    <span class="line-through">\${{ formatNumber(agent.basePrice) }}</span>
+                    <span class="text-neon-green ml-2">\${{ formatNumber(agent.basePrice * 0.7) }}</span>
+                    <span class="ml-1">(-30%)</span>
+                  } @else {
+                    \${{ formatNumber(agent.basePrice) }}
+                  }
+                </p>
+              </button>
+            }
+          </div>
+
+          @if (selectedAgents().length > 0) {
+            <div class="mt-6 pt-6 border-t border-white/5 flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <p class="text-xs uppercase tracking-wide text-text-tertiary mb-1">Precio del paquete</p>
+                <p class="text-3xl font-bold text-text-primary">\${{ formatNumber(totalInvestment()) }}</p>
+              </div>
+              @if (packageSavings() > 0) {
+                <div class="px-4 py-2 rounded-full bg-neon-teal/10 border border-neon-teal/30">
+                  <p class="text-sm text-neon-teal font-medium">Ahorras \${{ formatNumber(packageSavings()) }}</p>
+                </div>
+              }
+            </div>
+          }
         </div>
 
         <div class="grid lg:grid-cols-2 gap-8">
           <!-- Inputs -->
           <div class="bg-dark-800/50 backdrop-blur-glass border border-white/5 rounded-2xl p-8 space-y-8">
             <h2 class="text-2xl font-semibold text-text-primary mb-6 flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-neon-green/20 flex items-center justify-center text-neon-green">1</span>
+              <span class="w-8 h-8 rounded-lg bg-neon-green/20 flex items-center justify-center text-neon-green">2</span>
               Tus datos
             </h2>
 
@@ -47,9 +109,9 @@ import { RouterLink } from '@angular/router';
             <div>
               <label class="flex items-center justify-between mb-3 text-text-secondary">
                 <span class="font-medium">Conversaciones perdidas al mes</span>
-                <span class="text-neon-green font-mono font-semibold">{{ lostConversations() }}</span>
+                <span class="text-neon-green font-mono font-semibold">{{ formatNumber(lostConversations()) }}</span>
               </label>
-              <input type="range" min="0" max="1000" step="10"
+              <input type="range" min="0" max="1000000" step="100"
                      [ngModel]="lostConversations()" (ngModelChange)="lostConversations.set($event)"
                      class="roi-slider w-full" />
               <p class="text-xs text-text-tertiary mt-2">Mensajes no respondidos o contestados demasiado tarde cada mes.</p>
@@ -80,47 +142,53 @@ import { RouterLink } from '@angular/router';
 
           <!-- Results -->
           <div class="space-y-6">
-            <div class="bg-gradient-to-br from-neon-green/20 to-neon-teal/10 border border-neon-green/30 rounded-2xl p-8 shadow-glow-green">
-              <p class="text-sm uppercase tracking-wide text-neon-green font-semibold mb-2">Recuperas la inversión en</p>
-              <p class="text-5xl md:text-6xl font-bold text-text-primary mb-2">
-                {{ paybackText() }}
-              </p>
-              <p class="text-text-tertiary text-sm">{{ paybackDetail() }}</p>
-            </div>
+            @if (selectedAgents().length === 0) {
+              <div class="bg-dark-800/50 backdrop-blur-glass border border-white/5 rounded-2xl p-8 text-center">
+                <p class="text-text-tertiary">Selecciona al menos un agente para ver tu proyección.</p>
+              </div>
+            } @else {
+              <div class="bg-gradient-to-br from-neon-green/20 to-neon-teal/10 border border-neon-green/30 rounded-2xl p-8 shadow-glow-green">
+                <p class="text-sm uppercase tracking-wide text-neon-green font-semibold mb-2">Recuperas la inversión en</p>
+                <p class="text-5xl md:text-6xl font-bold text-text-primary mb-2">
+                  {{ paybackText() }}
+                </p>
+                <p class="text-text-tertiary text-sm">{{ paybackDetail() }}</p>
+              </div>
 
-            <div class="bg-dark-800/50 backdrop-blur-glass border border-white/5 rounded-2xl p-8">
-              <p class="text-sm uppercase tracking-wide text-text-tertiary font-semibold mb-6">Desglose mensual</p>
-              <div class="space-y-4">
-                <div class="flex justify-between items-center">
-                  <span class="text-text-secondary">Conversaciones recuperadas / mes</span>
-                  <span class="text-text-primary font-mono font-semibold">{{ formatNumber(recoveredConversations()) }}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-text-secondary">Ventas extras / mes</span>
-                  <span class="text-text-primary font-mono font-semibold">{{ formatNumber(extraSales()) }}</span>
-                </div>
-                <div class="flex justify-between items-center pt-4 border-t border-white/5">
-                  <span class="text-text-secondary">Ganancia extra / mes</span>
-                  <span class="text-neon-green font-mono font-bold text-xl">\${{ formatNumber(monthlyProfit()) }}</span>
+              <div class="bg-dark-800/50 backdrop-blur-glass border border-white/5 rounded-2xl p-8">
+                <p class="text-sm uppercase tracking-wide text-text-tertiary font-semibold mb-6">Desglose mensual</p>
+                <div class="space-y-4">
+                  <div class="flex justify-between items-center">
+                    <span class="text-text-secondary">Conversaciones recuperadas / mes</span>
+                    <span class="text-text-primary font-mono font-semibold">{{ formatNumber(recoveredConversations()) }}</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-text-secondary">Ventas extras / mes</span>
+                    <span class="text-text-primary font-mono font-semibold">{{ formatNumber(extraSales()) }}</span>
+                  </div>
+                  <div class="flex justify-between items-center pt-4 border-t border-white/5">
+                    <span class="text-text-secondary">Ganancia extra / mes</span>
+                    <span class="text-neon-green font-mono font-bold text-xl">\${{ formatNumber(monthlyProfit()) }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="bg-dark-800/50 backdrop-blur-glass border border-neon-teal/30 rounded-2xl p-8">
-              <p class="text-sm uppercase tracking-wide text-neon-teal font-semibold mb-2">Ganancia neta al final del año</p>
-              <p class="text-4xl md:text-5xl font-bold text-text-primary mb-2">
-                \${{ formatNumber(yearlyNetProfit()) }}
-              </p>
-              <p class="text-text-tertiary text-sm">
-                Después de restar la inversión única de $1,997.
-              </p>
-              <div class="mt-6 pt-6 border-t border-white/5">
-                <div class="flex justify-between items-center text-sm">
-                  <span class="text-text-tertiary">ROI a 12 meses</span>
-                  <span class="text-neon-teal font-mono font-bold">{{ roiPercent() }}x</span>
+              <div class="bg-dark-800/50 backdrop-blur-glass border border-neon-teal/30 rounded-2xl p-8">
+                <p class="text-sm uppercase tracking-wide text-neon-teal font-semibold mb-2">Ganancia neta al final del año</p>
+                <p class="text-4xl md:text-5xl font-bold text-text-primary mb-2">
+                  \${{ formatNumber(yearlyNetProfit()) }}
+                </p>
+                <p class="text-text-tertiary text-sm">
+                  Después de restar la inversión única de \${{ formatNumber(totalInvestment()) }}.
+                </p>
+                <div class="mt-6 pt-6 border-t border-white/5">
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-text-tertiary">ROI a 12 meses</span>
+                    <span class="text-neon-teal font-mono font-bold">{{ roiPercent() }}x</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            }
           </div>
         </div>
 
@@ -142,6 +210,31 @@ import { RouterLink } from '@angular/router';
   styles: [`
     :host {
       display: block;
+    }
+
+    .agent-card {
+      background: rgba(255, 255, 255, 0.02);
+      border-color: rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+    }
+
+    .agent-card:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .agent-card.selected {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.6);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+    }
+
+    .checkbox-indicator {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .agent-card.selected .checkbox-indicator {
+      border-color: #10b981;
     }
 
     .roi-slider,
@@ -208,12 +301,66 @@ import { RouterLink } from '@angular/router';
   `]
 })
 export class RoiComponent {
-  private readonly AGENT_COST: number = 1997;
+  readonly agents: Agent[] = [
+    { key: 'ig', name: 'Agente Instagram', basePrice: 1997, icon: '📸' },
+    { key: 'wa', name: 'Agente WhatsApp', basePrice: 2132, icon: '💬' },
+    { key: 'web', name: 'Agente Web', basePrice: 1456, icon: '🌐' }
+  ];
+
+  selectedAgents = signal<AgentKey[]>(['ig']);
 
   closeRate = signal(25);
   lostConversations = signal(150);
   avgProfit = signal(200);
   recoveryRate = signal(70);
+
+  isSelected(key: AgentKey): boolean {
+    return this.selectedAgents().includes(key);
+  }
+
+  toggleAgent(key: AgentKey): void {
+    const current = this.selectedAgents();
+    if (current.includes(key)) {
+      this.selectedAgents.set(current.filter(k => k !== key));
+    } else {
+      this.selectedAgents.set([...current, key]);
+    }
+  }
+
+  webHasDiscount = computed(() => {
+    const sel = this.selectedAgents();
+    return sel.includes('web') && (sel.includes('ig') || sel.includes('wa'));
+  });
+
+  totalInvestment = computed(() => {
+    const sel = this.selectedAgents();
+    const hasIg = sel.includes('ig');
+    const hasWa = sel.includes('wa');
+    const hasWeb = sel.includes('web');
+
+    // Full bundle
+    if (hasIg && hasWa && hasWeb) return 4597;
+    // IG + WA bundle
+    if (hasIg && hasWa) return 3490;
+
+    let total = 0;
+    if (hasIg) total += 1997;
+    if (hasWa) total += 2132;
+    if (hasWeb) {
+      // Web gets 30% off when combined with IG or WA
+      total += (hasIg || hasWa) ? 1456 * 0.7 : 1456;
+    }
+    return total;
+  });
+
+  packageSavings = computed(() => {
+    const sel = this.selectedAgents();
+    const fullPrice = sel.reduce((sum, key) => {
+      const agent = this.agents.find(a => a.key === key);
+      return sum + (agent?.basePrice ?? 0);
+    }, 0);
+    return Math.max(0, fullPrice - this.totalInvestment());
+  });
 
   recoveredConversations = computed(() =>
     Math.round(this.lostConversations() * (this.recoveryRate() / 100))
@@ -225,18 +372,20 @@ export class RoiComponent {
 
   monthlyProfit = computed(() => this.extraSales() * this.avgProfit());
 
-  yearlyNetProfit = computed(() => this.monthlyProfit() * 12 - this.AGENT_COST);
+  yearlyNetProfit = computed(() => this.monthlyProfit() * 12 - this.totalInvestment());
 
   roiPercent = computed(() => {
-    if (this.AGENT_COST === 0) return '0';
-    const ratio = (this.monthlyProfit() * 12) / this.AGENT_COST;
+    const investment = this.totalInvestment();
+    if (investment === 0) return '0';
+    const ratio = (this.monthlyProfit() * 12) / investment;
     return ratio.toFixed(1);
   });
 
   paybackText = computed(() => {
     const profit = this.monthlyProfit();
-    if (profit <= 0) return '—';
-    const months = this.AGENT_COST / profit;
+    const investment = this.totalInvestment();
+    if (profit <= 0 || investment <= 0) return '—';
+    const months = investment / profit;
     if (months < 1) {
       const days = Math.max(1, Math.round(months * 30));
       return `${days} día${days === 1 ? '' : 's'}`;
