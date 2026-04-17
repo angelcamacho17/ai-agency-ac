@@ -98,7 +98,12 @@ interface Agent {
             <div>
               <label class="flex items-center justify-between mb-3 text-text-secondary">
                 <span class="font-medium">% de cierre por conversación</span>
-                <span class="text-neon-green font-mono font-semibold">{{ closeRate() }}%</span>
+                <div class="flex items-center gap-1">
+                  <input type="number" min="1" max="100" step="1"
+                         [ngModel]="closeRate()" (ngModelChange)="setCloseRate($event)"
+                         class="roi-input w-16" />
+                  <span class="text-neon-green font-mono font-semibold">%</span>
+                </div>
               </label>
               <input type="range" min="1" max="100" step="1"
                      [ngModel]="closeRate()" (ngModelChange)="closeRate.set($event)"
@@ -109,7 +114,9 @@ interface Agent {
             <div>
               <label class="flex items-center justify-between mb-3 text-text-secondary">
                 <span class="font-medium">Conversaciones perdidas al mes</span>
-                <span class="text-neon-green font-mono font-semibold">{{ formatNumber(lostConversations()) }}</span>
+                <input type="number" min="0" max="1000000" step="1"
+                       [ngModel]="lostConversations()" (ngModelChange)="setLostConversations($event)"
+                       class="roi-input w-28" />
               </label>
               <input type="range" min="0" max="1000000" step="100"
                      [ngModel]="lostConversations()" (ngModelChange)="lostConversations.set($event)"
@@ -120,7 +127,12 @@ interface Agent {
             <div>
               <label class="flex items-center justify-between mb-3 text-text-secondary">
                 <span class="font-medium">Ganancia neta promedio por venta</span>
-                <span class="text-neon-green font-mono font-semibold">\${{ formatNumber(avgProfit()) }}</span>
+                <div class="flex items-center gap-1">
+                  <span class="text-neon-green font-mono font-semibold">$</span>
+                  <input type="number" min="10" max="100000" step="1"
+                         [ngModel]="avgProfit()" (ngModelChange)="setAvgProfit($event)"
+                         class="roi-input w-24" />
+                </div>
               </label>
               <input type="range" min="10" max="5000" step="10"
                      [ngModel]="avgProfit()" (ngModelChange)="avgProfit.set($event)"
@@ -131,7 +143,12 @@ interface Agent {
             <div class="pt-4 border-t border-white/5">
               <label class="flex items-center justify-between mb-3 text-text-secondary">
                 <span class="font-medium">% de conversaciones que el agente recuperará</span>
-                <span class="text-neon-teal font-mono font-semibold">{{ recoveryRate() }}%</span>
+                <div class="flex items-center gap-1">
+                  <input type="number" min="10" max="100" step="1"
+                         [ngModel]="recoveryRate()" (ngModelChange)="setRecoveryRate($event)"
+                         class="roi-input w-16" />
+                  <span class="text-neon-teal font-mono font-semibold">%</span>
+                </div>
               </label>
               <input type="range" min="10" max="100" step="1"
                      [ngModel]="recoveryRate()" (ngModelChange)="recoveryRate.set($event)"
@@ -237,6 +254,32 @@ interface Agent {
       border-color: #10b981;
     }
 
+    .roi-input {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      color: #10b981;
+      font-family: ui-monospace, monospace;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-align: right;
+      outline: none;
+      transition: border-color 0.2s ease;
+      -moz-appearance: textfield;
+    }
+
+    .roi-input::-webkit-outer-spin-button,
+    .roi-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .roi-input:focus {
+      border-color: rgba(16, 185, 129, 0.6);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+    }
+
     .roi-slider,
     .roi-slider-teal {
       -webkit-appearance: none;
@@ -313,6 +356,22 @@ export class RoiComponent {
   lostConversations = signal(150);
   avgProfit = signal(200);
   recoveryRate = signal(70);
+
+  setCloseRate(val: number): void {
+    this.closeRate.set(Math.min(100, Math.max(1, Math.round(val || 0))));
+  }
+
+  setLostConversations(val: number): void {
+    this.lostConversations.set(Math.min(1000000, Math.max(0, Math.round(val || 0))));
+  }
+
+  setAvgProfit(val: number): void {
+    this.avgProfit.set(Math.max(1, Math.round(val || 0)));
+  }
+
+  setRecoveryRate(val: number): void {
+    this.recoveryRate.set(Math.min(100, Math.max(10, Math.round(val || 0))));
+  }
 
   isSelected(key: AgentKey): boolean {
     return this.selectedAgents().includes(key);
