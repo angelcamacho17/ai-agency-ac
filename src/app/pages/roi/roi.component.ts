@@ -1,16 +1,8 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-
-type AgentKey = 'ig' | 'wa' | 'web';
-
-interface Agent {
-  key: AgentKey;
-  name: string;
-  basePrice: number;
-  icon: string;
-}
+import { AGENTS, AgentKey, RoiCalculatorService } from '../../services/roi-calculator.service';
 
 @Component({
   selector: 'app-roi',
@@ -236,14 +228,14 @@ interface Agent {
     }
 
     .agent-card:hover {
-      border-color: rgba(16, 185, 129, 0.4);
+      border-color: rgb(var(--brand-rgb) / 0.26);
       transform: translateY(-2px);
     }
 
     .agent-card.selected {
-      background: rgba(16, 185, 129, 0.08);
-      border-color: rgba(16, 185, 129, 0.6);
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+      background: rgb(var(--brand-rgb) / 0.052);
+      border-color: rgb(var(--brand-rgb) / 0.39);
+      box-shadow: 0 0 30px rgb(var(--brand-rgb) / 0.13);
     }
 
     .checkbox-indicator {
@@ -251,7 +243,7 @@ interface Agent {
     }
 
     .agent-card.selected .checkbox-indicator {
-      border-color: #10b981;
+      border-color: rgb(var(--brand-rgb));
     }
 
     .roi-input {
@@ -259,7 +251,7 @@ interface Agent {
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 0.5rem;
       padding: 0.25rem 0.5rem;
-      color: #10b981;
+      color: rgb(var(--brand-rgb));
       font-family: ui-monospace, monospace;
       font-weight: 600;
       font-size: 0.875rem;
@@ -276,8 +268,8 @@ interface Agent {
     }
 
     .roi-input:focus {
-      border-color: rgba(16, 185, 129, 0.6);
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+      border-color: rgb(var(--brand-rgb) / 0.39);
+      box-shadow: 0 0 12px rgb(var(--brand-rgb) / 0.13);
     }
 
     .roi-slider,
@@ -296,9 +288,9 @@ interface Agent {
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #10b981;
+      background: rgb(var(--brand-rgb));
       cursor: pointer;
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+      box-shadow: 0 0 20px rgb(var(--brand-rgb) / 0.39);
       transition: transform 0.2s ease;
     }
 
@@ -310,10 +302,10 @@ interface Agent {
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #10b981;
+      background: rgb(var(--brand-rgb));
       cursor: pointer;
       border: none;
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+      box-shadow: 0 0 20px rgb(var(--brand-rgb) / 0.39);
     }
 
     .roi-slider-teal::-webkit-slider-thumb {
@@ -322,9 +314,9 @@ interface Agent {
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #14b8a6;
+      background: rgb(var(--accent-rgb));
       cursor: pointer;
-      box-shadow: 0 0 20px rgba(20, 184, 166, 0.6);
+      box-shadow: 0 0 20px rgb(var(--accent-rgb) / 0.39);
       transition: transform 0.2s ease;
     }
 
@@ -336,19 +328,16 @@ interface Agent {
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #14b8a6;
+      background: rgb(var(--accent-rgb));
       cursor: pointer;
       border: none;
-      box-shadow: 0 0 20px rgba(20, 184, 166, 0.6);
+      box-shadow: 0 0 20px rgb(var(--accent-rgb) / 0.39);
     }
   `]
 })
 export class RoiComponent {
-  readonly agents: Agent[] = [
-    { key: 'ig', name: 'Agente Instagram', basePrice: 1997, icon: '📸' },
-    { key: 'wa', name: 'Agente WhatsApp', basePrice: 2132, icon: '💬' },
-    { key: 'web', name: 'Agente Web', basePrice: 1456, icon: '🌐' }
-  ];
+  private readonly calc = inject(RoiCalculatorService);
+  readonly agents = AGENTS;
 
   selectedAgents = signal<AgentKey[]>(['ig']);
 
@@ -356,6 +345,13 @@ export class RoiComponent {
   lostConversations = signal(150);
   avgProfit = signal(200);
   recoveryRate = signal(70);
+
+  private inputs = computed(() => ({
+    closeRate: this.closeRate(),
+    lostConversations: this.lostConversations(),
+    avgProfit: this.avgProfit(),
+    recoveryRate: this.recoveryRate()
+  }));
 
   setCloseRate(val: number): void {
     this.closeRate.set(Math.min(100, Math.max(1, Math.round(val || 0))));
@@ -391,81 +387,17 @@ export class RoiComponent {
     return sel.includes('web') && (sel.includes('ig') || sel.includes('wa'));
   });
 
-  totalInvestment = computed(() => {
-    const sel = this.selectedAgents();
-    const hasIg = sel.includes('ig');
-    const hasWa = sel.includes('wa');
-    const hasWeb = sel.includes('web');
-
-    // Full bundle
-    if (hasIg && hasWa && hasWeb) return 4597;
-    // IG + WA bundle
-    if (hasIg && hasWa) return 3490;
-
-    let total = 0;
-    if (hasIg) total += 1997;
-    if (hasWa) total += 2132;
-    if (hasWeb) {
-      // Web gets 30% off when combined with IG or WA
-      total += (hasIg || hasWa) ? 1456 * 0.7 : 1456;
-    }
-    return total;
-  });
-
-  packageSavings = computed(() => {
-    const sel = this.selectedAgents();
-    const fullPrice = sel.reduce((sum, key) => {
-      const agent = this.agents.find(a => a.key === key);
-      return sum + (agent?.basePrice ?? 0);
-    }, 0);
-    return Math.max(0, fullPrice - this.totalInvestment());
-  });
-
-  recoveredConversations = computed(() =>
-    Math.round(this.lostConversations() * (this.recoveryRate() / 100))
-  );
-
-  extraSales = computed(() =>
-    Math.round(this.recoveredConversations() * (this.closeRate() / 100))
-  );
-
-  monthlyProfit = computed(() => this.extraSales() * this.avgProfit());
-
-  yearlyNetProfit = computed(() => this.monthlyProfit() * 12 - this.totalInvestment());
-
-  roiPercent = computed(() => {
-    const investment = this.totalInvestment();
-    if (investment === 0) return '0';
-    const ratio = (this.monthlyProfit() * 12) / investment;
-    return ratio.toFixed(1);
-  });
-
-  paybackText = computed(() => {
-    const profit = this.monthlyProfit();
-    const investment = this.totalInvestment();
-    if (profit <= 0 || investment <= 0) return '—';
-    const months = investment / profit;
-    if (months < 1) {
-      const days = Math.max(1, Math.round(months * 30));
-      return `${days} día${days === 1 ? '' : 's'}`;
-    }
-    if (months < 12) {
-      const rounded = Math.ceil(months * 10) / 10;
-      return `${rounded} mes${rounded === 1 ? '' : 'es'}`;
-    }
-    const years = (months / 12).toFixed(1);
-    return `${years} años`;
-  });
-
-  paybackDetail = computed(() => {
-    const profit = this.monthlyProfit();
-    if (profit <= 0) {
-      return 'Ajusta los parámetros para ver tu proyección.';
-    }
-    return `Con una ganancia extra de $${this.formatNumber(profit)} al mes.`;
-  });
+  totalInvestment = computed(() => this.calc.bundleInvestment(this.selectedAgents()));
+  packageSavings = computed(() => this.calc.packageSavings(this.selectedAgents()));
+  recoveredConversations = computed(() => this.calc.recoveredConversations(this.inputs()));
+  extraSales = computed(() => this.calc.extraSales(this.inputs()));
+  monthlyProfit = computed(() => this.calc.monthlyProfit(this.inputs()));
+  yearlyNetProfit = computed(() => this.calc.yearlyNetProfit(this.inputs(), this.totalInvestment()));
+  roiPercent = computed(() => this.calc.roiPercent(this.inputs(), this.totalInvestment()));
+  paybackText = computed(() => this.calc.paybackText(this.inputs(), this.totalInvestment()));
+  paybackDetail = computed(() => this.calc.paybackDetail(this.inputs()));
 
   formatNumber(value: number): string {
-    return new Intl.NumberFormat('en-US').format(Math.round(value));
+    return this.calc.formatNumber(value);
   }
 }

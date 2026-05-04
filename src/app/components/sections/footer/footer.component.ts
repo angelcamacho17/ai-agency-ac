@@ -31,7 +31,7 @@ import { RouterLink } from '@angular/router';
               Términos y Condiciones
               <span
                 class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-neon-green to-neon-teal group-hover:w-full transition-all duration-300"
-                style="box-shadow: 0 0 10px rgba(16, 185, 129, 0.6)"
+                style="box-shadow: 0 0 10px rgb(var(--brand-rgb) / 0.39)"
               ></span>
             </a>
             <a
@@ -41,7 +41,7 @@ import { RouterLink } from '@angular/router';
               Política de Privacidad
               <span
                 class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-neon-green to-neon-teal group-hover:w-full transition-all duration-300"
-                style="box-shadow: 0 0 10px rgba(16, 185, 129, 0.6)"
+                style="box-shadow: 0 0 10px rgb(var(--brand-rgb) / 0.39)"
               ></span>
             </a>
           </div>
@@ -58,7 +58,7 @@ import { RouterLink } from '@angular/router';
               {{ social.label }}
               <span
                 class="absolute -bottom-1 right-0 w-0 h-0.5 bg-gradient-to-l from-neon-green to-neon-teal group-hover:w-full transition-all duration-300"
-                style="box-shadow: 0 0 10px rgba(16, 185, 129, 0.6)"
+                style="box-shadow: 0 0 10px rgb(var(--brand-rgb) / 0.39)"
               ></span>
             </a>
           </div>
@@ -81,7 +81,7 @@ import { RouterLink } from '@angular/router';
     }
 
     footer a:hover {
-      filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.6));
+      filter: drop-shadow(0 0 10px rgb(var(--brand-rgb) / 0.39));
     }
   `]
 })

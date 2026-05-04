@@ -37,12 +37,12 @@ import { MagneticButtonDirective } from '../../../directives/magnetic-button.dir
               {{ item.label }}
               <span
                 class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-neon-green to-neon-teal group-hover:w-full transition-all duration-300"
-                style="box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);"
+                style="box-shadow: 0 0 10px rgb(var(--brand-rgb) / 0.39);"
               ></span>
             </a>
 
             <a
-              href="https://calendly.com/angelcamacho-developer/30min"
+              href="https://ig.me/m/michelangelo.devs"
               target="_blank"
               rel="noopener noreferrer"
               appMagneticButton
@@ -97,7 +97,7 @@ import { MagneticButtonDirective } from '../../../directives/magnetic-button.dir
           </a>
           <div class="px-4 pt-3">
             <a
-              href="https://calendly.com/angelcamacho-developer/30min"
+              href="https://ig.me/m/michelangelo.devs"
               target="_blank"
               rel="noopener noreferrer"
               (click)="toggleMobileMenu()"
@@ -122,8 +122,10 @@ export class NavigationComponent {
 
   menuItems = [
     { label: 'Inicio', href: '#home' },
+    { label: 'Demo', href: '#demo' },
     { label: 'Trabajo', href: '#work' },
     { label: 'Proceso', href: '#process' },
+    { label: 'Calculadora', href: '#calculadora' },
     { label: 'Contacto', href: '#contact' }
   ];
 

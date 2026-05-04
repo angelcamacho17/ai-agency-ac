@@ -11,7 +11,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       <!-- Intense green gradient from center -->
       <div
         class="absolute inset-0 pointer-events-none"
-        style="background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.15) 0%, transparent 60%)"
+        style="background: radial-gradient(ellipse at center, rgb(var(--brand-rgb) / 0.098) 0%, transparent 60%)"
       ></div>
 
       <!-- Dense particles background -->
@@ -36,7 +36,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
               <!-- Stat Number -->
               <div
                 class="stat-number text-[120px] font-extrabold leading-none mb-4 bg-gradient-to-br from-neon-green to-neon-teal bg-clip-text text-transparent"
-                style="filter: drop-shadow(0 0 40px rgba(16, 185, 129, 0.6))"
+                style="filter: drop-shadow(0 0 40px rgb(var(--brand-rgb) / 0.39))"
               >
                 {{ currentValues[i]() }}{{ stat.suffix }}
               </div>
@@ -53,8 +53,8 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
   `,
   styles: [`
     .stats-container {
-      background: rgba(16, 185, 129, 0.05);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: rgb(var(--brand-rgb) / 0.033);
+      border: 1px solid rgb(var(--brand-rgb) / 0.195);
     }
 
     .to-neon-teal {

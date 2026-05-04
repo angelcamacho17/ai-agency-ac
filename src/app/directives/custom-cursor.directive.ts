@@ -31,7 +31,7 @@ export class CustomCursorDirective implements OnInit, OnDestroy {
     this.renderer.setStyle(this.cursor, 'mix-blend-mode', 'screen');
     this.renderer.setStyle(this.cursor, 'filter', 'blur(10px)');
     this.renderer.setStyle(this.cursor, 'z-index', '9999');
-    this.renderer.setStyle(this.cursor, 'background', 'radial-gradient(circle, rgba(16, 185, 129, 0.8) 0%, transparent 70%)');
+    this.renderer.setStyle(this.cursor, 'background', 'radial-gradient(circle, rgb(var(--brand-rgb) / 0.52) 0%, transparent 70%)');
     this.renderer.setStyle(this.cursor, 'transition', 'width 0.3s, height 0.3s');
     this.renderer.setStyle(this.cursor, 'transform', 'translate(-50%, -50%)');
 

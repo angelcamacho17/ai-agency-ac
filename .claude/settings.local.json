@@ -11,7 +11,9 @@
       "WebFetch(domain:highlevel.stoplight.io)",
       "WebFetch(domain:public-api.gohighlevel.com)",
       "Bash(curl:*)",
-      "WebFetch(domain:www.michelangelodevs.com)"
+      "WebFetch(domain:www.michelangelodevs.com)",
+      "Bash(node *)",
+      "Bash(echo \"---exit:$?---\")"
     ],
     "deny": [],
     "ask": []

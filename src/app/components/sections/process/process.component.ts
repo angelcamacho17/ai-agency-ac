@@ -11,22 +11,23 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       <!-- Teal nebula gradient from center-bottom -->
       <div
         class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[1200px] h-[1200px] rounded-full opacity-20 pointer-events-none"
-        style="background: radial-gradient(circle, rgba(20, 184, 166, 0.2) 0%, transparent 50%); filter: blur(120px)"
+        style="background: radial-gradient(circle, rgb(var(--accent-rgb) / 0.13) 0%, transparent 50%); filter: blur(120px)"
       ></div>
 
       <!-- Dot grid -->
       <div
         class="absolute inset-0 opacity-10 pointer-events-none"
-        style="background-image: radial-gradient(circle, rgba(16, 185, 129, 0.3) 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(ellipse at center, black, transparent 80%);"
+        style="background-image: radial-gradient(circle, rgb(var(--brand-rgb) / 0.195) 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(ellipse at center, black, transparent 80%);"
       ></div>
 
       <div class="relative z-10 max-w-5xl mx-auto px-6">
         <!-- Section Title -->
         <h2
           appScrollReveal
-          class="text-3xl md:text-4xl font-bold text-text-primary text-center mb-16 text-glow-green"
+          class="text-3xl md:text-4xl font-bold text-text-primary text-center mb-16 leading-tight"
         >
-          Cómo trabajamos
+          Cómo trabajamos en
+          <span class="font-serif italic text-neon-green text-glow-green">menos de 5 días</span>
         </h2>
 
         <!-- Process Steps - Grid compacto -->
@@ -36,10 +37,14 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
             appScrollReveal
             class="text-center"
           >
+            <p class="text-xs uppercase tracking-[0.2em] text-neon-green/70 mb-2 font-semibold">
+              {{ step.day }}
+            </p>
+
             <!-- Step Number pequeño -->
             <div
               class="text-5xl font-bold mb-4 text-neon-green"
-              style="filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.5))"
+              style="filter: drop-shadow(0 0 20px rgb(var(--brand-rgb) / 0.325))"
             >
               {{ step.number }}
             </div>
@@ -77,23 +82,27 @@ export class ProcessComponent {
   processSteps = [
     {
       number: '01',
-      title: 'Descubrimiento',
-      description: 'Entendemos tu negocio y objetivos.'
+      day: 'Día 1',
+      title: 'Onboarding',
+      description: 'Entendemos tu negocio, definimos objetivos y conectamos tus canales.'
     },
     {
       number: '02',
-      title: 'Construcción',
-      description: 'Arquitectura limpia y escalable.'
+      day: 'Día 2-3',
+      title: 'Configuración y desarrollo',
+      description: 'Construimos tu agente con tu tono, tus datos y tu lógica de venta.'
     },
     {
       number: '03',
-      title: 'Pruebas',
-      description: 'Optimización y refinamiento continuo.'
+      day: 'Día 4',
+      title: 'Fase de prueba',
+      description: 'Tú lo pruebas en escenarios reales. Nosotros ajustamos hasta que cierre como tú.'
     },
     {
       number: '04',
-      title: 'Lanzamiento',
-      description: 'Despliegue y soporte completo.'
+      day: 'Día 5',
+      title: 'Despliegue',
+      description: 'Lo conectamos a producción. Empieza a trabajar 24/7.'
     }
   ];
 }

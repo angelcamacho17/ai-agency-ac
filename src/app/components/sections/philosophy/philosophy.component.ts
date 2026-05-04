@@ -59,7 +59,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       content: '';
       position: absolute;
       inset: -2px;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(20, 184, 166, 0.5));
+      background: linear-gradient(135deg, rgb(var(--brand-rgb) / 0.325), rgb(var(--accent-rgb) / 0.325));
       border-radius: inherit;
       opacity: 0;
       filter: blur(20px);

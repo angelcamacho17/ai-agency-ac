@@ -12,10 +12,13 @@ module.exports = {
           900: '#121212',
           800: '#1a1a1a',
         },
-        // Neon colors - primary palette
+        // Brand palette - driven by CSS custom properties (see styles.scss :root)
         neon: {
-          green: '#10b981',
-          teal: '#14b8a6',
+          green: 'rgb(var(--brand-rgb) / <alpha-value>)',
+          accent: 'rgb(var(--accent-rgb) / <alpha-value>)',
+          // Legacy aliases — kept temporarily so we don't break references mid-sweep.
+          // Intentionally point to the same vars as their replacements.
+          teal: 'rgb(var(--accent-rgb) / <alpha-value>)',
           orange: '#fb923c',
         },
         // Text colors for dark mode
@@ -40,11 +43,13 @@ module.exports = {
         '144': '36rem',
       },
       boxShadow: {
-        'glow-green': '0 0 30px rgba(16, 185, 129, 0.5)',
-        'glow-green-lg': '0 0 60px rgba(16, 185, 129, 0.8), 0 20px 40px rgba(0, 0, 0, 0.4)',
-        'glow-teal': '0 0 30px rgba(20, 184, 166, 0.6)',
-        'glow-teal-lg': '0 0 60px rgba(20, 184, 166, 0.8), 0 20px 40px rgba(20, 184, 166, 0.3)',
-        'inner-glow': 'inset 0 0 60px rgba(16, 185, 129, 0.1), 0 0 80px rgba(16, 185, 129, 0.2)',
+        'glow-green': '0 0 30px rgb(var(--brand-rgb) / 0.32)',
+        'glow-green-lg': '0 0 60px rgb(var(--brand-rgb) / 0.55), 0 20px 40px rgba(0, 0, 0, 0.4)',
+        'glow-accent': '0 0 30px rgb(var(--accent-rgb) / 0.4)',
+        'glow-accent-lg': '0 0 60px rgb(var(--accent-rgb) / 0.55), 0 20px 40px rgb(var(--accent-rgb) / 0.2)',
+        'glow-teal': '0 0 30px rgb(var(--accent-rgb) / 0.4)',
+        'glow-teal-lg': '0 0 60px rgb(var(--accent-rgb) / 0.55), 0 20px 40px rgb(var(--accent-rgb) / 0.2)',
+        'inner-glow': 'inset 0 0 60px rgb(var(--brand-rgb) / 0.07), 0 0 80px rgb(var(--brand-rgb) / 0.13)',
       },
       backdropBlur: {
         'glass': '20px',
@@ -105,10 +110,10 @@ module.exports = {
         },
         pulseGlow: {
           '0%, 100%': {
-            boxShadow: '0 0 40px rgba(16, 185, 129, 0.4)',
+            boxShadow: '0 0 40px rgb(var(--brand-rgb) / 0.26)',
           },
           '50%': {
-            boxShadow: '0 0 60px rgba(16, 185, 129, 0.7)',
+            boxShadow: '0 0 60px rgb(var(--brand-rgb) / 0.45)',
           },
         },
         slideRight: {

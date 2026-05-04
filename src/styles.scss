@@ -6,6 +6,13 @@
 /* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+:root {
+  --brand: #d3de47;
+  --brand-rgb: 211 222 71;
+  --accent: #a8c736;
+  --accent-rgb: 168 199 54;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -16,19 +23,39 @@ html {
   scroll-behavior: smooth;
 }
 
+html {
+  background-color: #0a0a0a;
+}
+
 body {
   font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', system-ui, sans-serif;
-  background-color: #0a0a0a;
+  background-color: transparent;
   color: #e5e7eb;
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
 }
 
+/* The fixed hands layer (z-index: 0) lives behind everything in the page.
+   Section wrappers paint their dark backgrounds at a slight transparency so
+   the hands bleed through. */
+app-hero > section,
+app-trusted-brands > section,
+app-demo > section,
+app-roi > section,
+app-work > section,
+app-process > section,
+app-landing-calculator > section,
+app-cta > section,
+app-footer > footer {
+  background-color: rgba(10, 10, 10, 0.78) !important;
+}
+
 /* Smooth scrolling for better UX */
 html, body {
   height: 100%;
 }
+
 
 /* Custom scrollbar with neon green accent */
 ::-webkit-scrollbar {
@@ -40,14 +67,14 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #10b981, #14b8a6);
+  background: linear-gradient(to bottom, rgb(var(--brand-rgb)), rgb(var(--accent-rgb)));
   border-radius: 4px;
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 10px rgb(var(--brand-rgb) / 0.32);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #14b8a6, #10b981);
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+  background: linear-gradient(to bottom, rgb(var(--accent-rgb)), rgb(var(--brand-rgb)));
+  box-shadow: 0 0 20px rgb(var(--brand-rgb) / 0.55);
 }
 
 /* Reduced motion support */
@@ -77,30 +104,44 @@ html, body {
 @layer utilities {
   .text-glow-green {
     text-shadow:
-      0 0 20px rgba(16, 185, 129, 0.5),
-      0 0 40px rgba(16, 185, 129, 0.3),
-      0 0 60px rgba(16, 185, 129, 0.1);
+      0 0 20px rgb(var(--brand-rgb) / 0.32),
+      0 0 40px rgb(var(--brand-rgb) / 0.2),
+      0 0 60px rgb(var(--brand-rgb) / 0.07);
   }
 
   .text-glow-green-strong {
     text-shadow:
-      0 0 30px rgba(16, 185, 129, 0.8),
-      0 0 60px rgba(16, 185, 129, 0.5),
-      0 0 90px rgba(16, 185, 129, 0.3);
+      0 0 30px rgb(var(--brand-rgb) / 0.55),
+      0 0 60px rgb(var(--brand-rgb) / 0.32),
+      0 0 90px rgb(var(--brand-rgb) / 0.2);
+  }
+
+  .text-glow-accent {
+    text-shadow:
+      0 0 20px rgb(var(--accent-rgb) / 0.4),
+      0 0 40px rgb(var(--accent-rgb) / 0.26),
+      0 0 60px rgb(var(--accent-rgb) / 0.13);
+  }
+
+  .text-glow-accent-strong {
+    text-shadow:
+      0 0 30px rgb(var(--accent-rgb) / 0.6),
+      0 0 60px rgb(var(--accent-rgb) / 0.4),
+      0 0 90px rgb(var(--accent-rgb) / 0.2);
   }
 
   .text-glow-teal {
     text-shadow:
-      0 0 20px rgba(20, 184, 166, 0.6),
-      0 0 40px rgba(20, 184, 166, 0.4),
-      0 0 60px rgba(20, 184, 166, 0.2);
+      0 0 20px rgb(var(--accent-rgb) / 0.4),
+      0 0 40px rgb(var(--accent-rgb) / 0.26),
+      0 0 60px rgb(var(--accent-rgb) / 0.13);
   }
 
   .text-glow-teal-strong {
     text-shadow:
-      0 0 30px rgba(20, 184, 166, 0.9),
-      0 0 60px rgba(20, 184, 166, 0.6),
-      0 0 90px rgba(20, 184, 166, 0.3);
+      0 0 30px rgb(var(--accent-rgb) / 0.6),
+      0 0 60px rgb(var(--accent-rgb) / 0.4),
+      0 0 90px rgb(var(--accent-rgb) / 0.2);
   }
 
   .glassmorphism {

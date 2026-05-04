@@ -150,7 +150,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       position: relative;
       background: rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(16, 185, 129, 0.2);
+      border: 1px solid rgb(var(--brand-rgb) / 0.13);
       border-radius: 1.5rem;
       padding: 2.5rem;
       transition: all 0.3s ease;
@@ -167,15 +167,15 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #10b981, #14b8a6);
+      background: linear-gradient(90deg, rgb(var(--brand-rgb)), rgb(var(--accent-rgb)));
       border-radius: 1.5rem 1.5rem 0 0;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
 
     .service-card:hover {
-      border-color: rgba(16, 185, 129, 0.5);
-      box-shadow: 0 0 40px rgba(16, 185, 129, 0.2);
+      border-color: rgb(var(--brand-rgb) / 0.325);
+      box-shadow: 0 0 40px rgb(var(--brand-rgb) / 0.13);
       transform: translateY(-8px);
     }
 
@@ -187,7 +187,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
     .card-icon {
       font-size: 4rem;
       text-align: center;
-      filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.6));
+      filter: drop-shadow(0 0 20px rgb(var(--brand-rgb) / 0.39));
     }
 
     /* Card Title */
@@ -196,7 +196,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       font-weight: bold;
       color: #FFFFFF;
       text-align: center;
-      text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+      text-shadow: 0 0 20px rgb(var(--brand-rgb) / 0.26);
     }
 
     /* Card Description */
@@ -232,8 +232,8 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: rgba(16, 185, 129, 0.2);
-      color: #10b981;
+      background: rgb(var(--brand-rgb) / 0.13);
+      color: rgb(var(--brand-rgb));
       font-size: 0.75rem;
       font-weight: bold;
       flex-shrink: 0;
@@ -247,23 +247,23 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       gap: 0.5rem;
       flex-wrap: wrap;
       padding-top: 1rem;
-      border-top: 1px solid rgba(16, 185, 129, 0.1);
+      border-top: 1px solid rgb(var(--brand-rgb) / 0.065);
     }
 
     .tech-badge {
       font-size: 0.75rem;
       font-weight: 600;
-      color: #10b981;
-      background: rgba(16, 185, 129, 0.1);
+      color: rgb(var(--brand-rgb));
+      background: rgb(var(--brand-rgb) / 0.065);
       padding: 0.375rem 0.875rem;
       border-radius: 1rem;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      border: 1px solid rgb(var(--brand-rgb) / 0.195);
       transition: all 0.2s ease;
     }
 
     .tech-badge:hover {
-      background: rgba(16, 185, 129, 0.2);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+      background: rgb(var(--brand-rgb) / 0.13);
+      box-shadow: 0 0 15px rgb(var(--brand-rgb) / 0.195);
     }
 
     /* Responsive */

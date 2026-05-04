@@ -11,7 +11,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       <!-- Background gradient -->
       <div
         class="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] rounded-full opacity-10 pointer-events-none"
-        style="background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%); filter: blur(120px)"
+        style="background: radial-gradient(circle, rgb(var(--brand-rgb) / 0.195) 0%, transparent 70%); filter: blur(120px)"
       ></div>
 
       <div class="relative z-10 max-w-7xl mx-auto px-6">
@@ -31,44 +31,43 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
 
         <!-- ROI Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Card 1: AR Studio -->
+          <!-- Card 1: Terraccotta VIP -->
           <a
-            href="https://studioar.es"
+            href="https://www.instagram.com/terraccottavip/"
             target="_blank"
             rel="noopener noreferrer"
             appScrollReveal
             class="roi-card group"
           >
             <div class="card-header">
-              <div class="company-logo ">
-                <img src="brands/ar_studio_white_transparent.png" alt="AR Studio" class="logo-img big-logo" />
+              <div class="company-logo">
+                <span class="company-text">Terraccotta<span class="text-neon-green"> VIP</span></span>
               </div>
             </div>
 
             <div class="automation-desc">
-              <p class="process-title">Suite Completa de Automatización</p>
+              <p class="process-title">Atención y reservas 24/7 con AI</p>
               <p class="process-detail">
-                Agentes AI setter/closer, automatización de facturas y mensajes de pago por WhatsApp
+                Agente AI que responde el 100% de los clientes y agenda citas automáticamente
               </p>
             </div>
 
             <div class="metrics">
               <div class="metric">
-                <div class="metric-value">520</div>
-                <div class="metric-label">horas/año ahorradas</div>
+                <div class="metric-value">+23%</div>
+                <div class="metric-label">en ventas</div>
               </div>
               <div class="divider"></div>
               <div class="metric">
-                <div class="metric-value">$7,800</div>
-                <div class="metric-label">USD ahorrados/año</div>
+                <div class="metric-value">100%</div>
+                <div class="metric-label">satisfacción cliente</div>
               </div>
             </div>
 
             <div class="savings-detail">
-              <span class="detail-item">• 2 agentes AI setter/closer 24/7</span>
-              <span class="detail-item">• 100 facturas/mes automatizadas</span>
-              <span class="detail-item">• Recordatorios de pago por WhatsApp</span>
-              <span class="detail-item">• ROI recuperado en 3 meses</span>
+              <span class="detail-item">• 100% de clientes atendidos</span>
+              <span class="detail-item">• Citas agendadas en automático</span>
+              <span class="detail-item">• Sin esperas, sin leads perdidos</span>
             </div>
           </a>
 
@@ -114,9 +113,9 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
             </div>
           </a>
 
-          <!-- Card 3: Turismo de Playa -->
+          <!-- Card 3: Viajes Premiere -->
           <a
-            href="https://turismodeplaya.com"
+            href="https://www.instagram.com/viajespremiereve/"
             target="_blank"
             rel="noopener noreferrer"
             appScrollReveal
@@ -124,33 +123,33 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
           >
             <div class="card-header">
               <div class="company-logo">
-                <img src="brands/turismodeplaya_white_transparent.png" alt="Turismo de Playa" class="logo-img" />
+                <span class="company-text">Viajes<span class="text-neon-green"> Premiere</span></span>
               </div>
             </div>
 
             <div class="automation-desc">
-              <p class="process-title">Carga de Hoteles con AI + Rediseño</p>
+              <p class="process-title">Filtrado de leads + cierre de ventas con AI</p>
               <p class="process-detail">
-                Agente AI que automatiza carga de datos de hoteles y actualización completa del diseño
+                Agente AI que califica leads de Ads y solo deja pasar a los listos para comprar
               </p>
             </div>
 
             <div class="metrics">
               <div class="metric">
-                <div class="metric-value">300</div>
-                <div class="metric-label">horas/año ahorradas</div>
+                <div class="metric-value">+34%</div>
+                <div class="metric-label">en ventas</div>
               </div>
               <div class="divider"></div>
               <div class="metric">
-                <div class="metric-value">$4,500</div>
-                <div class="metric-label">USD ahorrados/año</div>
+                <div class="metric-value">75%</div>
+                <div class="metric-label">leads no calificados filtrados</div>
               </div>
             </div>
 
             <div class="savings-detail">
-              <span class="detail-item">• 200 hoteles cargados automáticamente</span>
-              <span class="detail-item">• 1.5h ahorradas por hotel vs carga manual</span>
-              <span class="detail-item">• Nuevo diseño moderno implementado</span>
+              <span class="detail-item">• Filtra 75% de leads no calificados</span>
+              <span class="detail-item">• Vendedores solo hablan con leads listos</span>
+              <span class="detail-item">• Mejor ROI en pauta publicitaria</span>
             </div>
           </a>
         </div>
@@ -186,7 +185,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       display: block;
       background: rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(16, 185, 129, 0.2);
+      border: 1px solid rgb(var(--brand-rgb) / 0.13);
       border-radius: 1.5rem;
       padding: 2rem;
       transition: all 0.3s ease;
@@ -203,14 +202,14 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #10b981, #14b8a6);
+      background: linear-gradient(90deg, rgb(var(--brand-rgb)), rgb(var(--accent-rgb)));
       opacity: 0;
       transition: opacity 0.3s ease;
     }
 
     .roi-card:hover {
-      border-color: rgba(16, 185, 129, 0.5);
-      box-shadow: 0 0 40px rgba(16, 185, 129, 0.2);
+      border-color: rgb(var(--brand-rgb) / 0.325);
+      box-shadow: 0 0 40px rgb(var(--brand-rgb) / 0.13);
       transform: translateY(-8px);
     }
 
@@ -219,15 +218,15 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
     }
 
     .roi-card.featured {
-      border-color: rgba(16, 185, 129, 0.4);
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.15);
+      border-color: rgb(var(--brand-rgb) / 0.26);
+      box-shadow: 0 0 30px rgb(var(--brand-rgb) / 0.098);
     }
 
     .featured-badge {
       position: absolute;
       top: 1rem;
       right: 1rem;
-      background: linear-gradient(135deg, #10b981, #14b8a6);
+      background: linear-gradient(135deg, rgb(var(--brand-rgb)), rgb(var(--accent-rgb)));
       color: #000;
       font-size: 0.7rem;
       font-weight: bold;
@@ -257,27 +256,37 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       width: 100%;
       height: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.5));
+      filter: drop-shadow(0 0 10px rgb(var(--brand-rgb) / 0.325));
     }
 
     .company-name {
       font-size: 1.5rem;
       font-weight: bold;
       color: #fff;
-      text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+      text-shadow: 0 0 20px rgb(var(--brand-rgb) / 0.26);
+    }
+
+    .company-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff;
+      text-shadow: 0 0 20px rgb(var(--brand-rgb) / 0.26);
+      white-space: nowrap;
     }
 
     /* Automation Description */
     .automation-desc {
       margin-bottom: 2rem;
       padding-bottom: 2rem;
-      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+      border-bottom: 1px solid rgb(var(--brand-rgb) / 0.065);
     }
 
     .process-title {
       font-size: 1.125rem;
       font-weight: 600;
-      color: #10b981;
+      color: rgb(var(--brand-rgb));
       margin-bottom: 0.5rem;
     }
 
@@ -294,7 +303,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       align-items: center;
       margin-bottom: 2rem;
       padding: 1.5rem 0;
-      background: rgba(16, 185, 129, 0.05);
+      background: rgb(var(--brand-rgb) / 0.033);
       border-radius: 1rem;
     }
 
@@ -305,8 +314,8 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
     .metric-value {
       font-size: 2.5rem;
       font-weight: bold;
-      color: #10b981;
-      text-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+      color: rgb(var(--brand-rgb));
+      text-shadow: 0 0 20px rgb(var(--brand-rgb) / 0.39);
       line-height: 1;
     }
 
@@ -319,7 +328,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
     .divider {
       width: 1px;
       height: 60px;
-      background: rgba(16, 185, 129, 0.2);
+      background: rgb(var(--brand-rgb) / 0.13);
     }
 
     /* Savings Detail */
@@ -340,12 +349,12 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       display: flex;
       justify-content: space-around;
       align-items: center;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(20, 184, 166, 0.1));
+      background: linear-gradient(135deg, rgb(var(--brand-rgb) / 0.065), rgb(var(--accent-rgb) / 0.065));
       backdrop-filter: blur(20px);
-      border: 2px solid rgba(16, 185, 129, 0.3);
+      border: 2px solid rgb(var(--brand-rgb) / 0.195);
       border-radius: 1.5rem;
       padding: 3rem 2rem;
-      box-shadow: 0 0 60px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 0 60px rgb(var(--brand-rgb) / 0.13);
     }
 
     .impact-stat {
@@ -358,8 +367,8 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
     .impact-number {
       font-size: 3rem;
       font-weight: bold;
-      color: #10b981;
-      text-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+      color: rgb(var(--brand-rgb));
+      text-shadow: 0 0 30px rgb(var(--brand-rgb) / 0.52);
       line-height: 1;
     }
 
@@ -373,7 +382,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
     .impact-divider {
       width: 2px;
       height: 80px;
-      background: linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.5), transparent);
+      background: linear-gradient(to bottom, transparent, rgb(var(--brand-rgb) / 0.325), transparent);
     }
 
     /* Responsive */
@@ -387,7 +396,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
       .impact-divider {
         width: 100%;
         height: 2px;
-        background: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.5), transparent);
+        background: linear-gradient(to right, transparent, rgb(var(--brand-rgb) / 0.325), transparent);
       }
 
       .metrics {

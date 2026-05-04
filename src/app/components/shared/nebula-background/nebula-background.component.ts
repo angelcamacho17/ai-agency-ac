@@ -39,8 +39,8 @@ import { CommonModule } from '@angular/common';
     .nebula-1 {
       background: radial-gradient(
         circle,
-        rgba(16, 185, 129, 0.25) 0%,
-        rgba(20, 184, 166, 0.15) 30%,
+        rgb(var(--brand-rgb) / 0.163) 0%,
+        rgb(var(--accent-rgb) / 0.098) 30%,
         transparent 70%
       );
       filter: blur(120px);
@@ -59,8 +59,8 @@ import { CommonModule } from '@angular/common';
     .nebula-3 {
       background: radial-gradient(
         circle,
-        rgba(20, 184, 166, 0.20) 0%,
-        rgba(16, 185, 129, 0.12) 40%,
+        rgb(var(--accent-rgb) / 0.13) 0%,
+        rgb(var(--brand-rgb) / 0.078) 40%,
         transparent 70%
       );
       filter: blur(110px);

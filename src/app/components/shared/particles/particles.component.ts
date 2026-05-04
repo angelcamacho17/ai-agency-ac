@@ -78,17 +78,17 @@ export class ParticlesComponent implements AfterViewInit, OnDestroy {
       if (particle.x < 0) particle.x = canvas.width;
       if (particle.x > canvas.width) particle.x = 0;
 
-      // Draw particle with green glow
+      // Draw particle with brand glow
       this.ctx.shadowBlur = 25;
-      this.ctx.shadowColor = '#10b981';
-      this.ctx.fillStyle = `rgba(16, 185, 129, ${particle.opacity})`;
+      this.ctx.shadowColor = '#d3de47';
+      this.ctx.fillStyle = `rgba(211, 222, 71, ${particle.opacity * 0.65})`;
       this.ctx.beginPath();
       this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       this.ctx.fill();
 
       // Add extra glow layer
       this.ctx.shadowBlur = 40;
-      this.ctx.fillStyle = `rgba(16, 185, 129, ${particle.opacity * 0.3})`;
+      this.ctx.fillStyle = `rgba(211, 222, 71, ${particle.opacity * 0.3 * 0.65})`;
       this.ctx.beginPath();
       this.ctx.arc(particle.x, particle.y, particle.size * 2, 0, Math.PI * 2);
       this.ctx.fill();
