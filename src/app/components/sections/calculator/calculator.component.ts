@@ -1,13 +1,14 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 import { RoiCalculatorService } from '../../../services/roi-calculator.service';
 
 @Component({
   selector: 'app-landing-calculator',
   standalone: true,
-  imports: [CommonModule, FormsModule, ScrollRevealDirective],
+  imports: [CommonModule, FormsModule, ScrollRevealDirective, TranslatePipe],
   template: `
     <section id="calculadora" class="relative py-32 overflow-hidden bg-dark-900">
       <div
@@ -20,26 +21,26 @@ import { RoiCalculatorService } from '../../../services/roi-calculator.service';
           appScrollReveal
           class="text-4xl md:text-5xl font-bold text-center text-text-primary mb-4"
         >
-          Calculadora de
-          <span class="text-neon-green text-glow-green">ROI</span>
+          {{ 'calculator.titleStart' | translate }}
+          <span class="text-neon-green text-glow-green">{{ 'calculator.titleAccent' | translate }}</span>
         </h2>
         <p
           appScrollReveal
           class="text-lg text-text-secondary text-center mb-16 max-w-2xl mx-auto"
         >
-          Descubre en cuánto tiempo recuperas la inversión y cuánto ganarías al cierre del año.
+          {{ 'calculator.subtitle' | translate }}
         </p>
 
         <div class="grid lg:grid-cols-2 gap-8">
           <div appScrollReveal class="bg-dark-800/50 backdrop-blur-glass border border-white/5 rounded-2xl p-8 space-y-8">
             <h3 class="text-xl font-semibold text-text-primary flex items-center gap-3">
               <span class="w-8 h-8 rounded-lg bg-neon-green/20 flex items-center justify-center text-neon-green text-sm">1</span>
-              Tus datos
+              {{ 'calculator.yourData' | translate }}
             </h3>
 
             <div>
               <label class="flex items-center justify-between mb-3 text-text-secondary">
-                <span class="font-medium">% de cierre por conversación</span>
+                <span class="font-medium">{{ 'calculator.closeRate' | translate }}</span>
                 <div class="flex items-center gap-1">
                   <input type="number" min="1" max="100" step="1"
                          [ngModel]="closeRate()" (ngModelChange)="setCloseRate($event)"
@@ -50,12 +51,12 @@ import { RoiCalculatorService } from '../../../services/roi-calculator.service';
               <input type="range" min="1" max="100" step="1"
                      [ngModel]="closeRate()" (ngModelChange)="closeRate.set($event)"
                      class="roi-slider w-full" />
-              <p class="text-xs text-text-tertiary mt-2">De cada 100 conversaciones atendidas, cuántas terminan en venta.</p>
+              <p class="text-xs text-text-tertiary mt-2">{{ 'calculator.closeRateHint' | translate }}</p>
             </div>
 
             <div>
               <label class="flex items-center justify-between mb-3 text-text-secondary">
-                <span class="font-medium">Conversaciones perdidas al mes</span>
+                <span class="font-medium">{{ 'calculator.lostConv' | translate }}</span>
                 <input type="number" min="0" max="1000000" step="1"
                        [ngModel]="lostConversations()" (ngModelChange)="setLostConversations($event)"
                        class="roi-input w-28" />
@@ -63,12 +64,12 @@ import { RoiCalculatorService } from '../../../services/roi-calculator.service';
               <input type="range" min="0" max="1000000" step="100"
                      [ngModel]="lostConversations()" (ngModelChange)="lostConversations.set($event)"
                      class="roi-slider w-full" />
-              <p class="text-xs text-text-tertiary mt-2">Mensajes no respondidos o contestados demasiado tarde cada mes.</p>
+              <p class="text-xs text-text-tertiary mt-2">{{ 'calculator.lostConvHint' | translate }}</p>
             </div>
 
             <div>
               <label class="flex items-center justify-between mb-3 text-text-secondary">
-                <span class="font-medium">Ganancia neta promedio por venta</span>
+                <span class="font-medium">{{ 'calculator.avgProfit' | translate }}</span>
                 <div class="flex items-center gap-1">
                   <span class="text-neon-green font-mono font-semibold">$</span>
                   <input type="number" min="10" max="100000" step="1"
@@ -79,12 +80,12 @@ import { RoiCalculatorService } from '../../../services/roi-calculator.service';
               <input type="range" min="10" max="5000" step="10"
                      [ngModel]="avgProfit()" (ngModelChange)="avgProfit.set($event)"
                      class="roi-slider w-full" />
-              <p class="text-xs text-text-tertiary mt-2">Lo que te queda limpio después de costos por cada cliente cerrado.</p>
+              <p class="text-xs text-text-tertiary mt-2">{{ 'calculator.avgProfitHint' | translate }}</p>
             </div>
 
             <div class="pt-4 border-t border-white/5">
               <label class="flex items-center justify-between mb-3 text-text-secondary">
-                <span class="font-medium">% de conversaciones que el agente recuperará</span>
+                <span class="font-medium">{{ 'calculator.recoveryRate' | translate }}</span>
                 <div class="flex items-center gap-1">
                   <input type="number" min="10" max="100" step="1"
                          [ngModel]="recoveryRate()" (ngModelChange)="setRecoveryRate($event)"
@@ -95,46 +96,46 @@ import { RoiCalculatorService } from '../../../services/roi-calculator.service';
               <input type="range" min="10" max="100" step="1"
                      [ngModel]="recoveryRate()" (ngModelChange)="recoveryRate.set($event)"
                      class="roi-slider-teal w-full" />
-              <p class="text-xs text-text-tertiary mt-2">Conservador: 70%. El agente responde 24/7 sin dejar pasar leads.</p>
+              <p class="text-xs text-text-tertiary mt-2">{{ 'calculator.recoveryRateHint' | translate }}</p>
             </div>
           </div>
 
           <div class="space-y-6">
             <div appScrollReveal class="bg-gradient-to-br from-neon-green/20 to-neon-teal/10 border border-neon-green/30 rounded-2xl p-8 shadow-glow-green">
-              <p class="text-sm uppercase tracking-wide text-neon-green font-semibold mb-2">Recuperas tu inversión en</p>
+              <p class="text-sm uppercase tracking-wide text-neon-green font-semibold mb-2">{{ 'calculator.paybackTitle' | translate }}</p>
               <p class="text-5xl md:text-6xl font-bold text-text-primary mb-2">
                 {{ paybackText() }}
               </p>
               <p class="text-text-tertiary text-sm">
-                Calcula tu plan exacto a la medida con nuestro equipo.
+                {{ 'calculator.paybackHelp' | translate }}
               </p>
             </div>
 
             <div appScrollReveal class="bg-dark-800/50 backdrop-blur-glass border border-white/5 rounded-2xl p-8">
-              <p class="text-sm uppercase tracking-wide text-text-tertiary font-semibold mb-6">Tu proyección mensual</p>
+              <p class="text-sm uppercase tracking-wide text-text-tertiary font-semibold mb-6">{{ 'calculator.monthlyTitle' | translate }}</p>
               <div class="space-y-4">
                 <div class="flex justify-between items-center">
-                  <span class="text-text-secondary">Conversaciones recuperadas</span>
+                  <span class="text-text-secondary">{{ 'calculator.monthlyConv' | translate }}</span>
                   <span class="text-text-primary font-mono font-semibold">{{ formatNumber(recoveredConversations()) }}</span>
                 </div>
                 <div class="flex justify-between items-center">
-                  <span class="text-text-secondary">Ventas extras</span>
+                  <span class="text-text-secondary">{{ 'calculator.monthlySales' | translate }}</span>
                   <span class="text-text-primary font-mono font-semibold">{{ formatNumber(extraSales()) }}</span>
                 </div>
                 <div class="flex justify-between items-center pt-4 border-t border-white/5">
-                  <span class="text-text-secondary">Ganancia extra mensual</span>
+                  <span class="text-text-secondary">{{ 'calculator.monthlyProfit' | translate }}</span>
                   <span class="text-neon-green font-mono font-bold text-xl">\${{ formatNumber(monthlyProfit()) }}</span>
                 </div>
               </div>
             </div>
 
             <div appScrollReveal class="bg-dark-800/50 backdrop-blur-glass border border-neon-teal/30 rounded-2xl p-8">
-              <p class="text-sm uppercase tracking-wide text-neon-teal font-semibold mb-2">Ganancia extra anual</p>
+              <p class="text-sm uppercase tracking-wide text-neon-teal font-semibold mb-2">{{ 'calculator.yearlyTitle' | translate }}</p>
               <p class="text-4xl md:text-5xl font-bold text-text-primary mb-2">
                 \${{ formatNumber(yearlyProfit()) }}
               </p>
               <p class="text-text-tertiary text-sm">
-                Lo que tu agente puede generar en 12 meses con estos datos.
+                {{ 'calculator.yearlyHelp' | translate }}
               </p>
             </div>
           </div>
@@ -143,13 +144,13 @@ import { RoiCalculatorService } from '../../../services/roi-calculator.service';
         <div appScrollReveal class="mt-12 text-center">
           <a href="#contact"
              class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-neon-green text-dark-900 font-semibold hover:bg-neon-teal transition-colors duration-300 shadow-glow-green">
-            Quiero mi agente
+            {{ 'calculator.ctaButton' | translate }}
             <span>&rarr;</span>
           </a>
         </div>
 
         <p class="text-center text-xs text-text-tertiary mt-12 max-w-2xl mx-auto">
-          * Esta calculadora muestra una proyección estimada basada en los datos que ingresas. Los resultados reales pueden variar según tu industria, audiencia y volumen real de tráfico.
+          {{ 'calculator.disclaimer' | translate }}
         </p>
       </div>
     </section>

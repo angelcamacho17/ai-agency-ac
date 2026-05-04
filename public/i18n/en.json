@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "home": "Home",
+    "demo": "Demo",
+    "work": "Work",
+    "process": "Process",
+    "calculator": "Calculator",
+    "contact": "Contact",
+    "cta": "Start Project"
+  },
+  "hero": {
+    "line1": "WE WRITE",
+    "line2": "art",
+    "line3": "NOT JUST CODE",
+    "subhead": "Software That Inspires"
+  },
+  "trustedBrands": {
+    "titleStart": "Brands that have",
+    "titleAccent": "trusted",
+    "titleEnd": "us"
+  },
+  "demo": {
+    "title": "See it in action",
+    "subtitle": "An agent closing sales in real time."
+  },
+  "roi": {
+    "title": "REAL IMPACT",
+    "subtitle": "Measurable savings in time and money for companies that automate their processes",
+    "terraccotta": {
+      "processTitle": "24/7 customer service & bookings with AI",
+      "processDetail": "AI agent that answers 100% of customers and books appointments automatically",
+      "metric1Label": "in sales",
+      "metric2Label": "customer satisfaction",
+      "detail1": "100% of customers attended",
+      "detail2": "Bookings made automatically",
+      "detail3": "No waiting, no lost leads"
+    },
+    "victoria": {
+      "name": "Victoria Social Media",
+      "processTitle": "AI agent for Instagram DMs",
+      "processDetail": "Automated setter & closer that handles leads 24/7",
+      "metric1Label": "hours/year saved",
+      "metric2Label": "USD saved/year",
+      "detail1": "200 messages/week handled",
+      "detail2": "Instant reply vs 30 min manual",
+      "detail3": "Conversion rate up 40%"
+    },
+    "premiere": {
+      "processTitle": "Lead filtering + AI sales closing",
+      "processDetail": "AI agent that qualifies Ad leads and only forwards the ones ready to buy",
+      "metric1Label": "in sales",
+      "metric2Label": "unqualified leads filtered out",
+      "detail1": "Filters out 75% of unqualified leads",
+      "detail2": "Sales reps only talk to ready buyers",
+      "detail3": "Better ROI on ad spend"
+    }
+  },
+  "work": {
+    "title": "WHAT WE BUILD",
+    "subtitle": "Automation and AI solutions that transform your operation",
+    "agents": {
+      "titleStart": "AI",
+      "titleAccent": "Agents",
+      "description": "Smart assistants that automate complex tasks using Claude, GPT and specialized models",
+      "feature1": "24/7 customer support",
+      "feature2": "Automatic lead qualification",
+      "feature3": "Real-time data analysis",
+      "feature4": "CRM and API integrations"
+    },
+    "automations": {
+      "titleStart": "Operational",
+      "titleAccent": "Automations",
+      "description": "Smart workflows that connect your tools and eliminate repetitive manual work",
+      "feature1": "Cross-platform sync",
+      "feature2": "Smart notifications and alerts",
+      "feature3": "Automated reporting",
+      "feature4": "Payment and invoice processing"
+    },
+    "webapps": {
+      "titleStart": "Web",
+      "titleAccent": "Applications",
+      "description": "Modern, scalable interfaces with the latest frontend and backend tech",
+      "feature1": "SaaS and enterprise platforms",
+      "feature2": "Dashboards and admin panels",
+      "feature3": "E-commerce and marketplaces",
+      "feature4": "RESTful and GraphQL APIs"
+    }
+  },
+  "process": {
+    "titleStart": "How we ship in",
+    "titleAccent": "less than 5 days",
+    "step1": {
+      "day": "Day 1",
+      "title": "Onboarding",
+      "description": "We learn your business, set the goals and connect your channels."
+    },
+    "step2": {
+      "day": "Day 2-3",
+      "title": "Setup & development",
+      "description": "We build your agent with your voice, your data and your sales logic."
+    },
+    "step3": {
+      "day": "Day 4",
+      "title": "Testing phase",
+      "description": "You test it in real scenarios. We tune it until it closes like you."
+    },
+    "step4": {
+      "day": "Day 5",
+      "title": "Deployment",
+      "description": "We ship it to production. It starts working 24/7."
+    }
+  },
+  "calculator": {
+    "titleStart": "ROI",
+    "titleAccent": "Calculator",
+    "subtitle": "Find out how fast you recover your investment and how much you'd earn by year-end.",
+    "yourData": "Your data",
+    "closeRate": "% close rate per conversation",
+    "closeRateHint": "Out of every 100 conversations, how many end in a sale.",
+    "lostConv": "Lost conversations per month",
+    "lostConvHint": "Messages unanswered or replied too late each month.",
+    "avgProfit": "Average net profit per sale",
+    "avgProfitHint": "What you keep after costs from each closed customer.",
+    "recoveryRate": "% of conversations the agent will recover",
+    "recoveryRateHint": "Conservative: 70%. The agent answers 24/7 with zero leads slipping.",
+    "paybackTitle": "You recover your investment in",
+    "paybackHelp": "Calculate your exact tailored plan with our team.",
+    "monthlyTitle": "Your monthly projection",
+    "monthlyConv": "Recovered conversations",
+    "monthlySales": "Extra sales",
+    "monthlyProfit": "Extra monthly profit",
+    "yearlyTitle": "Extra yearly profit",
+    "yearlyHelp": "What your agent can generate in 12 months with these inputs.",
+    "ctaButton": "I want my agent",
+    "disclaimer": "* This calculator shows an estimated projection based on your inputs. Real results may vary depending on your industry, audience and actual traffic."
+  },
+  "cta": {
+    "headlineSmall": "message us",
+    "headlineAccent": "via DM",
+    "subhead": "Talk to our AI agent on Instagram. Replies 24/7 and routes you to the team.",
+    "button": "Message us on Instagram",
+    "fallback": "or visit"
+  },
+  "footer": {
+    "tagline": "we write art,\nnot just code",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "copyright": "© 2026 Michelangelo Devs"
+  }
+}

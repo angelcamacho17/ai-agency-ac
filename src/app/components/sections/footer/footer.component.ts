@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe],
   template: `
     <footer class="relative bg-dark-900 border-t border-neon-green/30">
       <div class="max-w-7xl mx-auto px-6 py-24">
@@ -16,10 +17,7 @@ import { RouterLink } from '@angular/router';
             <div class="text-2xl font-bold text-text-primary mb-2">
               michelangelo <span class="text-neon-green">devs</span>
             </div>
-            <p class="text-text-tertiary text-sm">
-              we write art,<br />
-              not just code
-            </p>
+            <p class="text-text-tertiary text-sm whitespace-pre-line">{{ 'footer.tagline' | translate }}</p>
           </div>
 
           <!-- Legal Links -->
@@ -28,7 +26,7 @@ import { RouterLink } from '@angular/router';
               routerLink="/terms"
               class="block text-text-secondary hover:text-neon-green transition-all duration-300 relative group"
             >
-              Términos y Condiciones
+              {{ 'footer.terms' | translate }}
               <span
                 class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-neon-green to-neon-teal group-hover:w-full transition-all duration-300"
                 style="box-shadow: 0 0 10px rgb(var(--brand-rgb) / 0.39)"
@@ -38,7 +36,7 @@ import { RouterLink } from '@angular/router';
               routerLink="/privacy"
               class="block text-text-secondary hover:text-neon-green transition-all duration-300 relative group"
             >
-              Política de Privacidad
+              {{ 'footer.privacy' | translate }}
               <span
                 class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-neon-green to-neon-teal group-hover:w-full transition-all duration-300"
                 style="box-shadow: 0 0 10px rgb(var(--brand-rgb) / 0.39)"
@@ -69,7 +67,7 @@ import { RouterLink } from '@angular/router';
 
         <!-- Copyright -->
         <div class="text-center text-text-tertiary text-sm">
-          <p>© 2026 Michelangelo Devs</p>
+          <p>{{ 'footer.copyright' | translate }}</p>
           <!-- <p class="mt-2">Hecho con 🤍 en Venezuela</p> -->
         </div>
       </div>

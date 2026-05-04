@@ -1,11 +1,13 @@
-import { Component, HostListener, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MagneticButtonDirective } from '../../../directives/magnetic-button.directive';
+import { LanguageService } from '../../../services/language.service';
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [CommonModule, MagneticButtonDirective],
+  imports: [CommonModule, MagneticButtonDirective, TranslatePipe],
   template: `
     <nav
       class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
@@ -34,12 +36,24 @@ import { MagneticButtonDirective } from '../../../directives/magnetic-button.dir
               [href]="item.href"
               class="text-text-secondary hover:text-neon-green transition-all duration-300 relative group"
             >
-              {{ item.label }}
+              {{ item.labelKey | translate }}
               <span
                 class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-neon-green to-neon-teal group-hover:w-full transition-all duration-300"
                 style="box-shadow: 0 0 10px rgb(var(--brand-rgb) / 0.39);"
               ></span>
             </a>
+
+            <!-- Language switcher -->
+            <button
+              type="button"
+              (click)="lang.toggle()"
+              [attr.aria-label]="'Switch language'"
+              class="lang-toggle flex items-center gap-1 px-3 py-1.5 text-sm font-semibold rounded-md border border-white/10 hover:border-neon-green/60 transition-colors duration-300"
+            >
+              <span [class.active]="lang.current() === 'es'">ES</span>
+              <span class="text-white/30">/</span>
+              <span [class.active]="lang.current() === 'en'">EN</span>
+            </button>
 
             <a
               href="https://ig.me/m/michelangelo.devs"
@@ -48,7 +62,7 @@ import { MagneticButtonDirective } from '../../../directives/magnetic-button.dir
               appMagneticButton
               class="px-6 py-2 bg-gradient-to-r from-neon-green to-neon-teal text-dark-950 font-bold rounded-lg transition-all duration-300 hover:shadow-glow-green-lg"
             >
-              Iniciar Proyecto
+              {{ 'nav.cta' | translate }}
             </a>
           </div>
 
@@ -93,8 +107,21 @@ import { MagneticButtonDirective } from '../../../directives/magnetic-button.dir
             (click)="toggleMobileMenu()"
             class="block px-4 py-3 text-text-secondary hover:text-neon-green hover:bg-white/5 transition-all duration-300"
           >
-            {{ item.label }}
+            {{ item.labelKey | translate }}
           </a>
+
+          <div class="px-4 pt-3 flex justify-center">
+            <button
+              type="button"
+              (click)="lang.toggle()"
+              class="lang-toggle flex items-center gap-1 px-3 py-1.5 text-sm font-semibold rounded-md border border-white/10 hover:border-neon-green/60 transition-colors duration-300"
+            >
+              <span [class.active]="lang.current() === 'es'">ES</span>
+              <span class="text-white/30">/</span>
+              <span [class.active]="lang.current() === 'en'">EN</span>
+            </button>
+          </div>
+
           <div class="px-4 pt-3">
             <a
               href="https://ig.me/m/michelangelo.devs"
@@ -103,7 +130,7 @@ import { MagneticButtonDirective } from '../../../directives/magnetic-button.dir
               (click)="toggleMobileMenu()"
               class="block w-full px-6 py-3 bg-gradient-to-r from-neon-green to-neon-teal text-dark-950 font-bold rounded-lg transition-all duration-300 text-center"
             >
-              Iniciar Proyecto
+              {{ 'nav.cta' | translate }}
             </a>
           </div>
         </div>
@@ -114,19 +141,31 @@ import { MagneticButtonDirective } from '../../../directives/magnetic-button.dir
     :host {
       display: block;
     }
+
+    .lang-toggle span {
+      color: rgba(255, 255, 255, 0.45);
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .lang-toggle span.active {
+      color: rgb(var(--brand-rgb));
+      text-shadow: 0 0 8px rgb(var(--brand-rgb) / 0.45);
+    }
   `]
 })
 export class NavigationComponent {
+  readonly lang = inject(LanguageService);
+
   isScrolled = signal(false);
   mobileMenuOpen = signal(false);
 
   menuItems = [
-    { label: 'Inicio', href: '#home' },
-    { label: 'Demo', href: '#demo' },
-    { label: 'Trabajo', href: '#work' },
-    { label: 'Proceso', href: '#process' },
-    { label: 'Calculadora', href: '#calculadora' },
-    { label: 'Contacto', href: '#contact' }
+    { labelKey: 'nav.home', href: '#home' },
+    { labelKey: 'nav.demo', href: '#demo' },
+    { labelKey: 'nav.work', href: '#work' },
+    { labelKey: 'nav.process', href: '#process' },
+    { labelKey: 'nav.calculator', href: '#calculadora' },
+    { labelKey: 'nav.contact', href: '#contact' }
   ];
 
   @HostListener('window:scroll')

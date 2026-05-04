@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-roi',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective],
+  imports: [CommonModule, ScrollRevealDirective, TranslatePipe],
   template: `
     <section id="roi" class="relative py-32 overflow-hidden bg-dark-950">
       <!-- Background gradient -->
@@ -20,13 +21,13 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
           appScrollReveal
           class="text-4xl md:text-5xl font-bold text-center text-text-primary mb-6 text-glow-green"
         >
-          IMPACTO REAL
+          {{ 'roi.title' | translate }}
         </h2>
         <p
           appScrollReveal
           class="text-lg text-text-secondary text-center mb-20 max-w-3xl mx-auto"
         >
-          Ahorro medible en tiempo y dinero para empresas que automatizan sus procesos
+          {{ 'roi.subtitle' | translate }}
         </p>
 
         <!-- ROI Cards Grid -->
@@ -46,28 +47,26 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
             </div>
 
             <div class="automation-desc">
-              <p class="process-title">Atención y reservas 24/7 con AI</p>
-              <p class="process-detail">
-                Agente AI que responde el 100% de los clientes y agenda citas automáticamente
-              </p>
+              <p class="process-title">{{ 'roi.terraccotta.processTitle' | translate }}</p>
+              <p class="process-detail">{{ 'roi.terraccotta.processDetail' | translate }}</p>
             </div>
 
             <div class="metrics">
               <div class="metric">
                 <div class="metric-value">+23%</div>
-                <div class="metric-label">en ventas</div>
+                <div class="metric-label">{{ 'roi.terraccotta.metric1Label' | translate }}</div>
               </div>
               <div class="divider"></div>
               <div class="metric">
                 <div class="metric-value">100%</div>
-                <div class="metric-label">satisfacción cliente</div>
+                <div class="metric-label">{{ 'roi.terraccotta.metric2Label' | translate }}</div>
               </div>
             </div>
 
             <div class="savings-detail">
-              <span class="detail-item">• 100% de clientes atendidos</span>
-              <span class="detail-item">• Citas agendadas en automático</span>
-              <span class="detail-item">• Sin esperas, sin leads perdidos</span>
+              <span class="detail-item">• {{ 'roi.terraccotta.detail1' | translate }}</span>
+              <span class="detail-item">• {{ 'roi.terraccotta.detail2' | translate }}</span>
+              <span class="detail-item">• {{ 'roi.terraccotta.detail3' | translate }}</span>
             </div>
           </a>
 
@@ -84,32 +83,30 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
               <div class="company-logo">
                 <img src="brands/vic_white_transparent.png" alt="Victoria" class="logo-img" />
               </div>
-              <h3 class="company-name">Victoria Social Media</h3>
+              <h3 class="company-name">{{ 'roi.victoria.name' | translate }}</h3>
             </div>
 
             <div class="automation-desc">
-              <p class="process-title">Agente AI para Instagram DMs</p>
-              <p class="process-detail">
-                Setter y closer automatizado que atiende leads 24/7
-              </p>
+              <p class="process-title">{{ 'roi.victoria.processTitle' | translate }}</p>
+              <p class="process-detail">{{ 'roi.victoria.processDetail' | translate }}</p>
             </div>
 
             <div class="metrics">
               <div class="metric">
                 <div class="metric-value">800</div>
-                <div class="metric-label">horas/año ahorradas</div>
+                <div class="metric-label">{{ 'roi.victoria.metric1Label' | translate }}</div>
               </div>
               <div class="divider"></div>
               <div class="metric">
                 <div class="metric-value">$16,000</div>
-                <div class="metric-label">USD ahorrados/año</div>
+                <div class="metric-label">{{ 'roi.victoria.metric2Label' | translate }}</div>
               </div>
             </div>
 
             <div class="savings-detail">
-              <span class="detail-item">• 200 mensajes/semana gestionados</span>
-              <span class="detail-item">• Respuesta instantánea vs 30 min manual</span>
-              <span class="detail-item">• Tasa de conversión aumentó 40%</span>
+              <span class="detail-item">• {{ 'roi.victoria.detail1' | translate }}</span>
+              <span class="detail-item">• {{ 'roi.victoria.detail2' | translate }}</span>
+              <span class="detail-item">• {{ 'roi.victoria.detail3' | translate }}</span>
             </div>
           </a>
 
@@ -128,28 +125,26 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
             </div>
 
             <div class="automation-desc">
-              <p class="process-title">Filtrado de leads + cierre de ventas con AI</p>
-              <p class="process-detail">
-                Agente AI que califica leads de Ads y solo deja pasar a los listos para comprar
-              </p>
+              <p class="process-title">{{ 'roi.premiere.processTitle' | translate }}</p>
+              <p class="process-detail">{{ 'roi.premiere.processDetail' | translate }}</p>
             </div>
 
             <div class="metrics">
               <div class="metric">
                 <div class="metric-value">+34%</div>
-                <div class="metric-label">en ventas</div>
+                <div class="metric-label">{{ 'roi.premiere.metric1Label' | translate }}</div>
               </div>
               <div class="divider"></div>
               <div class="metric">
                 <div class="metric-value">75%</div>
-                <div class="metric-label">leads no calificados filtrados</div>
+                <div class="metric-label">{{ 'roi.premiere.metric2Label' | translate }}</div>
               </div>
             </div>
 
             <div class="savings-detail">
-              <span class="detail-item">• Filtra 75% de leads no calificados</span>
-              <span class="detail-item">• Vendedores solo hablan con leads listos</span>
-              <span class="detail-item">• Mejor ROI en pauta publicitaria</span>
+              <span class="detail-item">• {{ 'roi.premiere.detail1' | translate }}</span>
+              <span class="detail-item">• {{ 'roi.premiere.detail2' | translate }}</span>
+              <span class="detail-item">• {{ 'roi.premiere.detail3' | translate }}</span>
             </div>
           </a>
         </div>

@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-demo',
   standalone: true,
-  imports: [ScrollRevealDirective],
+  imports: [ScrollRevealDirective, TranslatePipe],
   template: `
     <section id="demo" class="relative py-32 overflow-hidden bg-dark-950">
       <div
@@ -18,13 +19,13 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
           appScrollReveal
           class="text-4xl md:text-5xl font-bold text-center text-text-primary mb-4 text-glow-green"
         >
-          Ve cómo trabaja
+          {{ 'demo.title' | translate }}
         </h2>
         <p
           appScrollReveal
           class="text-lg text-text-secondary text-center mb-16 max-w-2xl mx-auto"
         >
-          Un agente cerrando ventas en tiempo real.
+          {{ 'demo.subtitle' | translate }}
         </p>
 
         <div

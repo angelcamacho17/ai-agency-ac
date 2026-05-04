@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-work',
   standalone: true,
-  imports: [CommonModule, ScrollRevealDirective],
+  imports: [CommonModule, ScrollRevealDirective, TranslatePipe],
   template: `
     <section id="work" class="relative py-32 overflow-hidden bg-dark-950">
       <!-- Background gradient -->
@@ -20,44 +21,43 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
           appScrollReveal
           class="text-4xl md:text-5xl font-bold text-center text-text-primary mb-6 text-glow-green"
         >
-          QUÉ CONSTRUIMOS
+          {{ 'work.title' | translate }}
         </h2>
         <p
           appScrollReveal
           class="text-lg text-text-secondary text-center mb-20 max-w-3xl mx-auto"
         >
-          Soluciones de automatización e inteligencia artificial que transforman tu operación
+          {{ 'work.subtitle' | translate }}
         </p>
 
         <!-- Services Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-          <!-- Card 1: Agentes AI -->
+          <!-- Card 1: AI Agents -->
           <div appScrollReveal class="service-card group">
             <div class="card-icon">🤖</div>
             <h3 class="card-title">
-              Agentes <span class="text-neon-green">AI</span>
+              {{ 'work.agents.titleStart' | translate }}
+              <span class="text-neon-green">{{ 'work.agents.titleAccent' | translate }}</span>
             </h3>
-            <p class="card-description">
-              Asistentes inteligentes que automatizan tareas complejas usando Claude, GPT y modelos especializados
-            </p>
+            <p class="card-description">{{ 'work.agents.description' | translate }}</p>
 
             <div class="card-features">
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>Atención al cliente 24/7</span>
+                <span>{{ 'work.agents.feature1' | translate }}</span>
               </div>
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>Cualificación de leads automática</span>
+                <span>{{ 'work.agents.feature2' | translate }}</span>
               </div>
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>Análisis de datos en tiempo real</span>
+                <span>{{ 'work.agents.feature3' | translate }}</span>
               </div>
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>Integración con CRM y APIs</span>
+                <span>{{ 'work.agents.feature4' | translate }}</span>
               </div>
             </div>
 
@@ -68,32 +68,31 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
             </div>
           </div>
 
-          <!-- Card 2: Automatizaciones -->
+          <!-- Card 2: Automations -->
           <div appScrollReveal class="service-card group">
             <div class="card-icon">⚡</div>
             <h3 class="card-title">
-              Automatizaciones <span class="text-neon-green">Operativas</span>
+              {{ 'work.automations.titleStart' | translate }}
+              <span class="text-neon-green">{{ 'work.automations.titleAccent' | translate }}</span>
             </h3>
-            <p class="card-description">
-              Workflows inteligentes que conectan tus herramientas y eliminan trabajo manual repetitivo
-            </p>
+            <p class="card-description">{{ 'work.automations.description' | translate }}</p>
 
             <div class="card-features">
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>Sincronización entre plataformas</span>
+                <span>{{ 'work.automations.feature1' | translate }}</span>
               </div>
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>Notificaciones y alertas smart</span>
+                <span>{{ 'work.automations.feature2' | translate }}</span>
               </div>
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>Generación de reportes automáticos</span>
+                <span>{{ 'work.automations.feature3' | translate }}</span>
               </div>
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>Procesamiento de pagos y facturas</span>
+                <span>{{ 'work.automations.feature4' | translate }}</span>
               </div>
             </div>
 
@@ -104,32 +103,31 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
             </div>
           </div>
 
-          <!-- Card 3: Aplicaciones Web -->
+          <!-- Card 3: Web Applications -->
           <div appScrollReveal class="service-card group">
             <div class="card-icon">💻</div>
             <h3 class="card-title">
-              Aplicaciones <span class="text-neon-green">Web</span>
+              {{ 'work.webapps.titleStart' | translate }}
+              <span class="text-neon-green">{{ 'work.webapps.titleAccent' | translate }}</span>
             </h3>
-            <p class="card-description">
-              Interfaces modernas y escalables con las últimas tecnologías frontend y backend
-            </p>
+            <p class="card-description">{{ 'work.webapps.description' | translate }}</p>
 
             <div class="card-features">
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>SaaS y plataformas empresariales</span>
+                <span>{{ 'work.webapps.feature1' | translate }}</span>
               </div>
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>Dashboards y paneles admin</span>
+                <span>{{ 'work.webapps.feature2' | translate }}</span>
               </div>
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>E-commerce y marketplaces</span>
+                <span>{{ 'work.webapps.feature3' | translate }}</span>
               </div>
               <div class="feature-item">
                 <span class="feature-icon">✓</span>
-                <span>APIs RESTful y GraphQL</span>
+                <span>{{ 'work.webapps.feature4' | translate }}</span>
               </div>
             </div>
 

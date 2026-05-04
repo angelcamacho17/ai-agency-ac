@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-trusted-brands',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   template: `
     <section class="relative py-20 overflow-hidden bg-dark-900 border-y border-neon-green/10">
       <!-- Subtle green glow -->
@@ -14,9 +15,9 @@ import { CommonModule } from '@angular/common';
 
       <div class="relative z-10 max-w-7xl mx-auto px-6 mb-12">
         <h2 class="text-2xl md:text-3xl font-bold text-center text-text-primary">
-          Marcas que han
-          <span class="text-neon-green">confiado</span>
-          en nosotros
+          {{ 'trustedBrands.titleStart' | translate }}
+          <span class="text-neon-green">{{ 'trustedBrands.titleAccent' | translate }}</span>
+          {{ 'trustedBrands.titleEnd' | translate }}
         </h2>
       </div>
 

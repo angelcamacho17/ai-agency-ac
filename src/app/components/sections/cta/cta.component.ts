@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MagneticButtonDirective } from '../../../directives/magnetic-button.directive';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 import { HandsTouchService } from '../../effects/hands-scroll/hands-scroll.component';
@@ -6,7 +7,7 @@ import { HandsTouchService } from '../../effects/hands-scroll/hands-scroll.compo
 @Component({
   selector: 'app-cta',
   standalone: true,
-  imports: [MagneticButtonDirective, ScrollRevealDirective],
+  imports: [MagneticButtonDirective, ScrollRevealDirective, TranslatePipe],
   template: `
     <section id="contact" class="relative py-48 overflow-hidden bg-dark-900">
       <div
@@ -22,12 +23,12 @@ import { HandsTouchService } from '../../effects/hands-scroll/hands-scroll.compo
           appScrollReveal
           class="text-hero font-extrabold leading-[1] tracking-tighter mb-16"
         >
-          <span class="block text-text-primary mb-6" style="font-size: 1.5rem; font-weight: 300; letter-spacing: 0.5rem;">escríbenos</span>
-          <span class="block text-neon-green font-serif italic text-glow-green-strong">por DM</span>
+          <span class="block text-text-primary mb-6" style="font-size: 1.5rem; font-weight: 300; letter-spacing: 0.5rem;">{{ 'cta.headlineSmall' | translate }}</span>
+          <span class="block text-neon-green font-serif italic text-glow-green-strong">{{ 'cta.headlineAccent' | translate }}</span>
         </h2>
 
         <p appScrollReveal class="text-text-secondary text-lg mb-12 max-w-xl mx-auto">
-          Habla con nuestro agente AI en Instagram. Responde 24/7 y te conecta con el equipo.
+          {{ 'cta.subhead' | translate }}
         </p>
 
         <div appScrollReveal class="mb-8">
@@ -42,12 +43,12 @@ import { HandsTouchService } from '../../effects/hands-scroll/hands-scroll.compo
             <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6" aria-hidden="true">
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
             </svg>
-            <span>Escríbenos en Instagram</span>
+            <span>{{ 'cta.button' | translate }}</span>
           </a>
         </div>
 
         <p appScrollReveal class="text-text-tertiary">
-          o visita
+          {{ 'cta.fallback' | translate }}
           <a
             href="https://instagram.com/michelangelo.devs"
             target="_blank"

@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "demo": "Demo",
+    "work": "Trabajo",
+    "process": "Proceso",
+    "calculator": "Calculadora",
+    "contact": "Contacto",
+    "cta": "Iniciar Proyecto"
+  },
+  "hero": {
+    "line1": "WE WRITE",
+    "line2": "art",
+    "line3": "NOT JUST CODE",
+    "subhead": "Software That Inspires"
+  },
+  "trustedBrands": {
+    "titleStart": "Marcas que han",
+    "titleAccent": "confiado",
+    "titleEnd": "en nosotros"
+  },
+  "demo": {
+    "title": "Ve cómo trabaja",
+    "subtitle": "Un agente cerrando ventas en tiempo real."
+  },
+  "roi": {
+    "title": "IMPACTO REAL",
+    "subtitle": "Ahorro medible en tiempo y dinero para empresas que automatizan sus procesos",
+    "terraccotta": {
+      "processTitle": "Atención y reservas 24/7 con AI",
+      "processDetail": "Agente AI que responde el 100% de los clientes y agenda citas automáticamente",
+      "metric1Label": "en ventas",
+      "metric2Label": "satisfacción cliente",
+      "detail1": "100% de clientes atendidos",
+      "detail2": "Citas agendadas en automático",
+      "detail3": "Sin esperas, sin leads perdidos"
+    },
+    "victoria": {
+      "name": "Victoria Social Media",
+      "processTitle": "Agente AI para Instagram DMs",
+      "processDetail": "Setter y closer automatizado que atiende leads 24/7",
+      "metric1Label": "horas/año ahorradas",
+      "metric2Label": "USD ahorrados/año",
+      "detail1": "200 mensajes/semana gestionados",
+      "detail2": "Respuesta instantánea vs 30 min manual",
+      "detail3": "Tasa de conversión aumentó 40%"
+    },
+    "premiere": {
+      "processTitle": "Filtrado de leads + cierre de ventas con AI",
+      "processDetail": "Agente AI que califica leads de Ads y solo deja pasar a los listos para comprar",
+      "metric1Label": "en ventas",
+      "metric2Label": "leads no calificados filtrados",
+      "detail1": "Filtra 75% de leads no calificados",
+      "detail2": "Vendedores solo hablan con leads listos",
+      "detail3": "Mejor ROI en pauta publicitaria"
+    }
+  },
+  "work": {
+    "title": "QUÉ CONSTRUIMOS",
+    "subtitle": "Soluciones de automatización e inteligencia artificial que transforman tu operación",
+    "agents": {
+      "titleStart": "Agentes",
+      "titleAccent": "AI",
+      "description": "Asistentes inteligentes que automatizan tareas complejas usando Claude, GPT y modelos especializados",
+      "feature1": "Atención al cliente 24/7",
+      "feature2": "Cualificación de leads automática",
+      "feature3": "Análisis de datos en tiempo real",
+      "feature4": "Integración con CRM y APIs"
+    },
+    "automations": {
+      "titleStart": "Automatizaciones",
+      "titleAccent": "Operativas",
+      "description": "Workflows inteligentes que conectan tus herramientas y eliminan trabajo manual repetitivo",
+      "feature1": "Sincronización entre plataformas",
+      "feature2": "Notificaciones y alertas smart",
+      "feature3": "Generación de reportes automáticos",
+      "feature4": "Procesamiento de pagos y facturas"
+    },
+    "webapps": {
+      "titleStart": "Aplicaciones",
+      "titleAccent": "Web",
+      "description": "Interfaces modernas y escalables con las últimas tecnologías frontend y backend",
+      "feature1": "SaaS y plataformas empresariales",
+      "feature2": "Dashboards y paneles admin",
+      "feature3": "E-commerce y marketplaces",
+      "feature4": "APIs RESTful y GraphQL"
+    }
+  },
+  "process": {
+    "titleStart": "Cómo trabajamos en",
+    "titleAccent": "menos de 5 días",
+    "step1": {
+      "day": "Día 1",
+      "title": "Onboarding",
+      "description": "Entendemos tu negocio, definimos objetivos y conectamos tus canales."
+    },
+    "step2": {
+      "day": "Día 2-3",
+      "title": "Configuración y desarrollo",
+      "description": "Construimos tu agente con tu tono, tus datos y tu lógica de venta."
+    },
+    "step3": {
+      "day": "Día 4",
+      "title": "Fase de prueba",
+      "description": "Tú lo pruebas en escenarios reales. Nosotros ajustamos hasta que cierre como tú."
+    },
+    "step4": {
+      "day": "Día 5",
+      "title": "Despliegue",
+      "description": "Lo conectamos a producción. Empieza a trabajar 24/7."
+    }
+  },
+  "calculator": {
+    "titleStart": "Calculadora de",
+    "titleAccent": "ROI",
+    "subtitle": "Descubre en cuánto tiempo recuperas la inversión y cuánto ganarías al cierre del año.",
+    "yourData": "Tus datos",
+    "closeRate": "% de cierre por conversación",
+    "closeRateHint": "De cada 100 conversaciones atendidas, cuántas terminan en venta.",
+    "lostConv": "Conversaciones perdidas al mes",
+    "lostConvHint": "Mensajes no respondidos o contestados demasiado tarde cada mes.",
+    "avgProfit": "Ganancia neta promedio por venta",
+    "avgProfitHint": "Lo que te queda limpio después de costos por cada cliente cerrado.",
+    "recoveryRate": "% de conversaciones que el agente recuperará",
+    "recoveryRateHint": "Conservador: 70%. El agente responde 24/7 sin dejar pasar leads.",
+    "paybackTitle": "Recuperas tu inversión en",
+    "paybackHelp": "Calcula tu plan exacto a la medida con nuestro equipo.",
+    "monthlyTitle": "Tu proyección mensual",
+    "monthlyConv": "Conversaciones recuperadas",
+    "monthlySales": "Ventas extras",
+    "monthlyProfit": "Ganancia extra mensual",
+    "yearlyTitle": "Ganancia extra anual",
+    "yearlyHelp": "Lo que tu agente puede generar en 12 meses con estos datos.",
+    "ctaButton": "Quiero mi agente",
+    "disclaimer": "* Esta calculadora muestra una proyección estimada basada en los datos que ingresas. Los resultados reales pueden variar según tu industria, audiencia y volumen real de tráfico."
+  },
+  "cta": {
+    "headlineSmall": "escríbenos",
+    "headlineAccent": "por DM",
+    "subhead": "Habla con nuestro agente AI en Instagram. Responde 24/7 y te conecta con el equipo.",
+    "button": "Escríbenos en Instagram",
+    "fallback": "o visita"
+  },
+  "footer": {
+    "tagline": "we write art,\nnot just code",
+    "terms": "Términos y Condiciones",
+    "privacy": "Política de Privacidad",
+    "copyright": "© 2026 Michelangelo Devs"
+  }
+}
