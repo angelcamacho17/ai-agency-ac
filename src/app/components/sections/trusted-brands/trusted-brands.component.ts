@@ -7,13 +7,13 @@ import { TranslatePipe } from '@ngx-translate/core';
   standalone: true,
   imports: [CommonModule, TranslatePipe],
   template: `
-    <section class="relative py-20 overflow-hidden bg-dark-900 border-y border-neon-green/10">
+    <section class="relative py-12 md:py-20 overflow-hidden bg-dark-900 border-y border-neon-green/10">
       <!-- Subtle green glow -->
       <div
         class="absolute inset-0 bg-gradient-to-r from-transparent via-neon-green/5 to-transparent pointer-events-none"
       ></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto px-6 mb-12">
+      <div class="relative z-10 max-w-7xl mx-auto px-6 mb-8 md:mb-12">
         <h2 class="text-2xl md:text-3xl font-bold text-center text-text-primary">
           {{ 'trustedBrands.titleStart' | translate }}
           <span class="text-neon-green">{{ 'trustedBrands.titleAccent' | translate }}</span>

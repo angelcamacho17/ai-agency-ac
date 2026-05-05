@@ -8,7 +8,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
   standalone: true,
   imports: [ScrollRevealDirective, TranslatePipe],
   template: `
-    <section id="demo" class="relative py-32 overflow-hidden bg-dark-950">
+    <section id="demo" class="relative py-16 md:py-32 overflow-hidden bg-dark-950">
       <div
         class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[1100px] rounded-full opacity-15 pointer-events-none"
         style="background: radial-gradient(circle, rgb(var(--brand-rgb) / 0.163) 0%, transparent 60%); filter: blur(120px)"
@@ -23,7 +23,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
         </h2>
         <p
           appScrollReveal
-          class="text-lg text-text-secondary text-center mb-16 max-w-2xl mx-auto"
+          class="text-lg text-text-secondary text-center mb-8 md:mb-16 max-w-2xl mx-auto"
         >
           {{ 'demo.subtitle' | translate }}
         </p>

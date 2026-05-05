@@ -17,7 +17,7 @@ interface Step {
   template: `
     <section
       id="process"
-      class="relative py-32 overflow-hidden bg-dark-900"
+      class="relative py-16 md:py-32 overflow-hidden bg-dark-900"
       #section
     >
       <!-- Accent nebula gradient -->
@@ -44,7 +44,7 @@ interface Step {
         </div>
 
         <!-- Section Title -->
-        <h2 class="text-3xl md:text-4xl font-bold text-text-primary text-center mb-20 leading-tight">
+        <h2 class="text-3xl md:text-4xl font-bold text-text-primary text-center mb-10 md:mb-20 leading-tight">
           {{ 'process.titleStart' | translate }}
           <span class="font-serif italic text-neon-green text-glow-green">{{ 'process.titleAccent' | translate }}</span>
         </h2>

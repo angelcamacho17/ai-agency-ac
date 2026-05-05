@@ -9,9 +9,9 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [CommonModule, RouterLink, TranslatePipe],
   template: `
     <footer class="relative bg-dark-900 border-t border-neon-green/30">
-      <div class="max-w-7xl mx-auto px-6 py-24">
+      <div class="max-w-7xl mx-auto px-6 py-12 md:py-24">
         <!-- Main Footer Content -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-8 md:mb-16">
           <!-- Logo & Tagline -->
           <div class="text-center md:text-left">
             <div class="text-2xl font-bold text-text-primary mb-2">
@@ -63,7 +63,7 @@ import { TranslatePipe } from '@ngx-translate/core';
         </div>
 
         <!-- Divider -->
-        <div class="w-full h-px bg-neon-green/10 mb-12"></div>
+        <div class="w-full h-px bg-neon-green/10 mb-6 md:mb-12"></div>
 
         <!-- Copyright -->
         <div class="text-center text-text-tertiary text-sm">

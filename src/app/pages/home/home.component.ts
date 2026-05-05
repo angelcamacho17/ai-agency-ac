@@ -28,12 +28,12 @@ import { HandsScrollComponent } from '../../components/effects/hands-scroll/hand
   template: `
     <app-hands-scroll></app-hands-scroll>
     <app-hero></app-hero>
-    <app-trusted-brands></app-trusted-brands>
     <app-demo></app-demo>
     <app-roi></app-roi>
     <app-work></app-work>
     <app-process></app-process>
     <app-landing-calculator></app-landing-calculator>
+    <app-trusted-brands></app-trusted-brands>
     <app-cta></app-cta>
     <app-footer></app-footer>
   `

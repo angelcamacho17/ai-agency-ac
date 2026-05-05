@@ -8,7 +8,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
   standalone: true,
   imports: [CommonModule, ScrollRevealDirective, TranslatePipe],
   template: `
-    <section id="roi" class="relative py-32 overflow-hidden bg-dark-950">
+    <section id="roi" class="relative py-16 md:py-32 overflow-hidden bg-dark-950">
       <!-- Background gradient -->
       <div
         class="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] rounded-full opacity-10 pointer-events-none"
@@ -25,7 +25,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
         </h2>
         <p
           appScrollReveal
-          class="text-lg text-text-secondary text-center mb-20 max-w-3xl mx-auto"
+          class="text-lg text-text-secondary text-center mb-10 md:mb-20 max-w-3xl mx-auto"
         >
           {{ 'roi.subtitle' | translate }}
         </p>

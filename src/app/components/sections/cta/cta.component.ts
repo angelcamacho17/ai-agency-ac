@@ -9,7 +9,7 @@ import { HandsTouchService } from '../../effects/hands-scroll/hands-scroll.compo
   standalone: true,
   imports: [MagneticButtonDirective, ScrollRevealDirective, TranslatePipe],
   template: `
-    <section id="contact" class="relative py-48 overflow-hidden bg-dark-900">
+    <section id="contact" class="relative py-24 md:py-48 overflow-hidden bg-dark-900">
       <div
         class="absolute inset-0 pointer-events-none"
         style="
@@ -21,13 +21,13 @@ import { HandsTouchService } from '../../effects/hands-scroll/hands-scroll.compo
       <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
         <h2
           appScrollReveal
-          class="text-hero font-extrabold leading-[1] tracking-tighter mb-16"
+          class="text-hero font-extrabold leading-[1] tracking-tighter mb-10 md:mb-16"
         >
           <span class="block text-text-primary mb-6" style="font-size: 1.5rem; font-weight: 300; letter-spacing: 0.5rem;">{{ 'cta.headlineSmall' | translate }}</span>
           <span class="block text-neon-green font-serif italic text-glow-green-strong">{{ 'cta.headlineAccent' | translate }}</span>
         </h2>
 
-        <p appScrollReveal class="text-text-secondary text-lg mb-12 max-w-xl mx-auto">
+        <p appScrollReveal class="text-text-secondary text-lg mb-8 md:mb-12 max-w-xl mx-auto">
           {{ 'cta.subhead' | translate }}
         </p>
 
