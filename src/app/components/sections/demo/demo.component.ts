@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
+import { LanguageService } from '../../../services/language.service';
 
 @Component({
   selector: 'app-demo',
@@ -34,7 +35,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
           style="aspect-ratio: 16 / 9;"
         >
           <iframe
-            [src]="embedUrl"
+            [src]="embedUrl()"
             title="Demo de agente AI Michelangelo"
             allow="fullscreen"
             frameborder="0"
@@ -57,7 +58,14 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
 })
 export class DemoSectionComponent {
   private readonly sanitizer = inject(DomSanitizer);
-  readonly embedUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-    'https://www.loom.com/embed/46eb3f85d63b4058bd629747f3b34c80'
+  private readonly lang = inject(LanguageService);
+
+  private readonly LOOM_BY_LANG: Record<'es' | 'en', string> = {
+    es: 'https://www.loom.com/embed/5f2c3e40bf2945919e798dd822f219c4',
+    en: 'https://www.loom.com/embed/46eb3f85d63b4058bd629747f3b34c80',
+  };
+
+  readonly embedUrl = computed<SafeResourceUrl>(() =>
+    this.sanitizer.bypassSecurityTrustResourceUrl(this.LOOM_BY_LANG[this.lang.current()])
   );
 }
