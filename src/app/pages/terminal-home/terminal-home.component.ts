@@ -156,7 +156,7 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
       : `agent › your page · ${parts} · ${count} module${count === 1 ? '' : 's'}`;
   });
 
-  private readonly typeSpeed = 18;
+  private readonly typeSpeed = 28;
   private cancelled = false;
   private rafId = 0;
   private particles: { x: number; y: number; r: number; vx: number; vy: number; a: number; tp: number; tr: number }[] = [];
@@ -449,62 +449,62 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
 
   private async runLoadingPhase(): Promise<void> {
     const es = this.isES();
-    const lines: { text: string; gap?: number }[] = es
+    const lines: { text: string; gap: number }[] = es
       ? [
-          { text: '[michelangelo.devs / agent.v3 / 2026]', gap: 60 },
-          { text: 'iniciando modelo de lenguaje ........ ok', gap: 70 },
-          { text: 'cargando tono.voz ................... ok', gap: 70 },
-          { text: 'cargando personalidad.calida ........ ok', gap: 70 },
-          { text: 'cargando dominio.michelangelo ....... ok', gap: 70 },
-          { text: 'conectando con anthropic.api ........ ok', gap: 70 },
-          { text: 'calentando agente ................... ok', gap: 100 },
+          { text: '[michelangelo.devs / agent.v3 / 2026]',         gap: 280 },
+          { text: 'iniciando modelo de lenguaje ........ ok',      gap: 240 },
+          { text: 'cargando tono.voz ................... ok',      gap: 240 },
+          { text: 'cargando personalidad.calida ........ ok',      gap: 240 },
+          { text: 'cargando dominio.michelangelo ....... ok',      gap: 240 },
+          { text: 'conectando con anthropic.api ........ ok',      gap: 240 },
+          { text: 'calentando agente ................... ok',      gap: 320 },
         ]
       : [
-          { text: '[michelangelo.devs / agent.v3 / 2026]', gap: 60 },
-          { text: 'booting language model .............. ok', gap: 70 },
-          { text: 'loading tone.voice .................. ok', gap: 70 },
-          { text: 'loading personality.warm ............ ok', gap: 70 },
-          { text: 'loading domain.michelangelo ......... ok', gap: 70 },
-          { text: 'connecting to anthropic.api ......... ok', gap: 70 },
-          { text: 'warming up agent .................... ok', gap: 100 },
+          { text: '[michelangelo.devs / agent.v3 / 2026]',         gap: 280 },
+          { text: 'booting language model .............. ok',      gap: 240 },
+          { text: 'loading tone.voice .................. ok',      gap: 240 },
+          { text: 'loading personality.warm ............ ok',      gap: 240 },
+          { text: 'loading domain.michelangelo ......... ok',      gap: 240 },
+          { text: 'connecting to anthropic.api ......... ok',      gap: 240 },
+          { text: 'warming up agent .................... ok',      gap: 320 },
         ];
-    await this.sleep(250);
+    await this.sleep(400);
     for (const ln of lines) {
       if (this.cancelled || this.bootPhase() === 'ready') return;
-      // Don't typewriter the loading lines — appear instantly, feels like a real terminal.
       this.pushLine({ kind: 'muted', text: ln.text });
-      await this.sleep(ln.gap ?? 80);
+      await this.sleep(ln.gap);
     }
   }
 
   private async runSuccessPhase(): Promise<void> {
-    // The success card is purely a template-driven overlay (bootPhase === 'success').
-    // Hold for ~800ms then proceed.
-    await this.sleep(800);
+    // Success card overlay — give the user time to actually see and read it.
+    await this.sleep(1600);
   }
 
   private async runIntroPhase(): Promise<void> {
     const es = this.isES();
     // Clear loading lines — fresh canvas for the conversation.
     this.lines.set([]);
-    await this.sleep(120);
+    await this.sleep(260);
 
     if (es) {
       await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: 'hola, soy alex — agente de michelangelo.devs.' });
-      await this.sleep(220);
+      await this.sleep(500);
       await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: 'no hacemos landings — hacemos agentes.' });
-      await this.sleep(160);
+      await this.sleep(380);
       await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: 'hoy te armo una mientras platicamos.' });
-      await this.sleep(220);
+      await this.sleep(520);
       await this.typeLine({ kind: 'agent-soft', prefix: '       ', text: 'puedes pedirme cosas como:' });
+      await this.sleep(180);
     } else {
       await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: "hi, i'm alex — michelangelo.devs agent." });
-      await this.sleep(220);
+      await this.sleep(500);
       await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: "we don't ship landings — we ship agents." });
-      await this.sleep(160);
+      await this.sleep(380);
       await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: "today i'll build one for you while we talk." });
-      await this.sleep(220);
+      await this.sleep(520);
       await this.typeLine({ kind: 'agent-soft', prefix: '       ', text: 'you can ask me things like:' });
+      await this.sleep(180);
     }
   }
 

@@ -59,16 +59,52 @@
   pointer-events: none; z-index: 0;
 }
 
-/* ====== top bar ====== */
+/* ====== top bar — framed like a terminal window header ====== */
 
 .top-bar {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(5, 5, 5, 0.85);
+  background: rgba(5, 5, 5, 0.92);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--brand-soft);
+  border-top: 0;
+  margin: 0 12px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.4),
+    0 12px 40px -12px color-mix(in oklab, var(--brand) 18%, transparent);
   transition: opacity 0.4s ease;
 }
-.shell-fresh .top-bar { display: none; }
+/* ASCII title strip above the bar — looks like the chrome of a terminal window. */
+.top-bar::before {
+  content: '┌─ instrucciones ─────────────────────────────────────────────────────────────────────────────────────────────────────┐';
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--brand);
+  text-shadow: 0 0 6px color-mix(in oklab, var(--brand) 40%, transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 4px 6px 0 6px;
+  letter-spacing: 0;
+  opacity: 0.85;
+}
+.top-bar::after {
+  content: '└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘';
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--brand);
+  text-shadow: 0 0 6px color-mix(in oklab, var(--brand) 40%, transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 0 6px 4px 6px;
+  opacity: 0.85;
+}
+/* English label when es is not the active lang */
+:host:has([lang="en"]) .top-bar::before,
+.top-bar[data-lang="en"]::before {
+  content: '┌─ instructions ──────────────────────────────────────────────────────────────────────────────────────────────────────┐';
+}
+/* top-bar visible from boot — no longer hidden in shell-fresh */
 
 .top-bar-row {
   display: flex; align-items: center; justify-content: space-between;
@@ -267,6 +303,13 @@
   display: flex; gap: 10px; align-items: baseline;
   font-size: 14px; white-space: pre-wrap; word-break: break-word;
 }
+/* Bigger, more present text while the page is still fresh (no sections built yet).
+   Shrinks back to normal once the user starts asking and sections mount. */
+.shell-fresh .t-line { font-size: 17px; line-height: 1.6; }
+.shell-fresh .t-prefix { font-size: 17px; }
+.shell-fresh .t-input,
+.shell-fresh .t-prompt { font-size: 17px; }
+.shell-fresh .t-spacer { height: 14px; }
 .t-prefix { flex-shrink: 0; color: var(--brand); font-weight: 700; letter-spacing: 0.02em; }
 .t-text { flex: 1; }
 

@@ -25,7 +25,7 @@
     </button>
   }
 
-  <header class="top-bar" [attr.aria-hidden]="bootPhase() !== 'ready' || !composed()">
+  <header class="top-bar" [attr.data-lang]="lang.current()">
     <div class="top-bar-row">
       <div class="top-bar-left">
         <a class="top-logo" href="#" (click)="$event.preventDefault(); submit('clear')" aria-label="michelangelo.devs">
