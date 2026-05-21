@@ -76,14 +76,7 @@
   <main class="composed-page">
     <div class="terminal-wrap">
       <div class="terminal" #terminalEl>
-        <div class="brand-wordmark" aria-label="michelangelo.devs">
-          <pre class="brand-frame-top" aria-hidden="true">{{ logoFrameTop }}</pre>
-          <div class="brand-wordmark-inner">
-            <img src="brand_name_written.png" alt="michelangelo" class="brand-wordmark-img" />
-            <span class="brand-wordmark-devs">.devs</span>
-          </div>
-          <pre class="brand-frame-bot" aria-hidden="true">{{ logoFrameBot }}</pre>
-        </div>
+        <pre class="ascii-logo" aria-hidden="true">{{ asciiLogo }}</pre>
 
         <div class="t-stream">
           @for (l of lines(); track l.id) {

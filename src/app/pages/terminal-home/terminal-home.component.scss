@@ -278,60 +278,17 @@
 }
 .shell-composed .terminal { padding: 20px 12px 24px 12px; }
 
-/* Brand wordmark — actual logo image, wrapped in an ASCII frame + tinted lime
-   so it lives inside the terminal aesthetic. */
-.brand-wordmark {
-  margin: 0 0 40px 0;
-  animation: flicker 6s infinite;
-  width: 100%;
-  max-width: 100%;
-}
-.brand-wordmark-inner {
-  width: 100%;
-}
-.brand-frame-top, .brand-frame-bot {
-  font-family: inherit;
-  color: var(--brand);
+.ascii-logo {
+  font-family: inherit; color: var(--brand);
   white-space: pre;
-  font-size: 13px;
-  line-height: 1;
-  letter-spacing: 0;
-  margin: 0;
-  text-shadow: 0 0 6px color-mix(in oklab, var(--brand) 40%, transparent);
-  opacity: 0.85;
-}
-.brand-wordmark-inner {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  padding: 6px 14px;
-  position: relative;
-}
-.brand-wordmark-img {
-  display: block;
-  width: 100%;
-  max-width: min(900px, 88vw);
-  height: auto;
-  /* Convert the black logo PNG to brand lime + soft glow.
-     The PNG is black-on-white-transparent; invert → tint → glow. */
-  filter:
-    invert(91%) sepia(33%) saturate(689%) hue-rotate(15deg) brightness(99%) contrast(95%)
-    drop-shadow(0 0 18px color-mix(in oklab, var(--brand) 55%, transparent))
-    drop-shadow(0 0 60px color-mix(in oklab, var(--brand) 30%, transparent));
-}
-.brand-wordmark-devs {
-  color: var(--brand);
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 800;
-  font-size: clamp(40px, 8vw, 80px);
-  letter-spacing: 0.05em;
-  text-shadow: 0 0 18px var(--brand), 0 0 48px var(--brand);
-  align-self: center;
-}
-@media (max-width: 640px) {
-  .brand-wordmark-img { max-width: 92vw; }
-  .brand-wordmark-devs { font-size: 36px; }
-  .brand-frame-top, .brand-frame-bot { font-size: 10px; }
+  font-size: clamp(5px, 1.05vw, 10px);
+  line-height: 1.1; letter-spacing: 0;
+  margin: 0 0 24px 0;
+  text-shadow:
+    0 0 8px color-mix(in oklab, var(--brand) 55%, transparent),
+    0 0 28px color-mix(in oklab, var(--brand) 25%, transparent);
+  opacity: 0.95; overflow: hidden;
+  animation: flicker 6s infinite;
 }
 @keyframes flicker {
   0%, 96%, 100% { opacity: 0.95; }
@@ -466,7 +423,7 @@
 .page-foot-row strong { font-weight: 800; }
 
 @media (max-width: 640px) {
-  /* (brand-wordmark mobile sizing already handled in its own block) */
+  .ascii-logo { font-size: 4.5px; }
   .terminal { padding-top: 30px; }
   .chips { margin-left: 0; }
   .t-agent-soft { padding-left: 0; }
