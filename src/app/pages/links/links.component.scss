@@ -170,6 +170,16 @@
   min-width: 22px;
   text-shadow: 0 0 8px color-mix(in oklab, var(--brand) 40%, transparent);
 }
+.link-icon {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--brand);
+  font-size: 11px;
+  line-height: 1.05;
+  margin: 0;
+  white-space: pre;
+  min-width: 38px;
+  text-shadow: 0 0 8px color-mix(in oklab, var(--brand) 40%, transparent);
+}
 .link-body {
   flex: 1;
   display: flex;

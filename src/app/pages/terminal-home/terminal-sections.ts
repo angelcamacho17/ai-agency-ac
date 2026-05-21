@@ -410,7 +410,9 @@ export class TsecPhilosophy {
       </header>
       <div class="contact-grid">
         <a class="contact-card" href="https://wa.me/584125671953" target="_blank" rel="noreferrer">
-          <span class="contact-k">WA</span>
+          <pre class="contact-icon" aria-hidden="true">╭─◔─╮
+│ ╮ │
+╰─v─╯</pre>
           <div>
             <div class="contact-card-title">whatsapp.us</div>
             <div class="contact-card-sub">{{ es() ? 'Respondemos rápido' : 'We reply fast' }}</div>
@@ -418,7 +420,9 @@ export class TsecPhilosophy {
           <span class="contact-arrow">→</span>
         </a>
         <a class="contact-card" href="https://ig.me/m/michelangelo.devs" target="_blank" rel="noreferrer">
-          <span class="contact-k">DM</span>
+          <pre class="contact-icon" aria-hidden="true">╭───╮
+│ ◉ │
+╰─•─╯</pre>
           <div>
             <div class="contact-card-title">instagram.dm → &#64;michelangelo.devs</div>
             <div class="contact-card-sub">{{ es() ? 'El agente responde 24/7' : 'The agent replies 24/7' }}</div>
@@ -426,7 +430,9 @@ export class TsecPhilosophy {
           <span class="contact-arrow">→</span>
         </a>
         <a class="contact-card" href="https://calendly.com/angel-camacho-michelangelodevs/30min" target="_blank" rel="noreferrer">
-          <span class="contact-k">$</span>
+          <pre class="contact-icon" aria-hidden="true">╭───╮
+│ $ │
+╰───╯</pre>
           <div>
             <div class="contact-card-title">book.call → 30min</div>
             <div class="contact-card-sub">{{ es() ? 'Calendly · agenda un horario' : 'Calendly · pick a slot' }}</div>
@@ -434,7 +440,9 @@ export class TsecPhilosophy {
           <span class="contact-arrow">→</span>
         </a>
         <a class="contact-card" href="mailto:angel.camacho@michelangelodevs.com">
-          <span class="contact-k">&#64;</span>
+          <pre class="contact-icon" aria-hidden="true">╭───╮
+│ &#64; │
+╰───╯</pre>
           <div>
             <div class="contact-card-title">mail.us → angel.camacho&#64;michelangelodevs.com</div>
             <div class="contact-card-sub">{{ es() ? 'Para briefs y NDAs' : 'For briefs and NDAs' }}</div>

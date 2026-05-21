@@ -50,15 +50,10 @@ interface Mounted {
 const SECTION_ALLOWLIST: SectionKey[] = ['agents', 'pricing', 'process', 'work', 'philosophy', 'contact'];
 const NOUN_RE = /^[a-z0-9áéíóúüñ \-]{1,40}$/i;
 
-const ASCII_LOGO = `
-███╗   ███╗██╗ ██████╗██╗  ██╗███████╗██╗      █████╗ ███╗   ██╗ ██████╗ ███████╗██╗      ██████╗
-████╗ ████║██║██╔════╝██║  ██║██╔════╝██║     ██╔══██╗████╗  ██║██╔════╝ ██╔════╝██║     ██╔═══██╗
-██╔████╔██║██║██║     ███████║█████╗  ██║     ███████║██╔██╗ ██║██║  ███╗█████╗  ██║     ██║   ██║
-██║╚██╔╝██║██║██║     ██╔══██║██╔══╝  ██║     ██╔══██║██║╚██╗██║██║   ██║██╔══╝  ██║     ██║   ██║
-██║ ╚═╝ ██║██║╚██████╗██║  ██║███████╗███████╗██║  ██║██║ ╚████║╚██████╔╝███████╗███████╗╚██████╔╝
-╚═╝     ╚═╝╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝ ╚═════╝
-                                                                                       . d e v s
-`;
+// ASCII frame that wraps the brand wordmark image — gives it a terminal feel
+// without sacrificing the actual logo readability.
+const LOGO_FRAME_TOP = '╭─ michelangelo.devs ──────────────────────────────────────╮';
+const LOGO_FRAME_BOT = '╰──────────────────────────────────────────────────────────╯';
 
 function uid(): string {
   return Math.random().toString(36).slice(2, 9);
@@ -89,7 +84,8 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
   @ViewChild('particles') particlesCanvas?: ElementRef<HTMLCanvasElement>;
   @ViewChild('stickyBar') stickyBar?: ElementRef<HTMLDivElement>;
 
-  readonly asciiLogo = ASCII_LOGO;
+  readonly logoFrameTop = LOGO_FRAME_TOP;
+  readonly logoFrameBot = LOGO_FRAME_BOT;
 
   // Example prompts shown as chips after intro — natural questions, not commands.
   readonly chipExamplesES: ReadonlyArray<{ label: string; prompt: string }> = [

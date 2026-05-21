@@ -30,7 +30,7 @@
             [attr.target]="item.external ? '_blank' : null"
             [attr.rel]="item.external ? 'noopener noreferrer' : null"
           >
-            <span class="link-k">{{ item.k }}</span>
+            <pre class="link-icon" aria-hidden="true">{{ iconArt[item.icon] }}</pre>
             <span class="link-body">
               <span class="link-title">{{ item.title }}</span>
               <span class="link-sub">{{ item.sub }}</span>
@@ -46,7 +46,7 @@
       <div class="links-grid">
         @for (item of sections; track item.title) {
           <a class="link-card" [href]="item.href" (click)="onSection(item, $event)">
-            <span class="link-k">{{ item.k }}</span>
+            <pre class="link-icon" aria-hidden="true">{{ iconArt[item.icon] }}</pre>
             <span class="link-body">
               <span class="link-title">{{ item.title }}</span>
               <span class="link-sub">{{ item.sub }}</span>

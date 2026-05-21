@@ -293,6 +293,16 @@
   transform: translateX(4px);
 }
 .contact-k { color: var(--brand); font-weight: 700; font-size: 14px; min-width: 26px; }
+.contact-icon {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--brand);
+  font-size: 11px;
+  line-height: 1.05;
+  margin: 0;
+  white-space: pre;
+  text-shadow: 0 0 8px color-mix(in oklab, var(--brand) 40%, transparent);
+  min-width: 36px;
+}
 .contact-card-title { color: #fff; font-size: 15px; font-weight: 700; }
 .contact-card-sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
 .contact-arrow { margin-left: auto; color: var(--brand); font-size: 16px; }
