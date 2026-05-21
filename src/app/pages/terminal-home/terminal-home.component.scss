@@ -281,9 +281,13 @@
 /* Brand wordmark — actual logo image, wrapped in an ASCII frame + tinted lime
    so it lives inside the terminal aesthetic. */
 .brand-wordmark {
-  margin: 0 0 28px 0;
+  margin: 0 0 40px 0;
   animation: flicker 6s infinite;
-  max-width: 720px;
+  width: 100%;
+  max-width: 100%;
+}
+.brand-wordmark-inner {
+  width: 100%;
 }
 .brand-frame-top, .brand-frame-bot {
   font-family: inherit;
@@ -305,26 +309,28 @@
 }
 .brand-wordmark-img {
   display: block;
-  height: clamp(56px, 9vw, 84px);
-  width: auto;
+  width: 100%;
+  max-width: min(900px, 88vw);
+  height: auto;
   /* Convert the black logo PNG to brand lime + soft glow.
      The PNG is black-on-white-transparent; invert → tint → glow. */
   filter:
     invert(91%) sepia(33%) saturate(689%) hue-rotate(15deg) brightness(99%) contrast(95%)
-    drop-shadow(0 0 10px color-mix(in oklab, var(--brand) 55%, transparent))
-    drop-shadow(0 0 32px color-mix(in oklab, var(--brand) 28%, transparent));
+    drop-shadow(0 0 18px color-mix(in oklab, var(--brand) 55%, transparent))
+    drop-shadow(0 0 60px color-mix(in oklab, var(--brand) 30%, transparent));
 }
 .brand-wordmark-devs {
   color: var(--brand);
   font-family: 'JetBrains Mono', monospace;
   font-weight: 800;
-  font-size: clamp(26px, 3.4vw, 36px);
+  font-size: clamp(40px, 8vw, 80px);
   letter-spacing: 0.05em;
-  text-shadow: 0 0 12px var(--brand);
+  text-shadow: 0 0 18px var(--brand), 0 0 48px var(--brand);
+  align-self: center;
 }
 @media (max-width: 640px) {
-  .brand-wordmark-img { height: 44px; }
-  .brand-wordmark-devs { font-size: 20px; }
+  .brand-wordmark-img { max-width: 92vw; }
+  .brand-wordmark-devs { font-size: 36px; }
   .brand-frame-top, .brand-frame-bot { font-size: 10px; }
 }
 @keyframes flicker {
