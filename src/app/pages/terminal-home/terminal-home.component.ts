@@ -281,11 +281,30 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
   private loadUsage(): void {
     try {
       const raw = localStorage.getItem(this.usageStorageKey());
-      if (raw == null) { this.remainingToday.set(this.dailyLimit); return; }
-      const used = parseInt(raw, 10);
-      if (!Number.isFinite(used)) { this.remainingToday.set(this.dailyLimit); return; }
-      this.remainingToday.set(Math.max(0, this.dailyLimit - used));
+      if (raw == null) { this.remainingToday.set(this.dailyLimit); }
+      else {
+        const used = parseInt(raw, 10);
+        if (!Number.isFinite(used)) { this.remainingToday.set(this.dailyLimit); }
+        else { this.remainingToday.set(Math.max(0, this.dailyLimit - used)); }
+      }
     } catch (_e) { this.remainingToday.set(this.dailyLimit); }
+
+    // Server is the authority — sync from /api/agent/usage in the background.
+    // If the client's stored counter is stale (different IP, cleared session,
+    // or different day than the server thinks), we trust the server.
+    this.syncUsageFromServer();
+  }
+
+  private async syncUsageFromServer(): Promise<void> {
+    try {
+      const res = await fetch('/api/agent/usage', { method: 'GET' });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (typeof data.remaining === 'number') {
+        this.remainingToday.set(Math.max(0, Math.min(this.dailyLimit, data.remaining)));
+        this.persistUsage();
+      }
+    } catch (_e) { /* server down or first-load offline — keep localStorage value */ }
   }
 
   private persistUsage(): void {
@@ -313,7 +332,9 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
     refused: boolean;
   }> {
     const controller = new AbortController();
-    const hardAbort = setTimeout(() => controller.abort(), 8000);
+    // Render free plan cold-starts the Node service when idle; first call can
+    // take 20–30 s. Give it room. Server-side rate limits still cap traffic.
+    const hardAbort = setTimeout(() => controller.abort(), 40000);
     try {
       const res = await fetch('/api/agent', {
         method: 'POST',
@@ -734,10 +755,23 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
       this.scheduleScrollTerminal();
     }, 2500);
 
+    // Third tick at 8s — explains the cold-start wait if Render was idle.
+    const wakingId = uid();
+    const wakingTimer = setTimeout(() => {
+      this.lines.update((prev) => [...prev, {
+        id: wakingId, kind: 'muted',
+        text: es
+          ? 'despertando el agente (primera llamada del día tarda un toque)...'
+          : 'waking the agent (first call of the day takes a moment)...',
+      }]);
+      this.scheduleScrollTerminal();
+    }, 8000);
+
     const result = await this.callAgent(text);
     clearTimeout(stillTimer);
+    clearTimeout(wakingTimer);
 
-    this.lines.update((prev) => prev.filter((l) => l.id !== thinkingId && l.id !== stillId));
+    this.lines.update((prev) => prev.filter((l) => l.id !== thinkingId && l.id !== stillId && l.id !== wakingId));
 
     if (result.rateLimited) {
       await this.typeLine({
