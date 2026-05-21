@@ -41,6 +41,10 @@ interface Mounted {
   kind: SectionKey;
   noun?: string | null;
   roi?: RoiPayload | null;
+  /** When `pricing` is mounted alongside a `custom` block, the custom block
+   *  already renders an ROI calculator with the extracted inputs. Suppress
+   *  the duplicate `<tsec-roi>` inside the pricing block in that case. */
+  hideRoi?: boolean;
 }
 
 const SECTION_ALLOWLIST: SectionKey[] = ['agents', 'pricing', 'process', 'work', 'philosophy', 'contact'];
@@ -798,13 +802,18 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
     if (typeof result.remaining === 'number') { this.remainingToday.set(result.remaining); this.persistUsage(); }
     if (result.noun) this.visitorNoun.set(result.noun);
 
-    // If the model returned a ROI extraction, mount a custom section first (alongside the others).
+    // If the model returned a ROI extraction, mount the custom block first (it
+    // already includes the calculator pre-filled with the extracted inputs).
+    // Then mount the other sections — pricing with its ROI hidden to avoid a
+    // duplicate calculator on the page.
     const queue: SectionKey[] = [...result.sections];
     if (result.roi) {
       if (!queue.includes('pricing')) queue.unshift('pricing');
       await this.renderSections(['custom'], { roi: result.roi, noun: result.noun });
     }
-    if (queue.length) await this.renderSections(queue);
+    if (queue.length) {
+      await this.renderSections(queue, { hideRoi: !!result.roi });
+    }
 
     // Track the organic prompt for share URL (only if a build actually happened).
     if (queue.length || result.roi) {
@@ -848,7 +857,10 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
 
   /* ---------- mount sections with scroll fix ---------- */
 
-  private async renderSections(keys: SectionKey[], extra?: { roi?: RoiPayload | null; noun?: string | null }): Promise<void> {
+  private async renderSections(
+    keys: SectionKey[],
+    extra?: { roi?: RoiPayload | null; noun?: string | null; hideRoi?: boolean },
+  ): Promise<void> {
     const isFirstSequence = !this.firstMountScrolled;
     for (let i = 0; i < keys.length; i++) {
       const k = keys[i];
@@ -857,12 +869,19 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
       const exists = this.mounted().some((m) => m.kind === k);
       if (!exists || k === 'custom') {
         const id = uid();
-        this.mounted.update((prev) => [...prev, { id, kind: k, noun: extra?.noun ?? null, roi: extra?.roi ?? null }]);
+        this.mounted.update((prev) => [
+          ...prev,
+          {
+            id, kind: k,
+            noun: extra?.noun ?? null,
+            roi: extra?.roi ?? null,
+            hideRoi: extra?.hideRoi ?? false,
+          },
+        ]);
       }
       this.composed.set(true);
       this.observeBar();
       await this.scrollAfterMount(k, isFirstSequence && i === 0);
-      // No trailing sleep — animation budget is the construction itself.
     }
     this.firstMountScrolled = true;
   }

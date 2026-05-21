@@ -26,7 +26,9 @@
       "Bash(tee /tmp/ng-serve.log)",
       "Bash(awk *)",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('engines:', d.get\\('engines','none'\\)\\); print\\('scripts:', list\\(d.get\\('scripts',{}\\).keys\\(\\)\\)\\)\")",
-      "Bash(PORT=8090 timeout 4 node server.js)"
+      "Bash(PORT=8090 timeout 4 node server.js)",
+      "Bash(git fetch *)",
+      "Bash(git rev-list *)"
     ],
     "deny": [],
     "ask": []
