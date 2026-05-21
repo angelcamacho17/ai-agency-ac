@@ -416,3 +416,92 @@
   box-shadow: 0 0 30px var(--brand);
   transform: translateY(-1px);
 }
+
+/* ============== MOBILE ============== */
+@media (max-width: 640px) {
+  .tsec {
+    padding: 20px 14px;
+    max-width: 100%;
+  }
+  .tsec-header { margin-bottom: 18px; }
+  .tsec-title { font-size: clamp(20px, 6vw, 26px); }
+  .tsec-sub { font-size: 13px; }
+
+  /* agents grid: 1 column */
+  .agents-grid { grid-template-columns: 1fr; gap: 12px; }
+  .agent-card { padding: 16px 16px 14px 16px; }
+  .agent-card-foot { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+  /* capabilities */
+  .caps-block { padding: 16px 14px 12px 14px; }
+  .caps-grid { grid-template-columns: 1fr; gap: 8px 0; }
+  .caps-head { font-size: 11px; }
+  .cap-title { font-size: 12px; }
+  .cap-sub { font-size: 11px; line-height: 1.35; }
+
+  /* pricing */
+  .price-grid { grid-template-columns: 1fr; gap: 12px; }
+  .price-card { padding: 18px 16px 14px 16px; }
+  .price-card-value { font-size: 26px; }
+  .price-card-lines { min-height: 0; }
+  .price-card-blurb { min-height: 0; }
+
+  /* process timeline — vertical instead of horizontal */
+  .process-timeline {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .process-step { padding: 0; }
+  .process-rail { display: none; }
+  .process-step .process-node {
+    position: static;
+    transform: none;
+    margin-bottom: 8px;
+    width: 36px; height: 36px;
+    font-size: 11px;
+  }
+  .process-day { font-size: 10px; }
+  .process-title { font-size: 16px; }
+  .process-body { font-size: 12px; }
+
+  /* work brands: 2 columns */
+  .brands-grid { grid-template-columns: 1fr 1fr; }
+  .brand-card { padding: 18px 14px 12px 14px; min-height: 140px; }
+  .brand-name { font-size: 11px; }
+  .brand-note { font-size: 11px; }
+
+  /* philosophy: 1 column */
+  .philo-grid { grid-template-columns: 1fr; gap: 12px; }
+  .philo-card { padding: 20px 18px; }
+  .philo-title { font-size: 22px; }
+
+  /* contact */
+  .contact-grid { gap: 8px; }
+  .contact-card { padding: 14px 14px; gap: 12px; }
+  .contact-icon { font-size: 10px; min-width: 32px; }
+  .contact-card-title { font-size: 13px; }
+  .contact-card-sub { font-size: 11px; }
+
+  /* demo iframe — keep aspect ratio, tighter ascii frames */
+  .demo-wrap { max-width: 100%; }
+  .demo-ascii-top, .demo-ascii-bot { font-size: 9px; }
+
+  /* roi calculator: single column, label on top */
+  .roi-grid { gap: 12px; }
+  .roi-inputs { padding: 14px; gap: 10px; }
+  .roi-field {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+  .roi-k { min-width: 0; font-size: 12px; }
+  .roi-field input { font-size: 16px; /* prevent iOS auto-zoom */ }
+  .roi-output { padding: 14px; gap: 10px; }
+  .roi-out-row { padding-bottom: 8px; }
+  .roi-out-k { font-size: 12px; }
+  .roi-out-v { font-size: 18px; }
+
+  /* custom block */
+  .custom-assumption { font-size: 12px; padding: 8px 12px; }
+  .custom-cta { width: 100%; text-align: center; }
+}

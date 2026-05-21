@@ -422,12 +422,109 @@
 .page-foot-row span:nth-child(2) { color: var(--brand); }
 .page-foot-row strong { font-weight: 800; }
 
+/* ============== MOBILE ============== */
 @media (max-width: 640px) {
-  .ascii-logo { font-size: 4.5px; }
-  .terminal { padding-top: 30px; }
-  .chips { margin-left: 0; }
-  .t-agent-soft { padding-left: 0; }
+  /* ASCII MICHELANGELO — bump from 4.5px to something legible.
+     vw-based so it scales across the 320–640 range without overflow. */
+  .ascii-logo {
+    font-size: clamp(4px, 1.85vw, 7px);
+    margin-bottom: 18px;
+    /* center align horizontally if needed */
+    text-align: left;
+  }
+
+  .terminal {
+    padding: 18px 14px 24px 14px;
+    width: 100%;
+  }
+  .shell-composed .terminal { padding: 14px 14px 18px 14px; }
+
+  /* Top bar: tight margins, no ASCII chrome (it overflows), stack the rows */
+  .top-bar {
+    margin: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  .top-bar::before, .top-bar::after { display: none; }
+  .top-bar-row {
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .top-bar-left, .top-bar-right { gap: 6px; flex-wrap: wrap; }
+  .top-title {
+    /* shorten to just the session id; hide the long prefix */
+    font-size: 10px;
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .top-kbd-row { display: none; }
-  .top-bar-row { padding: 8px 12px; }
-  .sticky-bar { padding: 6px 12px; gap: 8px; }
+  .top-logo img { height: 24px; width: 24px; }
+  .top-dot { width: 7px; height: 7px; }
+  .top-link { font-size: 11px; padding: 2px 5px; }
+  .top-quota { font-size: 10px; padding: 1px 6px; }
+
+  /* Sticky chat: single line, smaller, hide noun and copy button to keep it lean */
+  .chat-sticky {
+    padding: 6px 12px;
+    gap: 8px;
+    font-size: 11px;
+    max-height: 44px;
+  }
+  .chat-sticky.collapsed {
+    max-height: 28px;
+    padding: 4px 12px;
+    font-size: 10px;
+  }
+  .chat-sticky-noun { display: none; }
+  .chat-sticky-share { display: none; }
+  .chat-sticky-up { font-size: 10px; padding: 2px 8px; }
+
+  /* Stream text — large enough to read on phone */
+  .t-line { font-size: 13px; }
+  .shell-fresh .t-line { font-size: 14.5px; line-height: 1.55; }
+  .shell-fresh .t-prefix { font-size: 14.5px; }
+  .shell-fresh .t-input,
+  .shell-fresh .t-prompt { font-size: 14.5px; }
+  .t-input { font-size: 16px; /* prevent iOS auto-zoom on focus */ }
+  .t-agent-soft { padding-left: 0; }
+
+  /* Chips: each gets its own row at most */
+  .chips {
+    margin-left: 0;
+    gap: 8px 12px;
+  }
+  .chip { font-size: 13px; }
+
+  /* Skip button — make it more discoverable on phone */
+  .boot-skip {
+    top: 10px; right: 12px;
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+
+  /* Success card — readable on phone */
+  .boot-success-card {
+    font-size: 11px;
+    line-height: 1.25;
+    padding: 0 12px;
+  }
+
+  /* Section rule (between mounted sections) */
+  .md-section-rule { padding: 0 14px; gap: 10px; }
+  .md-section-tag { font-size: 11px; }
+  .md-section-idx { font-size: 10px; }
+
+  /* Footer */
+  .page-foot { padding: 0 14px; }
+  .page-foot-row { gap: 6px; font-size: 11px; }
+}
+
+/* Extra tight (small phones) */
+@media (max-width: 380px) {
+  .top-title { display: none; }
+  .ascii-logo { font-size: 3.6px; }
+  .top-quota { display: none; }
 }
