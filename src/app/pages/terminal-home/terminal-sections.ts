@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LanguageService } from '../../services/language.service';
 
 export interface RoiPayload {
@@ -467,9 +468,10 @@ export class TsecContact {
         <div class="demo-frame">
           <iframe
             [src]="src()"
-            frameborder="0"
-            allowfullscreen
             title="Demo Loom"
+            allow="fullscreen"
+            frameborder="0"
+            loading="lazy"
           ></iframe>
         </div>
         <div class="demo-ascii-bot">└──────────────────────────────────────────────────────────┘</div>
@@ -479,11 +481,17 @@ export class TsecContact {
 })
 export class TsecDemo {
   private readonly lang = inject(LanguageService);
+  private readonly sanitizer = inject(DomSanitizer);
   readonly es = computed(() => this.lang.current() === 'es');
-  readonly src = computed(() => {
-    const id = this.es() ? '0bb95dc9eb0048a5b8c11a6b8fefb6b1' : '0bb95dc9eb0048a5b8c11a6b8fefb6b1';
-    return `https://www.loom.com/embed/${id}?hideEmbedTopBar=true`;
-  });
+
+  private readonly LOOM_BY_LANG: Record<'es' | 'en', string> = {
+    es: 'https://www.loom.com/embed/5f2c3e40bf2945919e798dd822f219c4',
+    en: 'https://www.loom.com/embed/46eb3f85d63b4058bd629747f3b34c80',
+  };
+
+  readonly src = computed<SafeResourceUrl>(() =>
+    this.sanitizer.bypassSecurityTrustResourceUrl(this.LOOM_BY_LANG[this.lang.current()])
+  );
 }
 
 /* ----- /roi (calculator) ----- */
