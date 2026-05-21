@@ -1,0 +1,181 @@
+<div
+  class="terminal-shell"
+  [class.shell-composed]="composed()"
+  [class.shell-fresh]="!composed()"
+  [attr.data-boot]="bootPhase()"
+>
+  <canvas #particles class="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- Phase B — Success card overlay. z-index above scanline. -->
+  @if (bootPhase() === 'success') {
+    <div class="boot-success" aria-live="polite">
+      <pre class="boot-success-card">
+       ╭──────────────────────────────╮
+       │   ▸ agent.v3 · online        │
+       │   ▸ ready to build           │
+       ╰──────────────────────────────╯
+      </pre>
+    </div>
+  }
+
+  <!-- Skip button visible during the entire boot sequence. -->
+  @if (bootPhase() !== 'ready') {
+    <button type="button" class="boot-skip" (click)="skipBoot()" aria-label="skip intro">
+      [skip ›]
+    </button>
+  }
+
+  <header class="top-bar" [attr.aria-hidden]="bootPhase() !== 'ready' || !composed()">
+    <div class="top-bar-row">
+      <div class="top-bar-left">
+        <a class="top-logo" href="#" (click)="$event.preventDefault(); submit('clear')" aria-label="michelangelo.devs">
+          <img src="logo_white.png" alt="michelangelo.devs" />
+        </a>
+        <span class="top-dot"></span>
+        <span class="top-dot"></span>
+        <span class="top-dot"></span>
+        <span class="top-title">michelangelo.devs ~ session://{{ sessionId() }}</span>
+      </div>
+      <div class="top-bar-right">
+        <button type="button" class="top-link" (click)="toggleLang()" aria-label="Switch language">
+          <span [class.active]="lang.current() === 'es'">ES</span>
+          <span class="sep">/</span>
+          <span [class.active]="lang.current() === 'en'">EN</span>
+        </button>
+        <button type="button" class="top-link" (click)="goLinks()">/links</button>
+        @if (remainingToday() !== null) {
+          <span class="top-quota" [class.low]="(remainingToday() ?? 0) <= 5">
+            {{ remainingToday() }}/{{ dailyLimit }} msgs
+          </span>
+        }
+        <span class="top-kbd-row">
+          <span class="top-kbd">esc</span> clear
+          <span class="sep">·</span>
+          <span class="top-kbd">?</span> help
+        </span>
+      </div>
+    </div>
+
+    <!-- Sticky chat bar — neutral chrome, not in alex's voice.
+         Always rendered when there's content; collapsed/expanded controlled by scroll. -->
+    @if (composed() && lastAgentLine()) {
+      <div #stickyBar class="chat-sticky" [class.collapsed]="chatCollapsed()">
+        <span class="chat-sticky-icon">›</span>
+        <span class="chat-sticky-text" (click)="scrollToTerminal()">{{ lastAgentLine() }}</span>
+        @if (visitorNoun()) {
+          <span class="chat-sticky-noun">· {{ lang.current() === 'es' ? 'para' : 'for' }} {{ visitorNoun() }}</span>
+        }
+        <button type="button" class="chat-sticky-share" (click)="copyShare()" [title]="lang.current() === 'es' ? 'copiar link' : 'copy link'">
+          {{ lang.current() === 'es' ? 'copiar' : 'copy' }}
+        </button>
+        <button type="button" class="chat-sticky-up" (click)="scrollToTerminal()" aria-label="back to top">↑</button>
+      </div>
+    }
+  </header>
+
+  <main class="composed-page">
+    <div class="terminal-wrap">
+      <div class="terminal" #terminalEl>
+        <pre class="ascii-logo" aria-hidden="true">{{ asciiLogo }}</pre>
+
+        <div class="t-stream">
+          @for (l of lines(); track l.id) {
+            @switch (l.kind) {
+              @case ('spacer') {
+                <div class="t-spacer" aria-hidden="true"></div>
+              }
+              @case ('rule') {
+                <div class="t-rule" aria-hidden="true">────────────────────────────────────────────────────────────────────────</div>
+              }
+              @default {
+                <div class="t-line" [ngClass]="'t-' + l.kind">
+                  @if (l.prefix) { <span class="t-prefix">{{ l.prefix }}</span> }
+                  <span class="t-text">{{ l.text }}</span>
+                </div>
+              }
+            }
+          }
+
+          <!-- Example-prompt chips (natural questions). Visible-but-disabled as ghosts during boot. -->
+          @if (bootPhase() !== 'loading' && bootPhase() !== 'success') {
+            <div class="chips" role="list" [class.chips-ghost]="bootPhase() !== 'ready'">
+              @for (c of (lang.current() === 'es' ? chipExamplesES : chipExamplesEN); track c.label) {
+                <button
+                  type="button"
+                  class="chip"
+                  role="listitem"
+                  [disabled]="bootPhase() !== 'ready' || busy()"
+                  (click)="onChipClick(c.prompt)"
+                >
+                  <span class="chip-bracket">[</span>{{ c.label }}<span class="chip-bracket">]</span>
+                </button>
+              }
+            </div>
+          }
+
+          <div class="t-input-line" [attr.data-busy]="busy()">
+            <span class="t-prompt">you ›</span>
+            <input
+              #inputEl
+              class="t-input"
+              type="text"
+              [value]="inputValue()"
+              [style.width]="inputWidthCh()"
+              (input)="onInput($any($event.target).value)"
+              (keydown)="onKeyDown($event)"
+              [placeholder]="busy() ? '' : placeholder()"
+              [disabled]="busy()"
+              spellcheck="false"
+              autocomplete="off"
+              aria-label="terminal input"
+            />
+            <span class="t-cursor" [class.t-cursor-busy]="busy()">▌</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mounted-sections" [class.has-content]="mounted().length > 0">
+      @for (m of mounted(); track m.id; let i = $index) {
+        <div class="md-mounted-section" [attr.data-key]="m.kind">
+          <div class="md-section-rule" aria-hidden="true">
+            <span class="md-section-tag">[{{ m.kind }}]</span>
+            <span class="md-section-rule-line"></span>
+            <span class="md-section-idx">render #{{ pad2(i + 1) }}</span>
+          </div>
+          <div class="mount-wrap">
+            @switch (m.kind) {
+              @case ('agents') { <tsec-agents></tsec-agents><tsec-demo></tsec-demo> }
+              @case ('pricing') { <tsec-pricing></tsec-pricing><tsec-roi></tsec-roi> }
+              @case ('process') { <tsec-process></tsec-process> }
+              @case ('work') { <tsec-work></tsec-work> }
+              @case ('philosophy') { <tsec-philosophy></tsec-philosophy> }
+              @case ('contact') { <tsec-contact></tsec-contact> }
+              @case ('demo') { <tsec-demo></tsec-demo> }
+              @case ('roi') { <tsec-roi></tsec-roi> }
+              @case ('custom') { <tsec-custom [noun]="m.noun ?? null" [roi]="m.roi ?? null"></tsec-custom> }
+            }
+          </div>
+        </div>
+      }
+
+      @if (composed()) {
+        <footer class="page-foot">
+          <div class="page-foot-rule">────────────────────────────────────────────────────────────────────────</div>
+          <div class="page-foot-row">
+            <span>© 2026 michelangelo.devs</span>
+            <span>
+              @if (visitorNoun()) {
+                {{ lang.current() === 'es' ? 'tu página · ' : 'your page · ' }}<strong>{{ visitorNoun() }}</strong>
+              } @else {
+                {{ lang.current() === 'es' ? 'ensamblada en vivo' : 'assembled live' }}
+              }
+              · {{ mounted().length }} {{ mounted().length === 1 ? 'module' : 'modules' }}
+            </span>
+            <span>we write art, not just code</span>
+          </div>
+        </footer>
+      }
+    </div>
+  </main>
+</div>

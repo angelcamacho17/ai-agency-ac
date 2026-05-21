@@ -107,14 +107,18 @@ export class TrustedBrandsComponent {
     { name: 'AR Studio', logo: 'brands/ar_studio_white_transparent.png' },
     { name: 'Axial', logo: 'brands/axial_white_transparent.png' },
     { name: 'Safaera', logo: 'brands/safaera_icon_white_transparent.png' },
+    { name: 'Terraccotta VIP', logo: 'brands/terraccotta_vip.png' },
     { name: 'Turismo de Playa', logo: 'brands/turismodeplaya_white_transparent.png' },
+    { name: 'Viajes Premiere', logo: 'brands/viajes_premiere.png' },
     { name: 'VIC', logo: 'brands/vic_white_transparent.png' },
     { name: 'Xup', logo: 'brands/xup_white_transparent.png' },
     { name: 'Amplify', logo: 'brands/amplify_white_transparent.png' },
     { name: 'AR Studio', logo: 'brands/ar_studio_white_transparent.png' },
     { name: 'Axial', logo: 'brands/axial_white_transparent.png' },
     { name: 'Safaera', logo: 'brands/safaera_icon_white_transparent.png' },
+    { name: 'Terraccotta VIP', logo: 'brands/terraccotta_vip.png' },
     { name: 'Turismo de Playa', logo: 'brands/turismodeplaya_white_transparent.png' },
+    { name: 'Viajes Premiere', logo: 'brands/viajes_premiere.png' },
     { name: 'VIC', logo: 'brands/vic_white_transparent.png' },
     { name: 'Xup', logo: 'brands/xup_white_transparent.png' }
   ];

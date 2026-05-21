@@ -6,13 +6,14 @@
     "process": "Process",
     "calculator": "Calculator",
     "contact": "Contact",
-    "cta": "Start Project"
+    "cta": "Book a call"
   },
   "hero": {
     "line1": "WE WRITE",
     "line2": "art",
     "line3": "NOT JUST CODE",
-    "subhead": "Software That Inspires"
+    "subhead": "Software That Inspires",
+    "bookCall": "Book a call"
   },
   "trustedBrands": {
     "titleStart": "Brands that have",
@@ -139,6 +140,8 @@
     "headlineAccent": "via DM",
     "subhead": "Talk to our AI agent on Instagram. Replies 24/7 and routes you to the team.",
     "button": "Message us on Instagram",
+    "bookCall": "Book a call",
+    "or": "or",
     "fallback": "or visit"
   },
   "footer": {

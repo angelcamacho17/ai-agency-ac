@@ -6,13 +6,14 @@
     "process": "Proceso",
     "calculator": "Calculadora",
     "contact": "Contacto",
-    "cta": "Iniciar Proyecto"
+    "cta": "Agendar reunión"
   },
   "hero": {
     "line1": "WE WRITE",
     "line2": "art",
     "line3": "NOT JUST CODE",
-    "subhead": "Software That Inspires"
+    "subhead": "Software That Inspires",
+    "bookCall": "Agendar reunión"
   },
   "trustedBrands": {
     "titleStart": "Marcas que han",
@@ -139,6 +140,8 @@
     "headlineAccent": "por DM",
     "subhead": "Habla con nuestro agente AI en Instagram. Responde 24/7 y te conecta con el equipo.",
     "button": "Escríbenos en Instagram",
+    "bookCall": "Agendar una llamada",
+    "or": "o",
     "fallback": "o visita"
   },
   "footer": {

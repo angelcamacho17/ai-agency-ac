@@ -2,5 +2,16 @@ services:
   - type: web
     name: ai-agency-ac
     env: node
-    buildCommand: npm install && npm run build
+    plan: free
+    buildCommand: npm ci && npm run build
     startCommand: node server.js
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      # Set ANTHROPIC_API_KEY manually in the Render dashboard (Environment tab).
+      # Never commit it to render.yaml or any file in the repo.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-haiku-4-5

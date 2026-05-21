@@ -1,7 +1,8 @@
 <!-- Michelangelo Devs - Atmospheric Landing Page -->
 <div appCustomCursor>
-  <!-- Navigation -->
-  <app-navigation></app-navigation>
+  @if (showNav()) {
+    <app-navigation></app-navigation>
+  }
 
   <router-outlet />
 </div>

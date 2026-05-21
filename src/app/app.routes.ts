@@ -3,7 +3,15 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
+    loadComponent: () => import('./pages/terminal-home/terminal-home.component').then(m => m.TerminalHomeComponent)
+  },
+  {
+    path: 'classic',
     loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+  },
+  {
+    path: 'links',
+    loadComponent: () => import('./pages/links/links.component').then(m => m.LinksComponent)
   },
   {
     path: 'terms',

@@ -56,7 +56,7 @@ import { LanguageService } from '../../../services/language.service';
             </button>
 
             <a
-              href="https://ig.me/m/michelangelo.devs"
+              href="https://calendly.com/angel-camacho-michelangelodevs/30min"
               target="_blank"
               rel="noopener noreferrer"
               appMagneticButton
@@ -124,7 +124,7 @@ import { LanguageService } from '../../../services/language.service';
 
           <div class="px-4 pt-3">
             <a
-              href="https://ig.me/m/michelangelo.devs"
+              href="https://calendly.com/angel-camacho-michelangelodevs/30min"
               target="_blank"
               rel="noopener noreferrer"
               (click)="toggleMobileMenu()"

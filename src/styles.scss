@@ -77,6 +77,17 @@ html, body {
   box-shadow: 0 0 20px rgb(var(--brand-rgb) / 0.55);
 }
 
+/* On the terminal-home route, hide the scrollbar entirely (scroll still works
+   via wheel / keys / gestures). The component toggles `.terminal-route` on
+   the body in ngAfterViewInit / ngOnDestroy. */
+body.terminal-route {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* old IE/Edge */
+  background: #050505;
+}
+body.terminal-route::-webkit-scrollbar { display: none; }
+html.terminal-route { background: #050505; }
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *,

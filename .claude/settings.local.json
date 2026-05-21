@@ -15,7 +15,18 @@
       "Bash(node *)",
       "Bash(echo \"---exit:$?---\")",
       "Bash(npm view *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(mkdir -p /tmp/design_extract)",
+      "Read(//tmp/**)",
+      "Bash(tar -xzf /Users/angelcamacho/.claude/projects/-Users-angelcamacho-michelangelo-devs-ai-agency-ac/1b7a0e70-2887-4528-b8b1-739559c8367f/tool-results/webfetch-1779370151319-pa9jl4.bin)",
+      "Bash(mkdir -p src/app/pages/terminal-home)",
+      "Bash(mkdir -p src/app/pages/links)",
+      "Bash(npm start *)",
+      "Bash(tee /tmp/ng-serve.log)",
+      "Bash(awk *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('engines:', d.get\\('engines','none'\\)\\); print\\('scripts:', list\\(d.get\\('scripts',{}\\).keys\\(\\)\\)\\)\")",
+      "Bash(PORT=8090 timeout 4 node server.js)"
     ],
     "deny": [],
     "ask": []

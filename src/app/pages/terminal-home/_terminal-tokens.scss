@@ -1,0 +1,52 @@
+/* Shared terminal design tokens. Imported by every terminal-native section. */
+
+:host {
+  --brand: #d3de47;
+  --accent: #a8c736;
+  --brand-soft: rgba(211, 222, 71, 0.20);
+  --brand-softer: rgba(211, 222, 71, 0.10);
+  --bg: #050505;
+  --bg-2: #0a0a0a;
+  --muted: #6b6b6b;
+  --dim: #4a4a4a;
+  --text: #e6e6e6;
+  --warn: #ff9966;
+
+  display: block;
+  font-family: 'JetBrains Mono', 'IBM Plex Mono', 'SF Mono', 'Menlo', monospace;
+  color: var(--text);
+}
+
+.tsec {
+  width: 100%;
+  max-width: min(1200px, 94vw);
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.tsec-header {
+  margin-bottom: 26px;
+}
+
+.tsec-title {
+  font-family: inherit;
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.tsec-sub {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+
+.tsec-bullet {
+  color: var(--brand);
+  margin-right: 8px;
+}

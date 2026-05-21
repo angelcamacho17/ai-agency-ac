@@ -1,0 +1,65 @@
+<div class="links-shell">
+  <header class="links-top">
+    <a href="/" class="links-home" (click)="goHome($event)">
+      <img src="logo_white.png" alt="michelangelo.devs" />
+      <span class="brand-text">michelangelo<span class="dot">.</span>devs</span>
+    </a>
+    <button type="button" class="lang-toggle" (click)="toggleLang()" aria-label="Switch language">
+      <span [class.active]="lang.current() === 'es'">ES</span>
+      <span class="sep">/</span>
+      <span [class.active]="lang.current() === 'en'">EN</span>
+    </button>
+  </header>
+
+  <main class="links-main">
+    <h1 class="links-title">
+      <span class="prompt">$</span>
+      {{ isES ? 'todos los enlaces' : 'all the links' }}
+    </h1>
+    <p class="links-sub">
+      {{ isES ? 'agentes, demos y formas de hablar con nosotros.' : 'agents, demos, and ways to reach us.' }}
+    </p>
+
+    <section class="links-group">
+      <div class="group-label">[ {{ isES ? 'contacto' : 'contact' }} ]</div>
+      <div class="links-grid">
+        @for (item of social; track item.title) {
+          <a
+            class="link-card"
+            [href]="item.href"
+            [attr.target]="item.external ? '_blank' : null"
+            [attr.rel]="item.external ? 'noopener noreferrer' : null"
+          >
+            <span class="link-k">{{ item.k }}</span>
+            <span class="link-body">
+              <span class="link-title">{{ item.title }}</span>
+              <span class="link-sub">{{ item.sub }}</span>
+            </span>
+            <span class="link-arrow">→</span>
+          </a>
+        }
+      </div>
+    </section>
+
+    <section class="links-group">
+      <div class="group-label">[ {{ isES ? 'la página' : 'the page' }} ]</div>
+      <div class="links-grid">
+        @for (item of sections; track item.title) {
+          <a class="link-card" [href]="item.href" (click)="onSection(item, $event)">
+            <span class="link-k">{{ item.k }}</span>
+            <span class="link-body">
+              <span class="link-title">{{ item.title }}</span>
+              <span class="link-sub">{{ item.sub }}</span>
+            </span>
+            <span class="link-arrow">→</span>
+          </a>
+        }
+      </div>
+    </section>
+
+    <footer class="links-foot">
+      <span>© 2026 michelangelo.devs</span>
+      <span class="dim">we write art, not just code</span>
+    </footer>
+  </main>
+</div>

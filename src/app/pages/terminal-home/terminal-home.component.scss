@@ -1,0 +1,390 @@
+@use 'terminal-tokens';
+
+/* ====== terminal landing — michelangelo.devs ====== */
+
+:host {
+  display: block;
+  position: relative;
+  background:
+    radial-gradient(ellipse 1200px 600px at 50% -10%, color-mix(in oklab, var(--brand) 8%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 800px 400px at 90% 110%, color-mix(in oklab, var(--accent) 6%, transparent) 0%, transparent 60%),
+    var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', 'IBM Plex Mono', 'SF Mono', 'Menlo', monospace;
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: 0.005em;
+  -webkit-font-smoothing: antialiased;
+
+  --agent-bar-h: 56px;
+
+  ::selection { background: var(--brand); color: #000; }
+}
+
+/* Hide scrollbar visually but keep scroll functional (wheel/keys/gestures still work).
+   Only applies while the terminal home is the active route. */
+:host {
+  scrollbar-width: none;            /* Firefox */
+  -ms-overflow-style: none;         /* old IE/Edge */
+}
+:host ::-webkit-scrollbar { display: none; }
+
+:host::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, rgba(0,0,0,0.18) 3px, transparent 4px);
+  mix-blend-mode: multiply; opacity: 0.6;
+}
+:host::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.55) 100%);
+}
+
+.terminal-shell {
+  position: relative;
+  display: flex; flex-direction: column;
+  z-index: 1;
+}
+.shell-fresh .terminal-wrap {
+  min-height: auto;
+  padding: 0;
+}
+.shell-composed .terminal-wrap {
+  min-height: auto;
+  padding: 24px 0 0 0;
+}
+
+.particles-canvas {
+  position: fixed; inset: 0; width: 100vw; height: 100dvh;
+  pointer-events: none; z-index: 0;
+}
+
+/* ====== top bar ====== */
+
+.top-bar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: opacity 0.4s ease;
+}
+.shell-fresh .top-bar { display: none; }
+
+.top-bar-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 22px;
+  font-size: 12px; color: var(--muted);
+}
+.top-bar-left, .top-bar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.top-logo img {
+  height: 28px; width: 28px; object-fit: contain;
+  filter: drop-shadow(0 0 8px var(--brand-softer));
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.top-logo:hover img { transform: scale(1.08); filter: drop-shadow(0 0 12px var(--brand)); }
+
+.top-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--dim);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset;
+}
+.top-dot:nth-child(3) { background: #3a3a3a; }
+.top-dot:nth-child(4) { background: var(--brand); box-shadow: 0 0 10px var(--brand); }
+.top-title { color: var(--muted); font-size: 12px; letter-spacing: 0.02em; margin-left: 6px; }
+
+.top-link {
+  appearance: none; background: transparent; border: none;
+  color: var(--brand); font: inherit; font-size: 12px;
+  cursor: pointer; padding: 2px 6px; border-radius: 4px;
+  transition: text-shadow 0.2s ease, background 0.2s ease;
+}
+.top-link:hover { text-shadow: 0 0 10px var(--brand); background: var(--brand-softer); }
+.top-link .active { color: var(--brand); text-shadow: 0 0 8px var(--brand); }
+.top-link .sep { color: var(--dim); margin: 0 3px; }
+
+.top-quota {
+  font-size: 11px; color: var(--muted);
+  padding: 2px 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px; letter-spacing: 0.04em;
+}
+.top-quota.low { color: var(--warn); border-color: rgba(255, 153, 102, 0.4); }
+
+.top-kbd-row { display: inline-flex; align-items: center; gap: 6px; }
+.top-kbd {
+  display: inline-block; padding: 1px 6px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px; color: var(--text); font-size: 11px;
+}
+
+/* Sticky chat bar — child of top-bar (single backdrop surface). NO own backdrop-filter
+   (Safari nested-backdrop bug — FE reviewer flag). Solid background only. */
+.chat-sticky {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 22px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: rgba(5,5,5,0.92);
+  font-size: 13px;
+  max-height: 60px;
+  overflow: hidden;
+  transition: max-height 220ms ease, padding 220ms ease, font-size 220ms ease;
+  animation: bar-in 220ms ease both;
+}
+.chat-sticky.collapsed {
+  max-height: 36px;
+  padding: 6px 22px;
+  font-size: 12px;
+}
+@keyframes bar-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+.chat-sticky-icon { color: var(--brand); font-weight: 700; }
+.chat-sticky-text {
+  flex: 1; min-width: 0;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap; text-overflow: ellipsis; overflow: hidden;
+}
+.chat-sticky-text:hover { color: var(--brand); }
+.chat-sticky-noun { color: var(--muted); font-size: 11px; white-space: nowrap; }
+.chat-sticky-share, .chat-sticky-up {
+  appearance: none; background: transparent; border: 1px solid var(--brand-soft);
+  color: var(--brand); font: inherit; font-size: 11px;
+  padding: 3px 10px; cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.chat-sticky-share:hover, .chat-sticky-up:hover { background: var(--brand-softer); border-color: var(--brand); }
+
+/* Boot phase: skip button (visible during loading/success/intro phases). */
+.boot-skip {
+  position: fixed;
+  top: 16px; right: 20px;
+  z-index: 10001;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--brand-soft);
+  color: var(--brand);
+  font: inherit;
+  font-size: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 2px;
+  text-shadow: 0 0 8px color-mix(in oklab, var(--brand) 30%, transparent);
+  transition: background 0.2s ease, border-color 0.2s ease;
+  animation: bar-in 220ms ease both;
+}
+.boot-skip:hover {
+  background: var(--brand-softer);
+  border-color: var(--brand);
+}
+
+/* Boot phase B — Success card overlay. Above the scanline. */
+.boot-success {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10000;
+  pointer-events: none;
+  animation: success-in 240ms cubic-bezier(0.18,0.9,0.25,1) both,
+             success-out 320ms ease-in 480ms forwards;
+}
+.boot-success-card {
+  font-family: inherit;
+  color: var(--brand);
+  font-size: clamp(11px, 1.5vw, 16px);
+  line-height: 1.2;
+  text-align: center;
+  text-shadow:
+    0 0 10px color-mix(in oklab, var(--brand) 65%, transparent),
+    0 0 28px color-mix(in oklab, var(--brand) 35%, transparent);
+  animation: success-pulse 800ms ease-out;
+}
+@keyframes success-in {
+  from { opacity: 0; transform: scale(0.94); filter: blur(4px); }
+  to   { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+@keyframes success-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes success-pulse {
+  0%   { text-shadow: 0 0 10px color-mix(in oklab, var(--brand) 50%, transparent); }
+  50%  { text-shadow: 0 0 28px var(--brand), 0 0 60px var(--brand); }
+  100% { text-shadow: 0 0 10px color-mix(in oklab, var(--brand) 50%, transparent); }
+}
+
+/* During boot success phase, temporarily lower the scanline so the card glows clean.
+   The .terminal-shell wrapper carries [data-boot="success"]; the scanline lives on :host.
+   We can't selectively style :host::before by descendant state, so we add a body-level
+   class via the route-class trick — instead, simpler: scope a sibling rule that hides
+   the scanline by setting opacity on :host when the shell carries the success state. */
+:host:has(.terminal-shell[data-boot="success"])::before {
+  opacity: 0.2 !important;
+}
+
+/* ====== terminal ====== */
+
+.composed-page { display: flex; flex-direction: column; position: relative; z-index: 2; }
+
+.terminal-wrap {
+  display: flex; align-items: flex-start; justify-content: center; width: 100%;
+}
+
+.terminal {
+  width: min(960px, 92vw);
+  margin: 0 auto;
+  padding: 24px 12px 32px 12px;
+  font-family: inherit; color: var(--text);
+  position: relative;
+  text-shadow: 0 0 16px color-mix(in oklab, var(--brand) 18%, transparent);
+}
+.shell-composed .terminal { padding: 20px 12px 24px 12px; }
+
+.ascii-logo {
+  font-family: inherit; color: var(--brand);
+  white-space: pre;
+  font-size: clamp(5px, 1.05vw, 10px);
+  line-height: 1.1; letter-spacing: 0;
+  margin: 0 0 20px 0;
+  text-shadow:
+    0 0 8px color-mix(in oklab, var(--brand) 55%, transparent),
+    0 0 28px color-mix(in oklab, var(--brand) 25%, transparent);
+  opacity: 0.95; overflow: hidden;
+  animation: flicker 6s infinite;
+}
+@keyframes flicker {
+  0%, 96%, 100% { opacity: 0.95; }
+  97% { opacity: 0.55; }
+  98% { opacity: 0.85; }
+}
+
+.t-stream { display: flex; flex-direction: column; gap: 2px; }
+.t-spacer { height: 10px; }
+.t-rule { color: var(--dim); }
+.t-line {
+  display: flex; gap: 10px; align-items: baseline;
+  font-size: 14px; white-space: pre-wrap; word-break: break-word;
+}
+.t-prefix { flex-shrink: 0; color: var(--brand); font-weight: 700; letter-spacing: 0.02em; }
+.t-text { flex: 1; }
+
+.t-muted { color: var(--muted); }
+.t-muted .t-prefix { color: var(--dim); }
+.t-agent { color: var(--text); }
+.t-agent .t-prefix { color: var(--brand); text-shadow: 0 0 10px var(--brand); }
+.t-agent-soft { color: var(--muted); padding-left: 56px; }
+.t-user { color: var(--user); }
+.t-user .t-prefix { color: #888; }
+.t-build { color: var(--brand); }
+.t-build .t-prefix { color: var(--accent); }
+.t-menu { color: var(--text); }
+.t-menu .t-prefix { color: var(--brand); }
+
+.t-input-line { display: flex; align-items: center; gap: 0; margin-top: 18px; padding: 6px 0; flex-wrap: wrap; }
+.t-input-line .t-prompt { margin-right: 10px; }
+.t-prompt { color: var(--brand); font-weight: 700; text-shadow: 0 0 10px color-mix(in oklab, var(--brand) 60%, transparent); }
+.t-input {
+  background: transparent; border: none; outline: none;
+  color: var(--text); font: inherit; caret-color: transparent;
+  padding: 0; min-width: 1ch; max-width: 100%;
+}
+.t-input::placeholder { color: var(--dim); font-style: italic; }
+.t-input:disabled { color: var(--muted); }
+.t-cursor { color: var(--brand); text-shadow: 0 0 12px var(--brand); animation: blink 1s steps(2) infinite; margin-left: 1px; }
+.t-cursor-busy { animation: spin 1s linear infinite; display: inline-block; }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.chips {
+  display: flex; flex-wrap: wrap; gap: 6px 14px;
+  margin: 14px 0 4px 56px; padding: 6px 0;
+}
+.chip {
+  appearance: none; border: none; background: transparent;
+  color: var(--brand); font: inherit; font-size: 15px;
+  cursor: pointer; padding: 4px 0;
+  transition: text-shadow 0.2s, transform 0.2s, opacity 0.2s;
+  text-shadow: 0 0 8px color-mix(in oklab, var(--brand) 30%, transparent);
+}
+.chip:hover:not(:disabled) { text-shadow: 0 0 18px var(--brand), 0 0 4px var(--brand); transform: translateY(-1px); }
+.chip:disabled { cursor: not-allowed; }
+.chip-bracket { color: var(--accent); margin: 0 1px; }
+/* Ghost chips during boot — visible but desaturated. */
+.chips-ghost .chip {
+  opacity: 0.35;
+  text-shadow: none;
+}
+
+/* ====== mounted sections ====== */
+
+.mounted-sections { width: 100%; margin: 0 auto; padding-bottom: 80px; }
+.mounted-sections.has-content { margin-top: 20px; }
+
+.md-mounted-section {
+  scroll-margin-top: calc(var(--agent-bar-h) + 20px);
+  position: relative;
+}
+.md-mounted-section.pulse-tag .md-section-tag {
+  animation: tag-pulse 1.2s ease;
+}
+@keyframes tag-pulse {
+  0%   { color: var(--brand); text-shadow: 0 0 24px var(--brand), 0 0 60px var(--brand); }
+  50%  { color: #fff; text-shadow: 0 0 24px var(--brand), 0 0 60px var(--brand); }
+  100% { color: var(--brand); text-shadow: 0 0 8px color-mix(in oklab, var(--brand) 40%, transparent); }
+}
+
+.mount-wrap {
+  animation: mount-in 600ms cubic-bezier(0.18, 0.9, 0.25, 1) both;
+}
+@keyframes mount-in {
+  from { opacity: 0; transform: translateY(28px); filter: blur(4px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.md-section-rule {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 12px; color: var(--muted);
+  text-transform: lowercase;
+  margin: 32px auto 0 auto;
+  padding: 0 24px;
+  max-width: min(1200px, 94vw);
+}
+.md-section-tag {
+  color: var(--brand); font-weight: 700;
+  text-shadow: 0 0 8px color-mix(in oklab, var(--brand) 40%, transparent);
+  font-family: 'JetBrains Mono', monospace;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.md-section-rule-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--brand-soft), transparent);
+}
+.md-section-idx { font-variant-numeric: tabular-nums; color: var(--dim); font-family: 'JetBrains Mono', monospace; }
+
+/* ====== footer ====== */
+
+.page-foot {
+  margin-top: 80px; color: var(--muted); font-size: 12px;
+  max-width: min(1200px, 94vw);
+  margin-left: auto; margin-right: auto;
+  padding: 0 24px;
+}
+.page-foot-rule { color: var(--dim); white-space: pre; overflow: hidden; }
+.page-foot-row {
+  display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  padding-top: 14px;
+}
+.page-foot-row span:nth-child(2) { color: var(--brand); }
+.page-foot-row strong { font-weight: 800; }
+
+@media (max-width: 640px) {
+  .ascii-logo { font-size: 4.5px; }
+  .terminal { padding-top: 30px; }
+  .chips { margin-left: 0; }
+  .t-agent-soft { padding-left: 0; }
+  .top-kbd-row { display: none; }
+  .top-bar-row { padding: 8px 12px; }
+  .sticky-bar { padding: 6px 12px; gap: 8px; }
+}
