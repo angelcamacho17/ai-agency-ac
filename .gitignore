@@ -46,3 +46,9 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# SQLite usage counters (per-server data, never commit)
+usage.db
+usage.db-journal
+usage.db-wal
+usage.db-shm
