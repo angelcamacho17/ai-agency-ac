@@ -19,9 +19,9 @@ export interface RoiPayload {
     avgTicket: number;
   };
   monthlyRevenue: number;
-  suggestedTier: 'single' | 'cluster' | 'full';
-  tierCost: number;
-  paybackWeeks: number | null;
+  suggestedTier: 'instagram.agent' | 'omnichannel.agent' | 'custom.build';
+  tierMonthly: number;
+  paybackDays: number | null;
 }
 
 /* ----- /agents ----- */
@@ -208,7 +208,7 @@ export class TsecAgents {
     <div class="tsec">
       <header class="tsec-header">
         <h2 class="tsec-title">{{ es() ? 'Lo que cuesta' : 'What it costs' }}</h2>
-        <p class="tsec-sub">{{ es() ? 'No vendemos licencias. Vendemos sistemas funcionando. Rangos abajo — cotización exacta en 24h.' : "We don't sell licences. We sell working systems. Ranges below — exact quote in 24h." }}</p>
+        <p class="tsec-sub">{{ es() ? 'Contrato anual con pago mensual. Después del primer año, solo pagas la licencia para que el agente siga vivo.' : 'Annual contract with monthly billing. After year one, just pay the licence to keep the agent alive.' }}</p>
       </header>
       <div class="price-grid">
         @for (t of tiers(); track t.name) {
@@ -219,6 +219,7 @@ export class TsecAgents {
             <div class="price-card-amount">
               <span class="price-card-from">{{ es() ? 'desde' : 'from' }}</span>
               <span class="price-card-value">{{ t.from }}</span>
+              @if (t.unit) { <span class="price-card-unit">{{ t.unit }}</span> }
             </div>
             <ul class="price-card-lines">
               @for (l of t.lines; track l) { <li><span class="tsec-bullet">+</span>{{ l }}</li> }
@@ -231,7 +232,7 @@ export class TsecAgents {
         }
       </div>
       <p class="price-foot">
-        {{ es() ? '* Todos los builds incluyen código fuente, deploy y 30 días de ajuste. Hosting y tokens LLM se facturan al costo.' : '* All builds include source code, deploy, and a 30-day tuning window. Hosting + LLM tokens billed at cost.' }}
+        {{ es() ? '* Todos los planes incluyen setup, deploy y soporte. Hosting y tokens LLM al costo. Licencia post-contrato mantiene el agente activo + actualizaciones.' : '* All plans include setup, deploy, and support. Hosting + LLM tokens billed at cost. Post-contract licence keeps the agent running + updates.' }}
       </p>
     </div>
   `,
@@ -242,14 +243,86 @@ export class TsecPricing {
   readonly tiers = computed(() =>
     this.es()
       ? [
-          { name: 'single.agent', blurb: 'Un agente. Un canal. Lanzado en 5 días.', from: '$1.8k', payback: '≈ 3–6 semanas', lines: ['1 caso de uso', '1 canal (DM / web / WA)', '30 días de tuning'] },
-          { name: 'agent.cluster', blurb: 'Sistema multi-agente en tu funnel.', from: '$4.5k', payback: '≈ 4–8 semanas', featured: true, lines: ['2–4 agentes cooperando', 'CRM + analítica', '60 días tuning + revisión mensual'] },
-          { name: 'full.build', blurb: 'Web app + agentes + automatizaciones, todo.', from: 'hablemos', payback: 'custom', lines: ['UI / dashboard a medida', 'Herramientas internas + APIs', 'Retainer o scope fijo'] },
+          {
+            name: 'instagram.agent',
+            blurb: 'Un agente AI para Instagram (DMs + comentarios). Lanzado en 5 días.',
+            from: '$445',
+            unit: '/mes',
+            payback: '≈ 1 año, luego solo licencia',
+            featured: true,
+            lines: [
+              '1 canal: Instagram',
+              'cierre desde DMs y comentarios',
+              'contrato 12 meses · luego $89/mes licencia',
+              '30 días de tuning + soporte',
+            ],
+          },
+          {
+            name: 'omnichannel.agent',
+            blurb: 'Agentes para Instagram + WhatsApp + Web. Un solo cerebro.',
+            from: '$998',
+            unit: '/mes',
+            payback: '≈ 1 año, luego solo licencia',
+            lines: [
+              '3 canales: Instagram + WhatsApp + Web',
+              'misma KB, mismo tono, contexto compartido',
+              'contrato 12 meses · luego $199/mes licencia',
+              '60 días tuning + revisión mensual',
+            ],
+          },
+          {
+            name: 'custom.build',
+            blurb: 'Web app + agentes + automatizaciones, todo a medida.',
+            from: 'hablemos',
+            payback: 'custom',
+            lines: [
+              'UI / dashboard a la medida',
+              'Herramientas internas + APIs',
+              'Retainer o scope fijo',
+              'Cotización en 24h',
+            ],
+          },
         ]
       : [
-          { name: 'single.agent', blurb: 'One agent. One channel. Shipped in 5 days.', from: '$1.8k', payback: '≈ 3–6 weeks', lines: ['1 use-case', '1 channel (DM / web / WA)', '30-day tuning window'] },
-          { name: 'agent.cluster', blurb: 'Multi-agent system across your funnel.', from: '$4.5k', payback: '≈ 4–8 weeks', featured: true, lines: ['2–4 cooperating agents', 'CRM + analytics', '60-day tuning + monthly review'] },
-          { name: 'full.build', blurb: 'Web app + agents + automations, end-to-end.', from: 'talk to us', payback: 'custom', lines: ['Custom UI / dashboard', 'Internal tools + APIs', 'Retainer or fixed scope'] },
+          {
+            name: 'instagram.agent',
+            blurb: 'One AI agent for Instagram (DMs + comments). Shipped in 5 days.',
+            from: '$445',
+            unit: '/mo',
+            payback: '≈ 1 year, then licence only',
+            featured: true,
+            lines: [
+              '1 channel: Instagram',
+              'closes from DMs and comments',
+              '12-mo contract · then $89/mo licence',
+              '30-day tuning + support',
+            ],
+          },
+          {
+            name: 'omnichannel.agent',
+            blurb: 'Agents for Instagram + WhatsApp + Web. One shared brain.',
+            from: '$998',
+            unit: '/mo',
+            payback: '≈ 1 year, then licence only',
+            lines: [
+              '3 channels: Instagram + WhatsApp + Web',
+              'same KB, same voice, shared context',
+              '12-mo contract · then $199/mo licence',
+              '60-day tuning + monthly review',
+            ],
+          },
+          {
+            name: 'custom.build',
+            blurb: 'Web app + agents + automations, end-to-end.',
+            from: 'talk to us',
+            payback: 'custom',
+            lines: [
+              'Custom UI / dashboard',
+              'Internal tools + APIs',
+              'Retainer or fixed scope',
+              'Quote in 24h',
+            ],
+          },
         ]
   );
 }
@@ -562,18 +635,35 @@ export class TsecRoi {
   setTicket(v: string): void { const n = parseFloat(v); if (Number.isFinite(n) && n >= 1) this.ticket.set(Math.min(100000, n)); }
 
   readonly monthlyRevenue = computed(() => Math.round(this.dpm() * 30 * (this.crPct() / 100) * this.ticket()));
+
+  /** Monthly cost by tier (matches the pricing section). */
+  private readonly tierMonthly: Record<'instagram.agent' | 'omnichannel.agent' | 'custom.build', number> = {
+    'instagram.agent':   445,
+    'omnichannel.agent': 998,
+    'custom.build':      2500, // ballpark for the calculator
+  };
+
   readonly tier = computed(() => {
     const r = this.monthlyRevenue();
-    if (r >= 50000) return 'full.build';
-    if (r >= 12000) return 'agent.cluster';
-    return 'single.agent';
+    // 3× monthly cost threshold: if the agent comfortably covers 3× its fee,
+    // the next tier is justifiable.
+    if (r >= 7500)  return 'custom.build' as const;
+    if (r >= 3000)  return 'omnichannel.agent' as const;
+    return 'instagram.agent' as const;
   });
+
   readonly paybackText = computed(() => {
     const r = this.monthlyRevenue();
     if (r <= 0) return this.es() ? 'n/d' : 'n/a';
-    const cost = this.tier() === 'single.agent' ? 1800 : this.tier() === 'agent.cluster' ? 4500 : 12000;
-    const weeks = Math.max(1, Math.round((cost / r) * 4.33));
-    return this.es() ? `≈ ${weeks} semanas` : `≈ ${weeks} weeks`;
+    const monthly = this.tierMonthly[this.tier()];
+    const months = Math.max(0.1, monthly / r);
+    if (months < 1) {
+      const days = Math.round(months * 30);
+      return this.es() ? `≈ ${days} días` : `≈ ${days} days`;
+    }
+    return this.es()
+      ? `≈ ${months.toFixed(1)} meses`
+      : `≈ ${months.toFixed(1)} months`;
   });
 
   @Input() set initial(value: { messagesPerDay: number; conversionRate: number; avgTicket: number } | null) {
