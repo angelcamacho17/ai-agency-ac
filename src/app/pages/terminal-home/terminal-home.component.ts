@@ -513,7 +513,7 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
       await this.sleep(500);
       await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: 'no hacemos landings — hacemos agentes.' });
       await this.sleep(380);
-      await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: 'hoy te armo una mientras platicamos.' });
+      await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: 'voy a construir esta landing page en vivo según lo que tu me pidas, let\'s create.' });
       await this.sleep(520);
       await this.typeLine({ kind: 'agent-soft', prefix: '       ', text: 'puedes pedirme cosas como:' });
       await this.sleep(180);
@@ -522,7 +522,7 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
       await this.sleep(500);
       await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: "we don't ship landings — we ship agents." });
       await this.sleep(380);
-      await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: "today i'll build one for you while we talk." });
+      await this.typeLine({ kind: 'agent', prefix: 'agent ›', text: "i'll build this landing page live based on what you ask me, let's create." });
       await this.sleep(520);
       await this.typeLine({ kind: 'agent-soft', prefix: '       ', text: 'you can ask me things like:' });
       await this.sleep(180);
