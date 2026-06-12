@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import {
   TsecAgents,
+  TsecCaseStudy,
   TsecContact,
   TsecCustom,
   TsecDemo,
@@ -23,9 +24,11 @@ import {
   TsecPricing,
   TsecProcess,
   TsecRoi,
+  TsecTeamGrid,
   TsecWork,
   RoiPayload,
 } from './terminal-sections';
+import type { CaseStudyData, TeamMember } from '../../shared/facts.public';
 import { LanguageService } from '../../services/language.service';
 
 type LineKind = 'muted' | 'agent' | 'agent-soft' | 'user' | 'build' | 'menu' | 'spacer' | 'rule';
@@ -36,19 +39,37 @@ interface Line {
   text: string;
 }
 type SectionKey = 'agents' | 'pricing' | 'process' | 'work' | 'philosophy' | 'contact' | 'demo' | 'roi' | 'custom';
-interface Mounted {
+type TemplateKind = 'case-study' | 'team-grid';
+
+interface SectionMount {
   id: string;
   kind: SectionKey;
   noun?: string | null;
   roi?: RoiPayload | null;
-  /** When `pricing` is mounted alongside a `custom` block, the custom block
-   *  already renders an ROI calculator with the extracted inputs. Suppress
-   *  the duplicate `<tsec-roi>` inside the pricing block in that case. */
+  /** Suppress the duplicate `<tsec-roi>` inside `pricing` when `custom` already mounted one. */
   hideRoi?: boolean;
+  /** "visitor-triggered" (extracted from prompt) ranks higher than LLM-volunteered when the queue overflows. */
+  score?: number;
 }
+interface TemplateMount {
+  id: string;
+  kind: 'template';
+  tplKind: TemplateKind;
+  ref?: string;
+  data: unknown;
+  langFallback?: boolean;
+  score?: number;
+}
+type Mounted = SectionMount | TemplateMount;
 
 const SECTION_ALLOWLIST: SectionKey[] = ['agents', 'pricing', 'process', 'work', 'philosophy', 'contact'];
+const TEMPLATE_KIND_ALLOWLIST: TemplateKind[] = ['case-study', 'team-grid'];
 const NOUN_RE = /^[a-z0-9áéíóúüñ \-]{1,40}$/i;
+
+function mountKey(m: Mounted): string {
+  if (m.kind === 'template') return `tpl:${m.tplKind}:${m.ref ?? ''}`;
+  return `sec:${m.kind}`;
+}
 
 const ASCII_LOGO = `
 ███╗   ███╗██╗ ██████╗██╗  ██╗███████╗██╗      █████╗ ███╗   ██╗ ██████╗ ███████╗██╗      ██████╗
@@ -78,6 +99,8 @@ function uid(): string {
     TsecDemo,
     TsecRoi,
     TsecCustom,
+    TsecCaseStudy,
+    TsecTeamGrid,
   ],
   templateUrl: './terminal-home.component.html',
   styleUrl: './terminal-home.component.scss',
@@ -141,19 +164,18 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
 
   readonly receiptText = computed(() => {
     const noun = this.visitorNoun();
-    const sections = this.mounted().filter((m) => m.kind !== 'custom').map((m) => m.kind);
-    if (!sections.length) return '';
-    const isES = this.lang.current() === 'es';
-    const parts = Array.from(new Set(sections)).join(' + ');
     const count = this.mounted().length;
+    if (!count) return '';
+    const isES = this.lang.current() === 'es';
+    const moduleWord = count === 1 ? (isES ? 'módulo' : 'module') : (isES ? 'módulos' : 'modules');
     if (noun) {
       return isES
-        ? `agent › construido para "${noun}" · ${parts} · ${count} módulo${count === 1 ? '' : 's'}`
-        : `agent › built for "${noun}" · ${parts} · ${count} module${count === 1 ? '' : 's'}`;
+        ? `agent › construido para "${noun}" · ${count} ${moduleWord}`
+        : `agent › built for "${noun}" · ${count} ${moduleWord}`;
     }
     return isES
-      ? `agent › tu página · ${parts} · ${count} módulo${count === 1 ? '' : 's'}`
-      : `agent › your page · ${parts} · ${count} module${count === 1 ? '' : 's'}`;
+      ? `agent › tu página · ${count} ${moduleWord}`
+      : `agent › your page · ${count} ${moduleWord}`;
   });
 
   private readonly typeSpeed = 28;
@@ -174,6 +196,14 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
   readonly lang = inject(LanguageService);
 
   pad2(n: number): string { return n < 10 ? '0' + n : String(n); }
+
+  /** Human-readable label used in the section header tag, data-key, and scroll target. */
+  mountLabel(m: Mounted): string {
+    if (m.kind === 'template') {
+      return m.ref ? `${m.tplKind}:${m.ref}` : m.tplKind;
+    }
+    return m.kind;
+  }
 
   async ngAfterViewInit(): Promise<void> {
     this.doc.body.classList.add('terminal-route');
@@ -323,6 +353,8 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
     sections: SectionKey[];
     noun: string | null;
     roi: RoiPayload | null;
+    templates: TemplateMount[];
+    redirect: { reason: string } | null;
     remaining: number | null;
     rateLimited: boolean;
     sharedLimit: boolean;
@@ -343,31 +375,60 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
         signal: controller.signal,
       });
       clearTimeout(hardAbort);
+      const emptyBag = {
+        reply: '', sections: [] as SectionKey[], noun: null, roi: null,
+        templates: [] as TemplateMount[], redirect: null,
+        rateLimited: false, sharedLimit: false, offline: false, noKey: false, timedOut: false, refused: false,
+      };
       if (res.status === 429) {
         const data = await res.json().catch(() => ({} as { error?: string }));
         return {
-          reply: '', sections: [], noun: null, roi: null,
+          ...emptyBag,
           remaining: 0,
           rateLimited: data.error === 'device_limit',
           sharedLimit: data.error === 'shared_ip_limit',
-          offline: false, noKey: false, timedOut: false, refused: false,
         };
       }
       if (res.status === 503) {
-        return { reply: '', sections: [], noun: null, roi: null, remaining: null, rateLimited: false, sharedLimit: false, offline: false, noKey: true, timedOut: false, refused: false };
+        return { ...emptyBag, remaining: null, noKey: true };
       }
       if (!res.ok) {
-        return { reply: '', sections: [], noun: null, roi: null, remaining: null, rateLimited: false, sharedLimit: false, offline: true, noKey: false, timedOut: false, refused: false };
+        return { ...emptyBag, remaining: null, offline: true };
       }
       const data = await res.json();
       const sections: SectionKey[] = Array.isArray(data.sections)
         ? data.sections.filter((s: string) => (SECTION_ALLOWLIST as string[]).includes(s))
         : [];
       const noun = typeof data.noun === 'string' && NOUN_RE.test(data.noun) ? data.noun : null;
+
+      // Hydrate templates from server-validated payload.
+      const templates: TemplateMount[] = Array.isArray(data.templates)
+        ? data.templates
+            .filter((t: { kind?: string }) => t && (TEMPLATE_KIND_ALLOWLIST as string[]).includes(t.kind ?? ''))
+            .slice(0, 2)
+            .map((t: {
+              kind: TemplateKind; ref?: string; data: unknown; langFallback?: boolean;
+            }) =>
+              this.buildTemplateEntry({
+                kind: t.kind,
+                ref: t.ref,
+                data: t.data,
+                langFallback: !!t.langFallback,
+                score: 2, // visitor-triggered (LLM chose because visitor asked)
+              })
+            )
+        : [];
+
+      const redirect = data.redirect && typeof data.redirect.reason === 'string'
+        ? { reason: data.redirect.reason }
+        : null;
+
       return {
         reply: typeof data.reply === 'string' ? data.reply : '',
         sections, noun,
         roi: data.roi ?? null,
+        templates,
+        redirect,
         remaining: typeof data.remaining === 'number' ? data.remaining : null,
         rateLimited: false, sharedLimit: false, offline: false, noKey: false, timedOut: false,
         refused: data.refused === true,
@@ -375,7 +436,14 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
     } catch (e: unknown) {
       clearTimeout(hardAbort);
       const isAbort = e instanceof DOMException && e.name === 'AbortError';
-      return { reply: '', sections: [], noun: null, roi: null, remaining: null, rateLimited: false, sharedLimit: false, offline: !isAbort, noKey: false, timedOut: isAbort, refused: false };
+      return {
+        reply: '', sections: [], noun: null, roi: null,
+        templates: [], redirect: null,
+        remaining: null,
+        rateLimited: false, sharedLimit: false,
+        offline: !isAbort, noKey: false,
+        timedOut: isAbort, refused: false,
+      };
     }
   }
 
@@ -836,18 +904,47 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
     if (typeof result.remaining === 'number') { this.remainingToday.set(result.remaining); this.persistUsage(); }
     if (result.noun) this.visitorNoun.set(result.noun);
 
-    // If the model returned a ROI extraction, mount the custom block first (it
-    // already includes the calculator pre-filled with the extracted inputs).
-    // Then mount the other sections — pricing with its ROI hidden to avoid a
-    // duplicate calculator on the page.
-    const queue: SectionKey[] = [...result.sections];
+    // Redirect narration: if the model said "no shipped case for X", say it out loud
+    // before mounting the fallback sections (UX reviewer Q2: disclosure builds trust).
+    if (result.redirect && result.redirect.reason) {
+      const subject = (result.redirect.reason.match(/^no_case_for_(.+)$/) || [])[1] || '';
+      if (subject) {
+        await this.typeLine({
+          kind: 'agent-soft',
+          prefix: '       ',
+          text: es
+            ? `aún no hemos lanzado un caso para "${subject.replace(/_/g, ' ')}" — te muestro cómo lo abordaríamos:`
+            : `we haven't shipped a case for "${subject.replace(/_/g, ' ')}" yet — here's how we'd approach it:`,
+        });
+      }
+    }
+
+    // Build the combined queue: custom (with roi) + sections + templates.
+    // Scoring: visitor-triggered items score 2, generic LLM-volunteered score 1.
+    // mountQueue caps the total at 3.
+    const queue: Mounted[] = [];
+
     if (result.roi) {
-      if (!queue.includes('pricing')) queue.unshift('pricing');
-      await this.renderSections(['custom'], { roi: result.roi, noun: result.noun });
+      queue.push(this.buildSectionEntry('custom', { roi: result.roi, noun: result.noun, score: 2 }));
     }
-    if (queue.length) {
-      await this.renderSections(queue, { hideRoi: !!result.roi });
+
+    for (const t of result.templates) {
+      queue.push(t);
     }
+
+    const sectionScore = (k: SectionKey): number => {
+      // sections that align with extracted noun/roi rank higher.
+      if (result.roi && k === 'pricing') return 2;
+      return 1;
+    };
+    for (const k of result.sections) {
+      queue.push(this.buildSectionEntry(k, {
+        hideRoi: !!result.roi && k === 'pricing',
+        score: sectionScore(k),
+      }));
+    }
+
+    if (queue.length) await this.mountQueue(queue);
 
     // Track the organic prompt for share URL (only if a build actually happened).
     if (queue.length || result.roi) {
@@ -889,35 +986,85 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
     return null;
   }
 
-  /* ---------- mount sections with scroll fix ---------- */
+  /* ---------- mount sections / templates with scroll fix ---------- */
 
+  /** Queue entry: a section OR a template, ready to mount. */
+  private buildSectionEntry(
+    k: SectionKey,
+    extra?: { roi?: RoiPayload | null; noun?: string | null; hideRoi?: boolean; score?: number },
+  ): SectionMount {
+    return {
+      id: uid(),
+      kind: k,
+      noun: extra?.noun ?? null,
+      roi: extra?.roi ?? null,
+      hideRoi: extra?.hideRoi ?? false,
+      score: extra?.score,
+    };
+  }
+
+  private buildTemplateEntry(t: {
+    kind: TemplateKind;
+    ref?: string;
+    data: unknown;
+    langFallback?: boolean;
+    score?: number;
+  }): TemplateMount {
+    return {
+      id: uid(),
+      kind: 'template',
+      tplKind: t.kind,
+      ref: t.ref,
+      data: t.data,
+      langFallback: t.langFallback,
+      score: t.score,
+    };
+  }
+
+  /** Mount a heterogeneous queue of items (sections + templates).
+   *  Caps at 3 total, deduplicates by mountKey, runs painter animation. */
+  private async mountQueue(queue: Mounted[]): Promise<void> {
+    // Score-sort: visitor-triggered items (score 2) beat LLM-volunteered (score 1).
+    // Stable sort.
+    const sorted = [...queue].sort((a, b) => (b.score ?? 1) - (a.score ?? 1));
+    // Drop duplicates of items already mounted (custom is special-cased — always mount fresh).
+    const seen = new Set(this.mounted().map(mountKey));
+    const toMount: Mounted[] = [];
+    for (const item of sorted) {
+      const key = mountKey(item);
+      const isCustom = item.kind === 'custom';
+      if (!seen.has(key) || isCustom) {
+        toMount.push(item);
+        seen.add(key);
+      }
+    }
+    const capped = toMount.slice(0, 3);
+
+    const isFirstSequence = !this.firstMountScrolled;
+    for (let i = 0; i < capped.length; i++) {
+      const item = capped[i];
+      const label = item.kind === 'template'
+        ? `${item.tplKind}${item.ref ? ':' + item.ref : ''}`
+        : item.kind;
+      await this.typeLine({ kind: 'build', prefix: '  $', text: `build.section --kind ${label}` });
+      await this.constructionAnimation(i);
+      this.mounted.update((prev) => [...prev, item]);
+      this.composed.set(true);
+      this.observeBar();
+      await this.scrollAfterMount(label, isFirstSequence && i === 0);
+    }
+    this.firstMountScrolled = true;
+  }
+
+  /** Legacy callers (heuristic plan, URL replay, surprise) — still want a simple list of section keys. */
   private async renderSections(
     keys: SectionKey[],
     extra?: { roi?: RoiPayload | null; noun?: string | null; hideRoi?: boolean },
   ): Promise<void> {
-    const isFirstSequence = !this.firstMountScrolled;
-    for (let i = 0; i < keys.length; i++) {
-      const k = keys[i];
-      await this.typeLine({ kind: 'build', prefix: '  $', text: `build.section --kind ${k}` });
-      await this.constructionAnimation(i);
-      const exists = this.mounted().some((m) => m.kind === k);
-      if (!exists || k === 'custom') {
-        const id = uid();
-        this.mounted.update((prev) => [
-          ...prev,
-          {
-            id, kind: k,
-            noun: extra?.noun ?? null,
-            roi: extra?.roi ?? null,
-            hideRoi: extra?.hideRoi ?? false,
-          },
-        ]);
-      }
-      this.composed.set(true);
-      this.observeBar();
-      await this.scrollAfterMount(k, isFirstSequence && i === 0);
-    }
-    this.firstMountScrolled = true;
+    const queue: Mounted[] = keys.map((k) =>
+      this.buildSectionEntry(k, { ...extra, score: 1 })
+    );
+    await this.mountQueue(queue);
   }
 
   /** Painter metaphor for "the agent is building this section right now".
@@ -961,7 +1108,7 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
     await this.sleep(finalGap);
   }
 
-  private scrollAfterMount(key: SectionKey, isFirstSequence: boolean): Promise<void> {
+  private scrollAfterMount(key: string, isFirstSequence: boolean): Promise<void> {
     return new Promise((resolve) => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -1001,13 +1148,21 @@ export class TerminalHomeComponent implements AfterViewInit, OnDestroy {
   /* ---------- share URL ---------- */
 
   private updateUrl(): void {
-    const sections = this.mounted().filter((m) => m.kind !== 'custom').map((m) => m.kind);
+    const all = this.mounted();
+    const sections = all
+      .filter((m): m is SectionMount => m.kind !== 'template' && m.kind !== 'custom')
+      .map((m) => m.kind);
+    const templates = all
+      .filter((m): m is TemplateMount => m.kind === 'template')
+      .map((m) => `${m.tplKind}${m.ref ? ':' + m.ref : ''}`)
+      .slice(0, 4);
     const params = new URLSearchParams();
     if (sections.length) params.set('cmd', Array.from(new Set(sections)).join(','));
+    if (templates.length) params.set('tpl', Array.from(new Set(templates)).join(','));
     const noun = this.visitorNoun();
     if (noun) params.set('for', noun);
     // Include the original prompt as base64. Cap at 140 chars post-encode to avoid bloated URLs
-    // and prompt-spoofing pressure (BE reviewer Q3). Strip control chars first.
+    // and prompt-spoofing pressure. Strip control chars first.
     const prompt = this.originalPrompt;
     if (prompt && !this.replayedPrompt()) {
       const clean = prompt.replace(/[ -]/g, '').slice(0, 140);

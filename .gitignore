@@ -52,3 +52,7 @@ usage.db
 usage.db-journal
 usage.db-wal
 usage.db-shm
+
+# Private facts data (real client copy, bios, numbers). Server-only.
+facts.private.js
+facts.private.json

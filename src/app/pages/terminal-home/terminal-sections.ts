@@ -11,6 +11,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LanguageService } from '../../services/language.service';
+import type { CaseStudyData, TeamMember } from '../../shared/facts.public';
 
 export interface RoiPayload {
   inputs: {
@@ -246,7 +247,7 @@ export class TsecPricing {
           {
             name: 'instagram.agent',
             blurb: 'Un agente AI para Instagram (DMs + comentarios). Lanzado en 5 días.',
-            from: '$445',
+            from: '$475.34',
             unit: '/mes',
             payback: '≈ 1 año, luego solo licencia',
             featured: true,
@@ -287,7 +288,7 @@ export class TsecPricing {
           {
             name: 'instagram.agent',
             blurb: 'One AI agent for Instagram (DMs + comments). Shipped in 5 days.',
-            from: '$445',
+            from: '$475.34',
             unit: '/mo',
             payback: '≈ 1 year, then licence only',
             featured: true,
@@ -638,7 +639,7 @@ export class TsecRoi {
 
   /** Monthly cost by tier (matches the pricing section). */
   private readonly tierMonthly: Record<'instagram.agent' | 'omnichannel.agent' | 'custom.build', number> = {
-    'instagram.agent':   445,
+    'instagram.agent':   475.34,
     'omnichannel.agent': 998,
     'custom.build':      2500, // ballpark for the calculator
   };
@@ -713,4 +714,117 @@ export class TsecCustom {
   readonly es = computed(() => this.lang.current() === 'es');
   @Input() noun: string | null = null;
   @Input() roi: RoiPayload | null = null;
+}
+
+/* ----- /case-study (template) ----- */
+@Component({
+  selector: 'tsec-case-study',
+  standalone: true,
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './terminal-sections.scss',
+  template: `
+    <div class="tsec">
+      <header class="tsec-header cs-head">
+        <div class="cs-id">
+          <span class="cs-tag">[case-study]</span>
+          @if (data && data.logo) {
+            <img class="cs-logo" [src]="data.logo" [alt]="data.client" />
+          }
+          <h2 class="tsec-title cs-client">{{ data?.client }}</h2>
+        </div>
+        @if (langFallback) {
+          <span class="cs-langtag">[{{ data?.lang }}]</span>
+        }
+      </header>
+
+      @if (data) {
+        <div class="cs-grid">
+          <section class="cs-block">
+            <span class="cs-block-k">{{ es() ? 'problema' : 'problem' }}</span>
+            <p class="cs-block-body">{{ data.problem }}</p>
+          </section>
+          <section class="cs-block">
+            <span class="cs-block-k">{{ es() ? 'solución' : 'solution' }}</span>
+            <p class="cs-block-body">{{ data.solution }}</p>
+            <div class="cs-stack">
+              @for (s of data.stack; track s) {
+                <span class="agent-chip">{{ s }}</span>
+              }
+            </div>
+          </section>
+          <section class="cs-block cs-results">
+            <span class="cs-block-k">{{ es() ? 'resultados' : 'results' }}</span>
+            <ul class="cs-results-list">
+              @for (r of data.results; track r) {
+                <li><span class="tsec-bullet">▸</span>{{ r }}</li>
+              }
+            </ul>
+          </section>
+        </div>
+        <footer class="cs-foot">
+          <span class="cs-duration-k">{{ es() ? 'lanzado en' : 'shipped in' }}</span>
+          <span class="cs-duration-v">{{ data.duration }}</span>
+        </footer>
+      }
+    </div>
+  `,
+})
+export class TsecCaseStudy {
+  private readonly lang = inject(LanguageService);
+  readonly es = computed(() => this.lang.current() === 'es');
+  @Input() data: CaseStudyData | null = null;
+  @Input() langFallback = false;
+}
+
+/* ----- /team-grid (template) ----- */
+@Component({
+  selector: 'tsec-team-grid',
+  standalone: true,
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './terminal-sections.scss',
+  template: `
+    <div class="tsec">
+      <header class="tsec-header">
+        <h2 class="tsec-title">{{ es() ? 'Quiénes somos' : 'Who we are' }}
+          @if (langFallback) { <span class="cs-langtag">[{{ data && data[0]?.lang }}]</span> }
+        </h2>
+        <p class="tsec-sub">{{ es() ? 'Pocos. Concentrados. Construyendo agentes que valen la pena enviar.' : 'Few of us. Focused. Building agents worth shipping.' }}</p>
+      </header>
+      <div class="team-grid">
+        @for (m of (data ?? []); track m.name; let i = $index) {
+          <article class="team-card" [style.animationDelay.ms]="i * 100">
+            <div class="team-avatar" [attr.aria-hidden]="true">
+              @if (m.img) {
+                <img [src]="m.img" [alt]="m.name" />
+              } @else {
+                <span class="team-initials">{{ initials(m.name) }}</span>
+              }
+            </div>
+            <div class="team-body">
+              <span class="team-name">{{ m.name }}</span>
+              <span class="team-role">{{ m.role }}</span>
+              <p class="team-bio">{{ m.bio }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  `,
+})
+export class TsecTeamGrid {
+  private readonly lang = inject(LanguageService);
+  readonly es = computed(() => this.lang.current() === 'es');
+  @Input() data: TeamMember[] | null = null;
+  @Input() langFallback = false;
+
+  initials(name: string): string {
+    return name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((p) => p[0]?.toUpperCase() ?? '')
+      .join('');
+  }
 }

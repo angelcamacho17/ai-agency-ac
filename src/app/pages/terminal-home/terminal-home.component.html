@@ -137,26 +137,33 @@
 
     <div class="mounted-sections" [class.has-content]="mounted().length > 0">
       @for (m of mounted(); track m.id; let i = $index) {
-        <div class="md-mounted-section" [attr.data-key]="m.kind">
+        <div class="md-mounted-section" [attr.data-key]="mountLabel(m)">
           <div class="md-section-rule" aria-hidden="true">
-            <span class="md-section-tag">[{{ m.kind }}]</span>
+            <span class="md-section-tag">[{{ mountLabel(m) }}]</span>
             <span class="md-section-rule-line"></span>
             <span class="md-section-idx">render #{{ pad2(i + 1) }}</span>
           </div>
           <div class="mount-wrap">
-            @switch (m.kind) {
-              @case ('agents') { <tsec-agents></tsec-agents><tsec-demo></tsec-demo> }
-              @case ('pricing') {
-                <tsec-pricing></tsec-pricing>
-                @if (!m.hideRoi) { <tsec-roi></tsec-roi> }
+            @if (m.kind === 'template') {
+              @switch (m.tplKind) {
+                @case ('case-study') { <tsec-case-study [data]="$any(m.data)" [langFallback]="m.langFallback ?? false"></tsec-case-study> }
+                @case ('team-grid') { <tsec-team-grid [data]="$any(m.data)" [langFallback]="m.langFallback ?? false"></tsec-team-grid> }
               }
-              @case ('process') { <tsec-process></tsec-process> }
-              @case ('work') { <tsec-work></tsec-work> }
-              @case ('philosophy') { <tsec-philosophy></tsec-philosophy> }
-              @case ('contact') { <tsec-contact></tsec-contact> }
-              @case ('demo') { <tsec-demo></tsec-demo> }
-              @case ('roi') { <tsec-roi></tsec-roi> }
-              @case ('custom') { <tsec-custom [noun]="m.noun ?? null" [roi]="m.roi ?? null"></tsec-custom> }
+            } @else {
+              @switch (m.kind) {
+                @case ('agents') { <tsec-agents></tsec-agents><tsec-demo></tsec-demo> }
+                @case ('pricing') {
+                  <tsec-pricing></tsec-pricing>
+                  @if (!m.hideRoi) { <tsec-roi></tsec-roi> }
+                }
+                @case ('process') { <tsec-process></tsec-process> }
+                @case ('work') { <tsec-work></tsec-work> }
+                @case ('philosophy') { <tsec-philosophy></tsec-philosophy> }
+                @case ('contact') { <tsec-contact></tsec-contact> }
+                @case ('demo') { <tsec-demo></tsec-demo> }
+                @case ('roi') { <tsec-roi></tsec-roi> }
+                @case ('custom') { <tsec-custom [noun]="m.noun ?? null" [roi]="m.roi ?? null"></tsec-custom> }
+              }
             }
           </div>
         </div>
