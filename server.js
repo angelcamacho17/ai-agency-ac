@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const crypto = require('crypto');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -41,7 +42,23 @@ if (allowedOrigins.length) {
 app.use(express.json({ limit: '32kb' }));
 
 const distPath = path.join(__dirname, 'dist/ai-agency-ac/browser');
-app.use(express.static(distPath));
+// redirect:false → don't 301 "/terms" to "/terms/"; our route handler below
+// serves the prerendered "terms/index.html" directly at the clean URL.
+// Hashed build assets (chunk-*.js, styles-*.css, *.woff2) are immutable, so
+// cache them aggressively; prerendered .html stays uncached so content updates
+// are picked up immediately.
+app.use(
+  express.static(distPath, {
+    redirect: false,
+    setHeaders: (res, filePath) => {
+      if (/\.(?:js|css|woff2?|png|jpg|jpeg|svg|ico)$/i.test(filePath) && /-[A-Z0-9]{8,}\./i.test(filePath)) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      } else if (filePath.endsWith('.html')) {
+        res.setHeader('Cache-Control', 'no-cache');
+      }
+    },
+  }),
+);
 
 // ---------- /api/agent ----------
 
@@ -595,8 +612,17 @@ app.get('/api/agent/usage', (req, res) => {
   res.json({ used, remaining: Math.max(0, DAILY_LIMIT - used), limit: DAILY_LIMIT });
 });
 
-// Angular SPA fallback
+// Prerendered (SSG) route fallback.
+// Each route is prerendered to <route>/index.html (e.g. /terms -> terms/index.html).
+// Serve the matching prerendered HTML so AI crawlers and no-JS clients get full
+// content; fall back to the root document for any unknown path (client routing).
 app.get('/{*splat}', (req, res) => {
+  // Strip query/hash and leading slash, guard against path traversal.
+  const clean = path.normalize(req.path).replace(/^(\.\.[/\\])+/, '');
+  const candidate = path.join(distPath, clean, 'index.html');
+  if (candidate.startsWith(distPath) && fs.existsSync(candidate)) {
+    return res.sendFile(candidate);
+  }
   res.sendFile(path.join(distPath, 'index.html'));
 });
 

@@ -7,7 +7,8 @@
     "start:dev": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "serve:ssr:ai-agency-ac": "node dist/ai-agency-ac/server/server.mjs"
   },
   "engines": {
     "node": ">=20.19.0 <23"
@@ -32,14 +33,16 @@
     "@angular/core": "^21.0.0",
     "@angular/forms": "^21.0.0",
     "@angular/platform-browser": "^21.0.0",
+    "@angular/platform-server": "^21.0.7",
     "@angular/router": "^21.0.0",
+    "@angular/ssr": "^21.0.5",
     "@anthropic-ai/sdk": "^0.97.1",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "better-sqlite3": "^12.10.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^4.18.2",
+    "express": "^5.1.0",
     "express-rate-limit": "^8.5.2",
     "helmet": "^8.1.0",
     "rxjs": "~7.8.0",
@@ -49,6 +52,8 @@
     "@angular/build": "^21.0.4",
     "@angular/cli": "^21.0.4",
     "@angular/compiler-cli": "^21.0.0",
+    "@types/express": "^5.0.1",
+    "@types/node": "^20.17.19",
     "autoprefixer": "^10.4.23",
     "jsdom": "^27.1.0",
     "postcss": "^8.5.6",

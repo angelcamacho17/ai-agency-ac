@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, PLATFORM_ID, ViewChild, inject, signal } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 
 interface Step {
@@ -372,6 +372,7 @@ export class ProcessComponent implements AfterViewInit, OnDestroy {
 
   readonly visible = signal(false);
   private observer?: IntersectionObserver;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly processSteps: Step[] = [
     {
@@ -407,7 +408,9 @@ export class ProcessComponent implements AfterViewInit, OnDestroy {
   constructor(private ngZone: NgZone) {}
 
   ngAfterViewInit(): void {
-    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+    if (!this.isBrowser || !('IntersectionObserver' in window)) {
+      // On the server (and when IO is unavailable) render the final visible
+      // state so prerendered HTML shows the full timeline content.
       this.visible.set(true);
       return;
     }

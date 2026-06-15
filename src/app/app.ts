@@ -18,11 +18,12 @@ export class App {
   private readonly router = inject(Router);
   private readonly currentUrl = signal<string>(this.router.url);
 
-  // Hide the global nav on routes that ship their own top bar.
+  // Hide the global nav on routes that ship their own top bar (the terminal
+  // experience and the links page). The scrollable home ('/') uses it.
   readonly showNav = computed(() => {
     const url = this.currentUrl();
     const path = url.split('?')[0];
-    return path !== '/' && !path.startsWith('/links');
+    return !path.startsWith('/terminal') && !path.startsWith('/links');
   });
 
   constructor() {

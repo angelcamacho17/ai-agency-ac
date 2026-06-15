@@ -3,8 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/* Fonts are loaded via a single <link> in index.html (non-blocking,
+   preconnected) — not a render-blocking CSS @import. */
 
 :root {
   --brand: #d3de47;

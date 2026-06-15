@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Injectable, NgZone, OnDestroy, ViewChild, effect, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Injectable, NgZone, OnDestroy, PLATFORM_ID, ViewChild, effect, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class HandsTouchService {
@@ -158,17 +159,18 @@ export class HandsScrollComponent implements AfterViewInit, OnDestroy {
   private readonly FINGERTIP_INSET_PX = 0;
 
   private cleanup?: () => void;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor(private ngZone: NgZone) {
     effect(() => {
-      if (this.touch.touched()) {
+      if (this.touch.touched() && this.isBrowser) {
         this.applyTouchEndState();
       }
     });
   }
 
   ngAfterViewInit(): void {
-    if (typeof window === 'undefined') return;
+    if (!this.isBrowser) return;
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) {

@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 interface Particle {
   x: number;
@@ -20,8 +21,11 @@ export class ParticlesComponent implements AfterViewInit, OnDestroy {
   private particles: Particle[] = [];
   private animationId?: number;
   private resizeObserver?: ResizeObserver;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   ngAfterViewInit() {
+    if (!this.isBrowser) return;
+
     const canvas = this.canvas.nativeElement;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;

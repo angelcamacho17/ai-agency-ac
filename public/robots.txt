@@ -1,4 +1,32 @@
+# Michelangelo Devs — robots.txt
+# Explicitly allow AI search/answer crawlers (GEO). Each as its own block.
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Default: allow everything else too.
 User-agent: *
 Allow: /
-Disallow: /roi
+
 Sitemap: https://www.michelangelodevs.com/sitemap.xml

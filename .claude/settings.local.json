@@ -45,7 +45,13 @@
       "Bash(python3 -c 'import sys,json; d=json.load\\(sys.stdin\\); print\\(\"reply:\",d[\"reply\"]\\); print\\(\"sections:\",d[\"sections\"]\\); print\\(\"roi:\",d[\"roi\"]\\)')",
       "Bash(lsof -ti:8123)",
       "Bash(xargs kill)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(npm ls *)",
+      "Bash(grep -vE \"^\\\\s*$\")",
+      "Bash(echo \"exit $?\")",
+      "Bash(timeout 120 npm test -- --watch=false --browsers=ChromeHeadless)",
+      "Bash(timeout 120 npm test -- --watch=false)",
+      "Bash(npm ci *)"
     ],
     "deny": [],
     "ask": []

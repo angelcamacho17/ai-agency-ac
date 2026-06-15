@@ -22,12 +22,21 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should mount the navigation and a router outlet', async () => {
+  it('should mount a router outlet', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
+  });
+
+  it('shows the global navigation on the scrollable home route', async () => {
+    // The home route ('/') is the scrollable landing and uses the global nav.
+    // Nav is hidden only on /terminal and /links (they ship their own top bar).
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('app-navigation')).toBeTruthy();
-    expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
 });

@@ -10,6 +10,9 @@
   <meta name="author" content="Michelangelo Devs">
   <meta name="theme-color" content="#0a0a0a">
 
+  <!-- T4 [HUMAN]: paste the Google Search Console verification token below, then deploy & verify. -->
+  <!-- <meta name="google-site-verification" content="REPLACE_WITH_GSC_TOKEN"> -->
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.michelangelodevs.com/">
@@ -24,10 +27,12 @@
   <meta name="twitter:description" content="Software that inspires. Architectural excellence meets AI.">
   <meta name="twitter:image" content="https://www.michelangelodevs.com/assets/og-nebula.jpg">
 
-  <!-- Preload critical fonts -->
+  <!-- Fonts: one combined request for all families used across the site
+       (Inter + Playfair for the landing, JetBrains Mono for the terminal).
+       display=swap so text paints immediately with a fallback. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
 
   <!-- Preload hero hand assets -->
   <link rel="preload" as="image" href="/michelangelo_hand_left.png" fetchpriority="high">
@@ -43,6 +48,8 @@
     "@type": "Organization",
     "name": "Michelangelo Devs",
     "url": "https://www.michelangelodevs.com/",
+    "description": "Production-grade AI agents for Instagram, WhatsApp, and Web. eCommerce automation and chatbot development.",
+    "serviceType": ["AI Agents", "WhatsApp Automation", "Instagram Automation", "Chatbot Development", "Business Process Automation"],
     "logo": "https://www.michelangelodevs.com/logo_white.png",
     "sameAs": [
       "https://www.instagram.com/michelangelo.devs",

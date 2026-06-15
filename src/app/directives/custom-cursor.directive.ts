@@ -1,4 +1,5 @@
-import { Directive, ElementRef, HostListener, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit, OnDestroy, PLATFORM_ID, Renderer2, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
   selector: '[appCustomCursor]',
@@ -9,12 +10,13 @@ export class CustomCursorDirective implements OnInit, OnDestroy {
   private mouseX = 0;
   private mouseY = 0;
   private animationFrame?: number;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit() {
-    // Only enable on desktop
-    if (window.innerWidth >= 1024) {
+    // Browser-only: cursor glow needs window/document.
+    if (this.isBrowser && window.innerWidth >= 1024) {
       this.createCursor();
       this.hideCursor();
     }
@@ -79,11 +81,12 @@ export class CustomCursorDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (!this.isBrowser) return;
     if (this.cursor) {
       this.renderer.removeChild(document.body, this.cursor);
       this.renderer.setStyle(document.body, 'cursor', 'auto');
     }
-    if (this.animationFrame) {
+    if (this.animationFrame && typeof cancelAnimationFrame !== 'undefined') {
       cancelAnimationFrame(this.animationFrame);
     }
   }

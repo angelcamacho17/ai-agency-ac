@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, inject, signal } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 
 @Component({
@@ -63,6 +63,8 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
   `]
 })
 export class StatsComponent implements OnInit {
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   stats = [
     { target: 10, suffix: '+', label: 'Años' },
     { target: 50, suffix: '+', label: 'Proyectos' },
@@ -76,6 +78,15 @@ export class StatsComponent implements OnInit {
   ];
 
   ngOnInit() {
+    if (!this.isBrowser) {
+      // On the server, render the final counter values so prerendered HTML
+      // contains the real numbers (not 0) for crawlers.
+      this.stats.forEach((stat, index) => {
+        this.currentValues[index].set(stat.target);
+      });
+      return;
+    }
+
     // Start counter animations after a delay
     setTimeout(() => {
       this.stats.forEach((stat, index) => {
