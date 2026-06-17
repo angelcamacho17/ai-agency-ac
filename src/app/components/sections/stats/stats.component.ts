@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, signal, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 
 @Component({
@@ -75,7 +75,10 @@ export class StatsComponent implements OnInit {
     signal(0)
   ];
 
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   ngOnInit() {
+    if (!this.isBrowser) return;
     // Start counter animations after a delay
     setTimeout(() => {
       this.stats.forEach((stat, index) => {

@@ -1,4 +1,5 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 
 export type Lang = 'es' | 'en';
@@ -9,13 +10,18 @@ const DEFAULT_LANG: Lang = 'es';
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
   private readonly translate = inject(TranslateService);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   readonly current = signal<Lang>(DEFAULT_LANG);
 
   init(): void {
     this.translate.addLangs(SUPPORTED);
     this.translate.setFallbackLang(DEFAULT_LANG);
 
-    const initial = this.detect();
+    // On the server the language can't be detected from localStorage/navigator,
+    // so we render the default language. Its translations are provided by the
+    // server-side in-memory loader (resolves synchronously, no HTTP), so this is
+    // safe during prerender. The real language is detected & loaded on the client.
+    const initial = this.isBrowser ? this.detect() : DEFAULT_LANG;
     this.use(initial);
   }
 
