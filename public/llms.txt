@@ -1,0 +1,26 @@
+# Michelangelo Devs
+
+> Michelangelo Devs builds production AI agents and automation that answer every customer message, qualify leads and close sales 24/7 on Instagram, WhatsApp and the web. Agents are typically designed, built and deployed in about five days.
+
+We build AI sales and support agents (on Claude and GPT models), operational automations, and web applications. Our focus is recovering revenue that businesses lose to slow or missed replies in direct-message channels.
+
+## Core pages
+
+- [What is an AI agent?](https://www.michelangelodevs.com/ai-agents): Plain-language explanation of AI agents for business, how they differ from chatbots, and where they pay off.
+- [AI chatbot vs AI agent](https://www.michelangelodevs.com/ai-chatbots): The difference between a chatbot that answers questions and an agent that takes actions to close sales.
+- [Business process automation with AI](https://www.michelangelodevs.com/business-automation): What AI automation can take off your plate and why it pays back quickly.
+- [How much does an AI agent cost?](https://www.michelangelodevs.com/pricing): What drives AI agent pricing and how to estimate payback.
+
+## Blog
+
+- [How AI agents close sales on Instagram and WhatsApp](https://www.michelangelodevs.com/blog/ai-agents-for-instagram-whatsapp-sales): How AI agents recover sales lost to slow replies in DM channels.
+- [Blog index](https://www.michelangelodevs.com/blog): All articles on AI agents, chatbots and automation.
+
+## Tools
+
+- [ROI calculator](https://www.michelangelodevs.com/roi): Estimate how fast an AI agent pays for itself based on your close rate, lost conversations and profit per sale.
+
+## Contact
+
+- Instagram: https://www.instagram.com/michelangelo.devs
+- Email: contact@michelangelodevs.com

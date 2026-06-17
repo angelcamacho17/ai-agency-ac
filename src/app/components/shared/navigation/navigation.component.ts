@@ -1,5 +1,6 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MagneticButtonDirective } from '../../../directives/magnetic-button.directive';
 import { LanguageService } from '../../../services/language.service';
@@ -7,7 +8,7 @@ import { LanguageService } from '../../../services/language.service';
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [CommonModule, MagneticButtonDirective, TranslatePipe],
+  imports: [CommonModule, RouterLink, MagneticButtonDirective, TranslatePipe],
   template: `
     <nav
       class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
@@ -18,7 +19,7 @@ import { LanguageService } from '../../../services/language.service';
       <div class="max-w-7xl mx-auto px-6 py-4">
         <div class="flex items-center justify-between">
           <!-- Logo -->
-          <a href="#home" class="flex items-center gap-3 group">
+          <a routerLink="/" fragment="home" class="flex items-center gap-3 group">
             <img
               src="logo_white.png"
               alt="Michelangelo Devs Logo"
@@ -33,7 +34,8 @@ import { LanguageService } from '../../../services/language.service';
           <div class="hidden md:flex items-center gap-8">
             <a
               *ngFor="let item of menuItems"
-              [href]="item.href"
+              routerLink="/"
+              [fragment]="item.fragment"
               class="text-text-secondary hover:text-neon-green transition-all duration-300 relative group"
             >
               {{ item.labelKey | translate }}
@@ -103,7 +105,8 @@ import { LanguageService } from '../../../services/language.service';
         >
           <a
             *ngFor="let item of menuItems"
-            [href]="item.href"
+            routerLink="/"
+            [fragment]="item.fragment"
             (click)="toggleMobileMenu()"
             class="block px-4 py-3 text-text-secondary hover:text-neon-green hover:bg-white/5 transition-all duration-300"
           >
@@ -159,13 +162,15 @@ export class NavigationComponent {
   isScrolled = signal(false);
   mobileMenuOpen = signal(false);
 
+  // routerLink="/" + fragment so these work from any page (home, /ai-agents,
+  // /blog): the router navigates home, then anchor scrolling jumps to the section.
   menuItems = [
-    { labelKey: 'nav.home', href: '#home' },
-    { labelKey: 'nav.demo', href: '#demo' },
-    { labelKey: 'nav.work', href: '#work' },
-    { labelKey: 'nav.process', href: '#process' },
-    { labelKey: 'nav.calculator', href: '#calculadora' },
-    { labelKey: 'nav.contact', href: '#contact' }
+    { labelKey: 'nav.home', fragment: 'home' },
+    { labelKey: 'nav.demo', fragment: 'demo' },
+    { labelKey: 'nav.work', fragment: 'work' },
+    { labelKey: 'nav.process', fragment: 'process' },
+    { labelKey: 'nav.calculator', fragment: 'calculadora' },
+    { labelKey: 'nav.contact', fragment: 'contact' }
   ];
 
   @HostListener('window:scroll')

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { SeoService } from '../../services/seo.service';
 import { Hero } from '../../components/hero/hero';
 import { TrustedBrandsComponent } from '../../components/sections/trusted-brands/trusted-brands.component';
 import { DemoSectionComponent } from '../../components/sections/demo/demo.component';
@@ -38,4 +39,44 @@ import { HandsScrollComponent } from '../../components/effects/hands-scroll/hand
     <app-footer></app-footer>
   `
 })
-export class HomeComponent {}
+export class HomeComponent {
+  private readonly seo = inject(SeoService);
+
+  constructor() {
+    const origin = 'https://www.michelangelodevs.com';
+    this.seo.apply({
+      title: 'AI Agents for Instagram, WhatsApp & Web',
+      description:
+        'Michelangelo Devs builds production AI agents that answer every message, qualify leads and close sales 24/7 on Instagram, WhatsApp and the web. Deployed in about five days.',
+      keywords:
+        'ai agents, ai sales agent, instagram automation, whatsapp automation, ai chatbot, business automation, michelangelo devs',
+      path: '/',
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'Michelangelo Devs',
+          url: origin,
+          logo: `${origin}/logo_white.png`,
+          description:
+            'We build production AI agents and automation for sales and support on Instagram, WhatsApp and the web.',
+          sameAs: [
+            'https://www.instagram.com/michelangelo.devs',
+            'https://www.linkedin.com/company/michelangelodevs',
+          ],
+          contactPoint: {
+            '@type': 'ContactPoint',
+            contactType: 'sales',
+            email: 'contact@michelangelodevs.com',
+          },
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'Michelangelo Devs',
+          url: origin,
+        },
+      ],
+    });
+  }
+}

@@ -3,4 +3,7 @@ services:
     name: ai-agency-ac
     env: node
     buildCommand: npm install && npm run build
-    startCommand: node server.js
+    # Run the Angular SSR server (serves prerendered static HTML + live SSR).
+    # Do NOT serve dist/.../browser/index.html directly — that bypasses SSR and
+    # returns the empty client shell, which AI crawlers cannot read.
+    startCommand: npm run serve:ssr:ai-agency-ac
