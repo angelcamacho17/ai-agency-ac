@@ -21,6 +21,7 @@ export class ParticlesComponent implements AfterViewInit, OnDestroy {
   private particles: Particle[] = [];
   private animationId?: number;
   private resizeObserver?: ResizeObserver;
+  private visibilityObserver?: IntersectionObserver;
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   ngAfterViewInit() {
@@ -39,6 +40,22 @@ export class ParticlesComponent implements AfterViewInit, OnDestroy {
       this.resizeCanvas();
     });
     this.resizeObserver.observe(canvas.parentElement || document.body);
+
+    // Pause the RAF loop when the hero is not visible — saves GPU on long pages
+    this.visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!this.animationId) this.animate();
+        } else {
+          if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = undefined;
+          }
+        }
+      },
+      { threshold: 0 }
+    );
+    this.visibilityObserver.observe(canvas);
   }
 
   private resizeCanvas() {
@@ -101,11 +118,8 @@ export class ParticlesComponent implements AfterViewInit, OnDestroy {
   };
 
   ngOnDestroy() {
-    if (this.animationId) {
-      cancelAnimationFrame(this.animationId);
-    }
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-    }
+    if (this.animationId) cancelAnimationFrame(this.animationId);
+    this.resizeObserver?.disconnect();
+    this.visibilityObserver?.disconnect();
   }
 }

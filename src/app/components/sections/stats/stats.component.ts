@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, PLATFORM_ID, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, PLATFORM_ID, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 
@@ -7,7 +7,7 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
   standalone: true,
   imports: [CommonModule, ScrollRevealDirective],
   template: `
-    <section class="relative py-32 overflow-hidden bg-dark-950">
+    <section class="relative py-32 overflow-hidden bg-dark-950" #sectionEl>
       <!-- Intense green gradient from center -->
       <div
         class="absolute inset-0 pointer-events-none"
@@ -62,30 +62,37 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
     }
   `]
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('sectionEl', { static: true }) sectionEl!: ElementRef<HTMLElement>;
+
   stats = [
     { target: 10, suffix: '+', label: 'Años' },
     { target: 50, suffix: '+', label: 'Proyectos' },
   ];
 
-  currentValues = [
-    signal(0),
-    signal(0),
-    signal(0),
-    signal(0)
-  ];
+  currentValues = [signal(0), signal(0), signal(0), signal(0)];
 
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private observer?: IntersectionObserver;
 
-  ngOnInit() {
-    if (!this.isBrowser) return;
-    // Start counter animations after a delay
-    setTimeout(() => {
-      this.stats.forEach((stat, index) => {
-        this.animateCounter(index, stat.target);
-      });
-    }, 500);
+  ngAfterViewInit(): void {
+    if (!this.isBrowser) {
+      this.stats.forEach((s, i) => this.currentValues[i].set(s.target));
+      return;
+    }
+    this.observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          this.stats.forEach((stat, i) => this.animateCounter(i, stat.target));
+          this.observer?.disconnect();
+        }
+      },
+      { threshold: 0.4 }
+    );
+    this.observer.observe(this.sectionEl.nativeElement);
   }
+
+  ngOnDestroy(): void { this.observer?.disconnect(); }
 
   private animateCounter(index: number, target: number, duration: number = 2000) {
     const start = 0;

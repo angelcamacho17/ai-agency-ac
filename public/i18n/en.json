@@ -134,10 +134,18 @@
     "ctaButton": "I want my agent",
     "disclaimer": "* This calculator shows an estimated projection based on your inputs. Real results may vary depending on your industry, audience and actual traffic."
   },
+  "elgap": {
+    "ch1": "Every unanswered message costs you.",
+    "ch2": "How many clients did you lose today?",
+    "ch2sub": "While you sleep, your competition doesn't.",
+    "ch3": "Never again.",
+    "ch3sub": "50+ businesses, zero missed leads.",
+    "touch": "Shall we talk?"
+  },
   "cta": {
-    "headlineSmall": "message us",
-    "headlineAccent": "via DM",
-    "subhead": "Talk to our AI agent on Instagram. Replies 24/7 and routes you to the team.",
+    "headlineSmall": "Ready to start?",
+    "headlineAccent": "Let's talk.",
+    "subhead": "Our agent replies right now and connects you with the team.",
     "button": "Message us on Instagram",
     "fallback": "or visit"
   },

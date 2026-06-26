@@ -134,10 +134,18 @@
     "ctaButton": "Quiero mi agente",
     "disclaimer": "* Esta calculadora muestra una proyección estimada basada en los datos que ingresas. Los resultados reales pueden variar según tu industria, audiencia y volumen real de tráfico."
   },
+  "elgap": {
+    "ch1": "Cada mensaje sin responder cuesta.",
+    "ch2": "¿Cuántos clientes perdiste hoy?",
+    "ch2sub": "Mientras duermes, tu competencia no.",
+    "ch3": "Nunca más.",
+    "ch3sub": "+50 negocios ya no pierden clientes mientras duermen.",
+    "touch": "¿Hablamos?"
+  },
   "cta": {
-    "headlineSmall": "escríbenos",
-    "headlineAccent": "por DM",
-    "subhead": "Habla con nuestro agente AI en Instagram. Responde 24/7 y te conecta con el equipo.",
+    "headlineSmall": "¿Listo para empezar?",
+    "headlineAccent": "Hablemos.",
+    "subhead": "Nuestro agente responde ahora mismo y te conecta con el equipo.",
     "button": "Escríbenos en Instagram",
     "fallback": "o visita"
   },

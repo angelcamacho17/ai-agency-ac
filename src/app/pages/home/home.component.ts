@@ -10,6 +10,7 @@ import { LandingCalculatorComponent } from '../../components/sections/calculator
 import { CtaComponent } from '../../components/sections/cta/cta.component';
 import { FooterComponent } from '../../components/sections/footer/footer.component';
 import { HandsScrollComponent } from '../../components/effects/hands-scroll/hands-scroll.component';
+import { IntroAnimationComponent } from '../../components/effects/intro-animation/intro-animation.component';
 
 @Component({
   selector: 'app-home',
@@ -24,20 +25,37 @@ import { HandsScrollComponent } from '../../components/effects/hands-scroll/hand
     LandingCalculatorComponent,
     CtaComponent,
     FooterComponent,
-    HandsScrollComponent
+    HandsScrollComponent,
+    IntroAnimationComponent,
   ],
   template: `
-    <app-hands-scroll></app-hands-scroll>
-    <app-hero></app-hero>
-    <app-demo></app-demo>
-    <app-roi></app-roi>
-    <app-work></app-work>
-    <app-process></app-process>
-    <app-landing-calculator></app-landing-calculator>
-    <app-trusted-brands></app-trusted-brands>
-    <app-cta></app-cta>
-    <app-footer></app-footer>
-  `
+    <!-- Cinematic intro — covers everything on first load, then disappears -->
+    <app-intro-animation></app-intro-animation>
+
+    <!-- 250vh sticky scroll zone: hands + hero live here -->
+    <app-hands-scroll>
+      <app-hero></app-hero>
+    </app-hands-scroll>
+
+    <!-- Sections stack above the sticky layer as user scrolls past it -->
+    <div class="sections-above">
+      <app-demo></app-demo>
+      <app-roi></app-roi>
+      <app-work></app-work>
+      <app-process></app-process>
+      <app-landing-calculator></app-landing-calculator>
+      <app-trusted-brands></app-trusted-brands>
+      <app-cta></app-cta>
+      <app-footer></app-footer>
+    </div>
+  `,
+  styles: [`
+    .sections-above {
+      position: relative;
+      z-index: 10;
+      background: #0a0a0a;
+    }
+  `]
 })
 export class HomeComponent {
   private readonly seo = inject(SeoService);
