@@ -35,7 +35,17 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
 
           <!-- Card 1: AI Agents -->
           <div appScrollReveal class="service-card group">
-            <div class="card-icon">🤖</div>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="10" rx="2"/>
+                <path d="M12 11V7"/>
+                <circle cx="12" cy="5" r="2"/>
+                <circle cx="8.5" cy="15.5" r="1.5"/>
+                <circle cx="15.5" cy="15.5" r="1.5"/>
+                <path d="M9 19h6"/>
+              </svg>
+            </div>
             <h3 class="card-title">
               {{ 'work.agents.titleStart' | translate }}
               <span class="text-neon-green">{{ 'work.agents.titleAccent' | translate }}</span>
@@ -70,7 +80,12 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
 
           <!-- Card 2: Automations -->
           <div appScrollReveal class="service-card group">
-            <div class="card-icon">⚡</div>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>
+              </svg>
+            </div>
             <h3 class="card-title">
               {{ 'work.automations.titleStart' | translate }}
               <span class="text-neon-green">{{ 'work.automations.titleAccent' | translate }}</span>
@@ -105,7 +120,15 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
 
           <!-- Card 3: Web Applications -->
           <div appScrollReveal class="service-card group">
-            <div class="card-icon">💻</div>
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <path d="M8 21h8M12 17v4M2 7h20"/>
+                <circle cx="5" cy="5" r="0.8" fill="currentColor"/>
+                <circle cx="8" cy="5" r="0.8" fill="currentColor"/>
+              </svg>
+            </div>
             <h3 class="card-title">
               {{ 'work.webapps.titleStart' | translate }}
               <span class="text-neon-green">{{ 'work.webapps.titleAccent' | translate }}</span>
@@ -183,9 +206,16 @@ import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directi
 
     /* Card Icon */
     .card-icon {
-      font-size: 4rem;
-      text-align: center;
-      filter: drop-shadow(0 0 20px rgb(var(--brand-rgb) / 0.39));
+      width: 56px;
+      height: 56px;
+      margin: 0 auto;
+      color: rgb(var(--brand-rgb));
+      filter: drop-shadow(0 0 20px rgb(var(--brand-rgb) / 0.5));
+    }
+
+    .card-icon svg {
+      width: 100%;
+      height: 100%;
     }
 
     /* Card Title */

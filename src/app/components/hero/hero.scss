@@ -1,17 +1,78 @@
-.text-text-primary {
-    font-size: 4.5rem;
+/* Hero fills the sticky viewport exactly — height is controlled by the
+   250vh wrapper in HandsScrollComponent, not by this section. */
+.hero-section {
+  height: 100vh;
+  position: relative;
+  z-index: 15; /* above hands (z:5) and glow (z:10), below chapters (z:20) */
+  background: transparent;
+}
 
-    @media screen and (max-width: 600px) {
-        font-size: 3rem;
-    }
+/* Single green nebula — replaces the multi-blob NebulaBackgroundComponent.
+   Pure CSS animation, zero JS, off the main thread. */
+.hero-nebula-blob {
+  position: absolute;
+  width: clamp(400px, 55vw, 800px);
+  height: clamp(400px, 55vw, 800px);
+  top: 10%;
+  left: -8%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(var(--brand-rgb) / 0.14) 0%,
+    rgb(var(--accent-rgb) / 0.08) 35%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  opacity: 0.5;
+  pointer-events: none;
+  will-change: transform;
+  animation: nebula-drift 14s ease-in-out infinite alternate;
+}
+
+@keyframes nebula-drift {
+  from { transform: translateY(0px) scale(1); }
+  to   { transform: translateY(50px) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-nebula-blob { animation: none; }
+}
+
+/* Words start hidden — IntroAnimationComponent GSAP timeline reveals them.
+   prefers-reduced-motion: show immediately with no animation. */
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(-18px);
+  will-change: opacity, filter, transform;
+}
+
+.hero-sub {
+  opacity: 0;
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-word { opacity: 1; filter: none; transform: none; }
+  .hero-sub  { opacity: 1; }
+}
+
+/* Typography overrides (kept from original) */
+.text-text-primary {
+  font-size: 4.5rem;
+
+  @media screen and (max-width: 600px) {
+    font-size: 3rem;
+  }
 }
 
 .text-neon-green {
-    font-size: 4rem;
-    margin-bottom: 1rem;
+  font-size: 4rem;
+  margin-bottom: 1rem;
 }
 
 .container {
-    padding-top: 5rem;
-    padding-bottom: 2rem;
+  padding-top: 5rem;
+  padding-bottom: 2rem;
 }

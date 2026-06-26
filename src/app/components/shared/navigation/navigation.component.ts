@@ -145,6 +145,14 @@ import { LanguageService } from '../../../services/language.service';
       display: block;
     }
 
+    :host nav.glassmorphism {
+      backdrop-filter: blur(28px) saturate(200%);
+      border-bottom: 1px solid rgb(var(--brand-rgb) / 0.10);
+      box-shadow:
+        0 1px 0 rgb(var(--brand-rgb) / 0.06),
+        0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+
     .lang-toggle span {
       color: rgba(255, 255, 255, 0.45);
       transition: color 0.2s ease, text-shadow 0.2s ease;

@@ -36,10 +36,13 @@ body {
   position: relative;
 }
 
-/* The fixed hands layer (z-index: 0) lives behind everything in the page.
-   Section wrappers paint their dark backgrounds at a slight transparency so
-   the hands bleed through. */
-app-hero > section,
+/* Hero is transparent — hands behind it must show through during the
+   sticky scroll phase. All other sections are in .sections-above which
+   has a solid #0a0a0a base, so they sit cleanly above the hands. */
+app-hero > section {
+  background-color: transparent !important;
+}
+
 app-trusted-brands > section,
 app-demo > section,
 app-roi > section,
@@ -48,7 +51,7 @@ app-process > section,
 app-landing-calculator > section,
 app-cta > section,
 app-footer > footer {
-  background-color: rgba(10, 10, 10, 0.78) !important;
+  background-color: rgba(10, 10, 10, 0.88) !important;
 }
 
 /* Smooth scrolling for better UX */

@@ -12,10 +12,7 @@ import { HandsTouchService } from '../../effects/hands-scroll/hands-scroll.compo
     <section id="contact" class="relative py-24 md:py-48 overflow-hidden bg-dark-900">
       <div
         class="absolute inset-0 pointer-events-none"
-        style="
-          background:
-            radial-gradient(ellipse at 50% 50%, rgb(var(--brand-rgb) / 0.227) 0%, transparent 55%);
-        "
+        style="background: radial-gradient(ellipse at 50% 60%, rgb(var(--brand-rgb) / 0.30) 0%, rgb(var(--brand-rgb) / 0.10) 35%, transparent 65%)"
       ></div>
 
       <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
