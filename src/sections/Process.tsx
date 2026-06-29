@@ -14,31 +14,31 @@ type Phase = {
 
 const PHASES: Phase[] = [
   {
-    key: 'brief',
-    label: 'Brief',
-    duration: '~2 days',
-    copy: 'We pull apart the product and agree on what motion has to mean.',
+    key: 'map',
+    label: 'Map',
+    duration: 'Day 1',
+    copy: 'We trace how your best rep sells and pick the channel with the most leakage.',
     Icon: Note,
   },
   {
-    key: 'spec',
-    label: 'Spec',
-    duration: '~1 week',
-    copy: 'Every transition is named, timed and pinned to a trigger before we touch code.',
+    key: 'build',
+    label: 'Build',
+    duration: 'Day 2-3',
+    copy: 'We train the agent on your data and voice, then wire it into your CRM, calendar and payments.',
     Icon: Ruler,
   },
   {
-    key: 'prototype',
-    label: 'Prototype',
-    duration: '~2 weeks',
-    copy: 'A live build you can grab and break, tuned against the real interface.',
+    key: 'pressure-test',
+    label: 'Pressure-test',
+    duration: 'Day 4',
+    copy: 'We run it against real conversations, tune edge cases and set the human-handoff rules with you.',
     Icon: Cube,
   },
   {
     key: 'ship',
     label: 'Ship',
-    duration: '~1 week',
-    copy: 'We hand off the motion layer wired in, documented and ready to run.',
+    duration: 'Day 5',
+    copy: 'It goes live on your channels. You watch every conversation and we iterate weekly from real outcomes.',
     Icon: RocketLaunch,
   },
 ]
@@ -104,7 +104,7 @@ export default function Process() {
         id="process-heading"
         className="max-w-xl font-display text-4xl text-paper text-balance sm:text-5xl"
       >
-        How a build gets drawn.
+        From kickoff to live in a week.
       </h2>
 
       <div className="relative mt-16 pl-14 sm:pl-20">

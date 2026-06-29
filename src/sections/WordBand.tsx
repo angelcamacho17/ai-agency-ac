@@ -3,7 +3,7 @@ import { animate, onScroll, utils } from 'animejs'
 import { useAnimeScope } from '../hooks/useAnimeScope'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 
-const WORDS = ['EASING', 'SPRING', 'GESTURE', 'CHOREOGRAPHY', '60FPS'] as const
+const WORDS = ['INSTAGRAM', 'WHATSAPP', 'WEB', 'QUALIFY', 'CLOSE', '24/7'] as const
 
 /** One unit of the band: verbs separated by acid tick slashes. */
 function BandRun({ ariaHidden }: { ariaHidden?: boolean }) {

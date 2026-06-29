@@ -24,8 +24,8 @@ const iconProps = {
 const cells: Cell[] = [
   {
     part: 'AN-01',
-    title: 'Transitions',
-    copy: 'Routes and views that move with intent, never a hard cut.',
+    title: 'Instant replies',
+    copy: 'Sub-second answers in your brand voice, day or night.',
     span: 'sm:col-span-2 sm:row-span-1',
     icon: (
       <svg {...iconProps} className="cap-icon h-10 w-10 text-acid">
@@ -38,8 +38,8 @@ const cells: Cell[] = [
   },
   {
     part: 'AN-02',
-    title: 'Physics',
-    copy: 'Springs and momentum tuned to feel like real mass.',
+    title: 'Lead qualification',
+    copy: 'Scores intent and books the ready-to-buy automatically.',
     span: 'sm:col-span-1 sm:row-span-2',
     icon: (
       <svg {...iconProps} className="cap-icon h-10 w-10 text-acid">
@@ -51,8 +51,8 @@ const cells: Cell[] = [
   },
   {
     part: 'AN-03',
-    title: 'Gesture',
-    copy: 'Drag, throw and snap interactions that answer the hand.',
+    title: 'Every channel',
+    copy: 'Instagram DMs, WhatsApp and your website, one brain.',
     span: 'sm:col-span-1 sm:row-span-2',
     icon: (
       <svg {...iconProps} className="cap-icon h-10 w-10 text-acid">
@@ -64,8 +64,8 @@ const cells: Cell[] = [
   },
   {
     part: 'AN-04',
-    title: 'State choreography',
-    copy: 'Every state change reads as one motivated move.',
+    title: 'Wired to your stack',
+    copy: 'CRM, calendar and payments connected on day one.',
     span: 'sm:col-span-1 sm:row-span-1',
     icon: (
       <svg {...iconProps} className="cap-icon h-10 w-10 text-acid">
@@ -77,8 +77,8 @@ const cells: Cell[] = [
   },
   {
     part: 'AN-05',
-    title: 'Performance budget',
-    copy: 'Transform and opacity only, locked to a frame budget.',
+    title: 'Human handoff',
+    copy: 'Knows when to escalate to a person, with full context.',
     span: 'sm:col-span-1 sm:row-span-1',
     icon: (
       <svg {...iconProps} className="cap-icon h-10 w-10 text-acid">
@@ -154,7 +154,7 @@ export default function Capabilities() {
       className="relative mx-auto max-w-6xl px-6 py-28 sm:py-36"
     >
       <h2 className="mb-12 max-w-xl text-balance text-4xl text-paper sm:text-5xl">
-        What we engineer.
+        What we build.
       </h2>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:grid-rows-2">

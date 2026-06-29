@@ -13,7 +13,7 @@ import { useAnimeScope } from '../hooks/useAnimeScope'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 
 /**
- * Playground - Studio Animae's signature interactive.
+ * Playground - Michelangelo Devs signature interactive.
  * Drag the acid mass inside a bordered tray. Its release rides a real spring,
  * grabbing it nudges every neighbour outward on a radiating spring, and the
  * mass's live displacement is inked as a self-drawing SVG curve in the corner.
@@ -182,11 +182,11 @@ export default function Playground() {
       <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="max-w-xl text-balance font-display text-[clamp(2rem,6vw,4rem)] leading-[0.98] text-paper">
-            Drag the mass. Read the curve.
+            Drag a lead. Watch it route.
           </h2>
           <p className="mt-5 max-w-md font-display text-base text-mist sm:text-lg">
-            Every motion here is pure feedback. Grab the node, feel the spring,
-            watch its displacement plot itself.
+            Every lead that lands gets caught, qualified and routed in real
+            time. Grab the node and feel the response.
           </p>
         </div>
         {!reduce && (

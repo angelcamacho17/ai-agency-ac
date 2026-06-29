@@ -1,6 +1,6 @@
 const LINKS = [
   { label: 'Anatomy', href: '#anatomy' },
-  { label: 'Capabilities', href: '#capabilities' },
+  { label: 'What we build', href: '#capabilities' },
   { label: 'Playground', href: '#playground' },
   { label: 'Process', href: '#process' },
 ]
@@ -12,7 +12,7 @@ export function Nav() {
         <a href="#top" className="flex items-center gap-2.5">
           <span className="h-2.5 w-2.5 rounded-full bg-acid" />
           <span className="font-mono text-[13px] font-medium tracking-tight">
-            studio<span className="text-acid">animae</span>
+michelangelo<span className="text-acid">devs</span>
           </span>
         </a>
 

@@ -1,15 +1,27 @@
-# Studio Animae — kinetic landing page
+# Michelangelo Devs - AI agents landing page
 
-An experimental, motion-first landing page for a fictional motion-engineering
-studio. The animations *are* the product: every section is a live demo of a
-different [anime.js](https://animejs.com) v4 capability.
+An experimental landing page for Michelangelo Devs, an AI agents agency. A
+single 3D sculpture morphs from a rough chiseled stone block into a refined,
+metallic form as you scroll ("we sculpt AI agents"), over a kinetic
+[anime.js](https://animejs.com) v4 content layer.
 
 ## Stack
 
 - **Vite + React + TypeScript**
-- **anime.js v4.5.0** — the entire motion layer
-- **Tailwind v4** — design tokens via `@theme` (warm near-black + acid-lime)
-- **@phosphor-icons/react** — icons
+- **three.js + @react-three/fiber + drei + postprocessing** - the scroll-morphing 3D sculpture
+- **anime.js v4.5.0** - the kinetic content layer (split type, draggable, scroll timelines, SVG draw)
+- **Tailwind v4** - design tokens via `@theme` (warm near-black + acid-lime)
+- **@phosphor-icons/react** - icons
+
+## The 3D sculpture
+
+A shader-displaced icosphere reads the document scroll progress every frame
+(via a ref, no React re-renders) and transforms continuously: chisel/facet
+amplitude falls off while fine detail grows, and the material lerps from matte
+marble to a glowing metallic sheen. See `src/three/Sculpture.tsx` and
+`src/three/SculptureCanvas.tsx`. The WebGL chunk is code-split and lazy-loaded
+so the hero copy paints first; the whole thing collapses to a static frame
+under `prefers-reduced-motion`.
 - Type: Space Grotesk (display) / JetBrains Mono (technical voice)
 
 ## Sections (each showcases a distinct anime.js feature)

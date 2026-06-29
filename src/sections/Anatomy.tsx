@@ -9,11 +9,11 @@ type Spec = {
 }
 
 const SPECS: Spec[] = [
-  { key: 'trigger', label: 'trigger', value: 'Pointer press, not hover. Intent over accident.' },
-  { key: 'duration', label: 'duration', value: '180ms down, 240ms back. Fast in, calm out.' },
-  { key: 'easing', label: 'easing', value: 'Out-expo on release so it settles, never snaps.' },
-  { key: 'spring', label: 'spring', value: 'Stiffness 220, damping 18. One soft overshoot.' },
-  { key: 'payoff', label: 'payoff', value: 'The label commits. You felt it before you read it.' },
+  { key: 'trigger', label: 'Listens', value: 'reads intent across the whole thread' },
+  { key: 'duration', label: 'Replies', value: 'in your brand voice, sub-second' },
+  { key: 'easing', label: 'Qualifies', value: 'scores and books the ready-to-buy' },
+  { key: 'spring', label: 'Connects', value: 'CRM, calendar, payments' },
+  { key: 'payoff', label: 'Escalates', value: 'hands off to a human with context' },
 ]
 
 export default function Anatomy() {
@@ -71,7 +71,7 @@ export default function Anatomy() {
             id="anatomy-heading"
             className="mt-5 max-w-md text-balance text-4xl text-paper md:text-5xl"
           >
-            Every interaction has a spec.
+            The anatomy of an agent.
           </h2>
 
           <div className="mt-12">

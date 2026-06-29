@@ -5,7 +5,7 @@ import { useAnimeScope } from '../hooks/useAnimeScope'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 
 /**
- * FinalCta - Studio Animae closing title-block.
+ * FinalCta - Michelangelo Devs closing title-block.
  * The breath metaphor exhales: on enter one createTimeline splits the headline
  * into line-masked reveals, draws a single acid "signature" underline stroke
  * (svg.createDrawable) as the final beat, then morphs the recap curve flat
@@ -90,6 +90,14 @@ export default function FinalCta() {
       id="contact"
       className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 py-24 text-center sm:px-10 lg:px-16"
     >
+      {/* Readability scrim so the headline reads over the sculpture behind it. */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 55% at 50% 50%, color-mix(in srgb, var(--color-ink) 86%, transparent) 30%, transparent 78%)',
+        }}
+      />
       {/* Recap curve that exhales flat behind the title-block. */}
       <svg
         aria-hidden
@@ -118,7 +126,7 @@ export default function FinalCta() {
           ref={h2Ref}
           className="text-balance font-display text-[clamp(2.5rem,8vw,6rem)] leading-[0.95] text-paper"
         >
-          Let us draw your motion layer.
+          Let us build your agent.
         </h2>
 
         {/* Single acid signature underline stroke, drawn as the final beat. */}
@@ -139,7 +147,7 @@ export default function FinalCta() {
 
         <a
           ref={pillRef}
-          href="mailto:hello@studioanimae.com"
+          href="mailto:hello@michelangelodevs.com"
           onPointerEnter={onPillEnter}
           className="mt-12 inline-flex items-center gap-2 rounded-2xl bg-acid px-8 py-4 font-mono text-sm font-medium uppercase tracking-wide text-ink"
         >
@@ -151,9 +159,9 @@ export default function FinalCta() {
         <dl className="mt-20 grid w-full max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink-3 bg-ink-3 font-mono text-xs text-faint sm:grid-cols-4">
           {(
             [
-              ['Studio', 'Studio Animae'],
-              ['Discipline', 'Motion engineering'],
-              ['Email', 'hello@animae.studio'],
+              ['Studio', 'Michelangelo Devs'],
+              ['Focus', 'AI sales agents'],
+              ['Email', 'hello@michelangelodevs.com'],
               ['Reply', 'Within a day'],
             ] as const
           ).map(([label, value]) => (
