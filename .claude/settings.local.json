@@ -17,7 +17,13 @@
       "Bash(npm view *)",
       "Bash(npm install *)",
       "Bash(git -C /Users/angelcamacho/michelangelo.devs/ai-agency-ac log --oneline --all -20)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(npx tsc *)",
+      "Bash(pkill -f \"vite\")",
+      "Bash(git reset *)",
+      "WebSearch",
+      "WebFetch(domain:animejs.com)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []

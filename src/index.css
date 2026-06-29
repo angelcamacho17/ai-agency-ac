@@ -1,0 +1,104 @@
+@import 'tailwindcss';
+
+/* ============================================================================
+   STUDIO ANIMAE — design system tokens (Tailwind v4 @theme)
+   Theme: warm near-black + acid-lime signal + electric violet secondary.
+   Type: Space Grotesk (display) / JetBrains Mono (technical voice).
+   Locked accent = --color-acid. ONE accent across the whole page.
+   ============================================================================ */
+@theme {
+  --color-ink: #0b0b09; /* warm near-black base */
+  --color-ink-2: #121210;
+  --color-ink-3: #1a1a16;
+  --color-paper: #f4f3ea; /* warm off-white */
+  --color-mist: #b7b6ab; /* muted body on dark */
+  --color-faint: #75746b;
+
+  --color-acid: #d9ff3d; /* THE signal — acid lime */
+  --color-acid-deep: #aacc1f;
+  --color-violet: #7b5cff; /* secondary, used only for depth/gradients */
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-body, 'Space Grotesk', system-ui, sans-serif);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+    margin: 0;
+  }
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+  ::selection {
+    background: var(--color-acid);
+    color: var(--color-ink);
+  }
+  /* anime.js text.split wraps need overflow clipping for the y-mask reveal */
+  .split-line {
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  .acid-glow {
+    text-shadow: 0 0 28px rgba(217, 255, 61, 0.35);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* fixed, non-interactive grain over the whole page */
+  .grain::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0b09;
+}
+::-webkit-scrollbar-thumb {
+  background: #2c2c24;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-acid-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
