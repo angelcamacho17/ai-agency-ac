@@ -15,7 +15,9 @@
       "Bash(node *)",
       "Bash(echo \"---exit:$?---\")",
       "Bash(npm view *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(git -C /Users/angelcamacho/michelangelo.devs/ai-agency-ac log --oneline --all -20)",
+      "Bash(git checkout *)"
     ],
     "deny": [],
     "ask": []
