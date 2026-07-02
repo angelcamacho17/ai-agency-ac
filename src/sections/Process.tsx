@@ -97,6 +97,7 @@ export default function Process() {
   return (
     <section
       ref={sectionRef}
+      id="process"
       className="relative mx-auto max-w-5xl px-6 py-28 sm:py-36"
       aria-labelledby="process-heading"
     >

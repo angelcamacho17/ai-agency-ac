@@ -151,6 +151,7 @@ export default function Capabilities() {
   return (
     <section
       ref={sectionRef}
+      id="capabilities"
       className="relative mx-auto max-w-6xl px-6 py-28 sm:py-36"
     >
       <h2 className="mb-12 max-w-xl text-balance text-4xl text-paper sm:text-5xl">

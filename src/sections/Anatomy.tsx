@@ -58,8 +58,9 @@ export default function Anatomy() {
   return (
     <section
       ref={sectionRef}
+      id="anatomy"
       aria-labelledby="anatomy-heading"
-      className="relative w-full bg-ink px-6 py-28 md:px-12 md:py-40"
+      className="relative w-full bg-ink/55 px-6 py-28 md:px-12 md:py-40"
     >
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-16 md:grid-cols-2 md:gap-20">
         {/* LEFT: sticky annotated diagram */}

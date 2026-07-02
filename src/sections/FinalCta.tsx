@@ -95,7 +95,7 @@ export default function FinalCta() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 60% 55% at 50% 50%, color-mix(in srgb, var(--color-ink) 86%, transparent) 30%, transparent 78%)',
+            'radial-gradient(ellipse 56% 46% at 50% 50%, color-mix(in srgb, var(--color-ink) 66%, transparent) 26%, transparent 74%)',
         }}
       />
       {/* Recap curve that exhales flat behind the title-block. */}

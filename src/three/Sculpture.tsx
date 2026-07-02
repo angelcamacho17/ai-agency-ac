@@ -1,172 +1,193 @@
-import { useMemo, useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { MutableRefObject } from 'react'
-
-const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
-const smoothstep = (a: number, b: number, x: number) => {
-  const t = clamp01((x - a) / (b - a))
-  return t * t * (3 - 2 * t)
-}
+import { buildTargets } from './targets'
 
 /**
- * The sculpture: a form that starts as a rough chiseled block and refines into
- * a smooth sculpted bust as the page scrolls. "We sculpt AI agents."
+ * The sculpture: ~42k GPU particles (one draw call) morphing through the five
+ * states of an agent as the page scrolls. The swarm of particles IS the brand
+ * metaphor: many small workers reorganizing into whatever form the job needs.
  *
- * Implemented with a custom vertex shader that displaces an icosphere by 3D
- * simplex-ish value noise. Scroll progress (`progress`) drives:
- *  - uChisel  1 -> 0 : facet/blockiness amplitude (rough stone -> refined)
- *  - uRefine  0 -> 1 : higher-frequency micro-detail + smoothing
- *  - uMetal   0 -> 1 : material marble -> metallic AI sheen (set on material)
- * No geometry swap, no re-renders: uniforms updated in the frame loop.
+ * The vertex shader blends each particle between the two states around
+ * `uJourney` (0..4) with a per-particle staggered back-out ease, a vortex
+ * swirl mid-flight, and a breathing idle. Spark particles stay acid-lime in
+ * every chapter (one locked accent) and are bright enough for bloom to catch.
  */
+
+const VERTEX = /* glsl */ `
+  attribute vec3 aT1;
+  attribute vec3 aT2;
+  attribute vec3 aT3;
+  attribute vec3 aT4;
+  attribute float aSeed;
+
+  uniform float uTime;
+  uniform float uJourney;
+  uniform float uPx;
+  uniform float uSizeBase;
+  uniform vec3 uBase[5];
+  uniform float uBright[5];
+  uniform vec3 uSpark;
+
+  varying vec3 vColor;
+
+  void main() {
+    float seg = clamp(floor(uJourney), 0.0, 3.0);
+    float t = clamp(uJourney - seg, 0.0, 1.0);
+
+    vec3 from = position;
+    vec3 to = aT1;
+    if (seg > 2.5)      { from = aT3; to = aT4; }
+    else if (seg > 1.5) { from = aT2; to = aT3; }
+    else if (seg > 0.5) { from = aT1; to = aT2; }
+
+    // Staggered departure per particle, back-out ease with a little overshoot.
+    float d = fract(aSeed * 61.17);
+    float tt = clamp((t - d * 0.3) / 0.7, 0.0, 1.0);
+    float u = tt - 1.0;
+    float e = 1.0 + 2.35 * u * u * u + 1.35 * u * u;
+    vec3 p = mix(from, to, e);
+
+    // Vortex swirl mid-flight: strongest at the middle of the transition.
+    float sw = sin(3.14159265 * tt);
+    float ang = sw * (0.85 + d * 1.5);
+    float ca = cos(ang);
+    float sa = sin(ang);
+    p = vec3(ca * p.x + sa * p.z, p.y + sw * (d - 0.5) * 1.1, -sa * p.x + ca * p.z);
+
+    // Breathing idle, amplified while in transit so the swarm feels alive.
+    vec3 dir = normalize(
+      vec3(fract(aSeed * 13.7), fract(aSeed * 27.3), fract(aSeed * 39.1)) - 0.5 + 0.001
+    );
+    p += dir * (0.022 + sw * 0.16) * sin(uTime * (0.6 + d) + aSeed * 40.0);
+
+    // Chapter color ramp; sparks stay acid in every state.
+    int s0 = int(seg);
+    int s1 = s0 + 1;
+    float cm = smoothstep(0.15, 0.85, t);
+    vec3 base = mix(uBase[s0], uBase[s1], cm) * (0.75 + 0.5 * fract(aSeed * 5.3));
+    float bright = mix(uBright[s0], uBright[s1], cm);
+    float spark = step(0.93, fract(aSeed * 7.31));
+    float tw = 0.7 + 0.3 * sin(uTime * 2.2 + aSeed * 90.0);
+    vColor = mix(base, uSpark * (1.25 + 0.75 * tw), spark) * bright;
+
+    vec4 mv = modelViewMatrix * vec4(p, 1.0);
+    float sz = uSizeBase
+      * (0.6 + 0.9 * fract(aSeed * 3.7))
+      * (1.0 + spark * 0.9)
+      * (1.0 + sw * 0.7);
+    gl_PointSize = max(sz * uPx * (4.6 / -mv.z), 1.0);
+    gl_Position = projectionMatrix * mv;
+  }
+`
+
+const FRAGMENT = /* glsl */ `
+  uniform float uDim;
+  varying vec3 vColor;
+
+  void main() {
+    vec2 q = gl_PointCoord - 0.5;
+    float r = length(q);
+    if (r > 0.5) discard;
+    float a = smoothstep(0.5, 0.14, r);
+    a += smoothstep(0.1, 0.0, r) * 0.35;
+    a *= mix(0.62, 0.26, uDim);
+    gl_FragColor = vec4(vColor, a);
+  }
+`
+
 export function Sculpture({
-  progress,
+  journey,
+  dim,
 }: {
-  progress: MutableRefObject<number>
+  journey: MutableRefObject<number>
+  dim: MutableRefObject<number>
 }) {
-  const matRef = useRef<THREE.MeshStandardMaterial>(null)
-  const meshRef = useRef<THREE.Mesh>(null)
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uChisel: { value: 1 },
-      uRefine: { value: 0 },
-    }),
-    [],
-  )
+  const pointsRef = useRef<THREE.Points>(null)
+  const { gl } = useThree()
 
-  const geometry = useMemo(() => new THREE.IcosahedronGeometry(1.35, 64), [])
+  const { geometry, material } = useMemo(() => {
+    const count = window.innerWidth < 768 ? 16000 : 42000
+    const { targets, seeds } = buildTargets(count)
 
-  // Inject displacement into the standard material's vertex stage.
-  const onBeforeCompile = useMemo(
-    () => (shader: THREE.WebGLProgramParametersWithUniforms) => {
-      shader.uniforms.uTime = uniforms.uTime
-      shader.uniforms.uChisel = uniforms.uChisel
-      shader.uniforms.uRefine = uniforms.uRefine
+    const geo = new THREE.BufferGeometry()
+    geo.setAttribute('position', new THREE.BufferAttribute(targets[0], 3))
+    geo.setAttribute('aT1', new THREE.BufferAttribute(targets[1], 3))
+    geo.setAttribute('aT2', new THREE.BufferAttribute(targets[2], 3))
+    geo.setAttribute('aT3', new THREE.BufferAttribute(targets[3], 3))
+    geo.setAttribute('aT4', new THREE.BufferAttribute(targets[4], 3))
+    geo.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1))
 
-      shader.vertexShader = shader.vertexShader
-        .replace(
-          '#include <common>',
-          /* glsl */ `
-          #include <common>
-          uniform float uTime;
-          uniform float uChisel;
-          uniform float uRefine;
+    const mat = new THREE.ShaderMaterial({
+      vertexShader: VERTEX,
+      fragmentShader: FRAGMENT,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      uniforms: {
+        uTime: { value: 0 },
+        uJourney: { value: 0 },
+        uDim: { value: 0 },
+        uPx: { value: 1 },
+        uSizeBase: { value: 2.2 },
+        uSpark: { value: new THREE.Color('#d9ff3d') },
+        uBase: {
+          value: [
+            new THREE.Color('#8f8a7c'), // raw stone
+            new THREE.Color('#9aa3b8'), // carved core, cool marble
+            new THREE.Color('#8f88c9'), // swarm, violet depth
+            new THREE.Color('#a9b0ba'), // stream, steel
+            new THREE.Color('#efeee2'), // the mark, chrome paper
+          ],
+        },
+        uBright: { value: [0.85, 0.95, 1.0, 1.0, 1.35] },
+      },
+    })
+    return { geometry: geo, material: mat }
+  }, [])
 
-          // hash + value noise
-          vec3 hash3(vec3 p){
-            p = vec3(dot(p,vec3(127.1,311.7,74.7)),
-                     dot(p,vec3(269.5,183.3,246.1)),
-                     dot(p,vec3(113.5,271.9,124.6)));
-            return -1.0 + 2.0*fract(sin(p)*43758.5453123);
-          }
-          float vnoise(vec3 p){
-            vec3 i = floor(p); vec3 f = fract(p);
-            vec3 u = f*f*(3.0-2.0*f);
-            float n = mix(mix(mix(dot(hash3(i+vec3(0,0,0)),f-vec3(0,0,0)),
-                                  dot(hash3(i+vec3(1,0,0)),f-vec3(1,0,0)),u.x),
-                              mix(dot(hash3(i+vec3(0,1,0)),f-vec3(0,1,0)),
-                                  dot(hash3(i+vec3(1,1,0)),f-vec3(1,1,0)),u.x),u.y),
-                          mix(mix(dot(hash3(i+vec3(0,0,1)),f-vec3(0,0,1)),
-                                  dot(hash3(i+vec3(1,0,1)),f-vec3(1,0,1)),u.x),
-                              mix(dot(hash3(i+vec3(0,1,1)),f-vec3(0,1,1)),
-                                  dot(hash3(i+vec3(1,1,1)),f-vec3(1,1,1)),u.x),u.y),u.z);
-            return n;
-          }
-          // fractal brownian motion
-          float fbm(vec3 p){
-            float a = 0.5; float s = 0.0;
-            for(int i=0;i<4;i++){ s += a*vnoise(p); p*=2.02; a*=0.5; }
-            return s;
-          }
-          `,
-        )
-        .replace(
-          '#include <begin_vertex>',
-          /* glsl */ `
-          #include <begin_vertex>
-
-          // Rough chiseled block: low-frequency, high-amplitude faceted noise,
-          // quantized into chunky steps so it reads as hewn stone.
-          float blocky = fbm(position * 1.6 + 12.3);
-          blocky = floor(blocky * 5.0) / 5.0;            // chunky chisel steps
-          float chiselDisp = blocky * 0.55 * uChisel;
-
-          // Refined form: gentle low-frequency swell + fine breathing detail.
-          float swell = fbm(position * 1.1 + uTime * 0.05);
-          float micro = fbm(position * 4.0 - uTime * 0.08) * 0.06;
-          float refineDisp = (swell * 0.22 + micro) * uRefine;
-
-          float disp = chiselDisp + refineDisp;
-          transformed += normalize(position) * disp;
-          `,
-        )
-    },
-    [uniforms],
-  )
+  useEffect(() => {
+    material.uniforms.uPx.value = gl.getPixelRatio()
+    return () => {
+      geometry.dispose()
+      material.dispose()
+    }
+  }, [geometry, material, gl])
 
   useFrame((state, delta) => {
-    const p = progress.current
-    uniforms.uTime.value = state.clock.elapsedTime
+    const j = journey.current
+    material.uniforms.uTime.value = state.clock.elapsedTime
+    material.uniforms.uJourney.value = j
+    material.uniforms.uDim.value = dim.current
 
-    // Offset to the right + scale down on desktop so it sits in negative space
-    // beside the left-aligned copy. On mobile (portrait) keep it centered and
-    // smaller; the text columns sit above/around it there.
-    if (meshRef.current) {
-      const portrait = state.size.width < 768
-      const targetX = portrait ? 0 : 1.7
-      const targetScale = portrait ? 0.72 : 0.92
-      meshRef.current.position.x = THREE.MathUtils.lerp(
-        meshRef.current.position.x,
-        targetX,
-        0.1,
+    const points = pointsRef.current
+    if (!points) return
+
+    // Centered stage; smaller on portrait so the form fits beside the copy.
+    const portrait = state.size.width < 768
+    const s = THREE.MathUtils.lerp(points.scale.x, portrait ? 0.68 : 1, 0.08)
+    points.scale.setScalar(s)
+
+    // Slow turntable that spins up while a transformation is playing, then
+    // settles to face the camera as the "M" mark forms in the final chapter.
+    const transit = Math.sin(Math.PI * (j - Math.floor(j)))
+    const settle = THREE.MathUtils.smoothstep(j, 3.5, 3.95)
+    points.rotation.y += delta * (0.11 + transit * 0.38) * (1 - settle)
+    if (settle > 0) {
+      const facing = Math.round(points.rotation.y / (Math.PI * 2)) * Math.PI * 2
+      points.rotation.y = THREE.MathUtils.lerp(
+        points.rotation.y,
+        facing,
+        settle * 0.06,
       )
-      const s = THREE.MathUtils.lerp(meshRef.current.scale.x, targetScale, 0.1)
-      meshRef.current.scale.setScalar(s)
     }
-
-    // Chisel falls off early, refinement grows through the middle/late scroll.
-    uniforms.uChisel.value = 1 - smoothstep(0.05, 0.62, p)
-    uniforms.uRefine.value = smoothstep(0.25, 0.9, p)
-
-    if (matRef.current) {
-      const m = matRef.current
-      // marble (rough, light) -> metallic AI sheen (smooth, dark, reflective)
-      m.metalness = THREE.MathUtils.lerp(0.05, 0.92, smoothstep(0.2, 0.95, p))
-      m.roughness = THREE.MathUtils.lerp(0.85, 0.18, smoothstep(0.2, 0.95, p))
-      m.color.lerpColors(
-        new THREE.Color('#8f8b7e'), // muted marble (dimmer so text reads over it)
-        new THREE.Color('#23231d'), // dark metal body
-        smoothstep(0.3, 0.95, p),
-      )
-      m.emissive.lerpColors(
-        new THREE.Color('#000000'),
-        new THREE.Color('#cde84a'), // acid rim glow as it "comes alive"
-        smoothstep(0.55, 1, p),
-      )
-      m.emissiveIntensity = 0.35 * smoothstep(0.55, 1, p)
-      m.flatShading = uniforms.uChisel.value > 0.35 // faceted while blocky
-      m.needsUpdate = true
-    }
-
-    if (meshRef.current) {
-      // Slow turntable so the form is read in the round; eases with scroll.
-      meshRef.current.rotation.y += delta * (0.12 + p * 0.18)
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.1
-    }
+    points.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.06
   })
 
   return (
-    <mesh ref={meshRef} geometry={geometry}>
-      <meshStandardMaterial
-        ref={matRef}
-        color="#d8d4c8"
-        roughness={0.85}
-        metalness={0.05}
-        flatShading
-        onBeforeCompile={onBeforeCompile}
-      />
-    </mesh>
+    <points ref={pointsRef} frustumCulled={false} geometry={geometry}>
+      <primitive object={material} attach="material" />
+    </points>
   )
 }

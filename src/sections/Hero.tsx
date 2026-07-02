@@ -78,14 +78,14 @@ export default function Hero() {
         <rect width="100%" height="100%" fill="url(#hero-grid)" />
       </svg>
 
-      {/* Local scrim behind the copy so it reads over the sculpture at any width
-          (the global left-gradient does not cover a centered object on mobile). */}
+      {/* Soft left-weighted scrim behind the copy: the sculpture is centered
+          now, so contrast is pinned only where the text column sits. */}
       <div
-        className="pointer-events-none absolute inset-0 z-[5] sm:hidden"
+        className="pointer-events-none absolute inset-0 z-[5]"
         aria-hidden="true"
         style={{
           background:
-            'linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--color-ink) 72%, transparent) 22%, color-mix(in srgb, var(--color-ink) 72%, transparent) 78%, transparent 100%)',
+            'radial-gradient(90% 75% at 18% 50%, color-mix(in srgb, var(--color-ink) 74%, transparent) 0%, color-mix(in srgb, var(--color-ink) 38%, transparent) 46%, transparent 70%)',
         }}
       />
 
@@ -124,7 +124,7 @@ export default function Hero() {
             <ArrowUpRight weight="bold" size={18} />
           </a>
           <a
-            href="#work"
+            href="#capabilities"
             className="font-mono text-sm text-mist underline-offset-4 transition-colors hover:text-paper hover:underline"
           >
             See the work

@@ -1,8 +1,8 @@
 # Michelangelo Devs - AI agents landing page
 
 An experimental landing page for Michelangelo Devs, an AI agents agency. A
-single 3D sculpture morphs from a rough chiseled stone block into a refined,
-metallic form as you scroll ("we sculpt AI agents"), over a kinetic
+single centered particle sculpture (~42k GPU particles) morphs through five
+brand states as you scroll ("we sculpt AI agents"), over a kinetic
 [anime.js](https://animejs.com) v4 content layer.
 
 ## Stack
@@ -13,15 +13,28 @@ metallic form as you scroll ("we sculpt AI agents"), over a kinetic
 - **Tailwind v4** - design tokens via `@theme` (warm near-black + acid-lime)
 - **@phosphor-icons/react** - icons
 
-## The 3D sculpture
+## The 3D sculpture: five states of an agent
 
-A shader-displaced icosphere reads the document scroll progress every frame
-(via a ref, no React re-renders) and transforms continuously: chisel/facet
-amplitude falls off while fine detail grows, and the material lerps from matte
-marble to a glowing metallic sheen. See `src/three/Sculpture.tsx` and
-`src/three/SculptureCanvas.tsx`. The WebGL chunk is code-split and lazy-loaded
-so the hero copy paints first; the whole thing collapses to a static frame
-under `prefers-reduced-motion`.
+One particle system (a single draw call) morphs between five sampled point
+clouds, each a chapter of the brand story:
+
+| State | Shape | Chapter |
+|---|---|---|
+| Raw block | chiseled marble block | Hero: raw material |
+| The core | carved sphere + orbital rings | Anatomy: structure, precision |
+| The swarm | nucleus + six satellites | Capabilities: every channel, one brain |
+| The stream | continuous torus knot | Process: the pipeline, always moving |
+| The mark | extruded chrome "M" | Final CTA: the finished sculpture |
+
+Each transformation plays on an open `[data-morph-gap]` stage between sections
+(`src/three/journey.ts` maps scroll to a 0..4 journey value read per frame via
+refs, no React re-renders). The vertex shader staggers each particle with a
+back-out ease and a vortex swirl mid-flight; spark particles stay acid-lime in
+every chapter and the "M" settles facing the camera. See
+`src/three/targets.ts`, `src/three/Sculpture.tsx`,
+`src/three/SculptureCanvas.tsx`. The WebGL chunk is code-split and
+lazy-loaded so the hero copy paints first; the whole thing collapses to a
+static frame under `prefers-reduced-motion`.
 - Type: Space Grotesk (display) / JetBrains Mono (technical voice)
 
 ## Sections (each showcases a distinct anime.js feature)
