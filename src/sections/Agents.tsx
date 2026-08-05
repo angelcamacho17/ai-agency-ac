@@ -25,11 +25,15 @@ export default function Agents() {
   return (
     <section
       ref={sectionRef}
-      id="agents"
       aria-labelledby="agents-heading"
       className="relative px-6 py-28 sm:py-36 lg:py-6"
     >
-      <div className="lg:mr-auto lg:w-1/2 lg:max-w-2xl">
+      {/* On the pinned stage the chapter must fit one viewport — it cannot
+          scroll internally. Five stacked cards overflowed by ~845px, so from
+          lg up the catalog becomes a two-column grid and the card interior
+          tightens. In document flow (mobile/tablet/reduced-motion) it stays a
+          single readable column. */}
+      <div className="lg:mr-auto lg:w-[54%] lg:max-w-3xl">
         <span
           data-umbilical
           aria-hidden="true"
@@ -39,42 +43,53 @@ export default function Agents() {
         <h2
           data-birth
           id="agents-heading"
-          className="max-w-xl text-balance text-4xl text-paper sm:text-5xl lg:text-4xl"
+          className="max-w-xl text-balance text-4xl text-paper sm:text-5xl lg:text-3xl"
         >
           The agents we build.
         </h2>
 
-        <p data-birth className="mt-5 max-w-lg text-mist lg:mt-3 lg:text-sm">
+        {/* Hidden on the pinned stage: the chapter is the tallest on the page
+            and this line is the most expendable thing in it — the five cards
+            below already say it. Stays in flow (and in the prerender) where
+            there is room. */}
+        <p data-birth className="mt-5 max-w-lg text-mist lg:hidden">
           Five production agents, each one trained on how you actually sell and
           wired into the tools you already run.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 lg:mt-6">
+        <div
+          data-agent-grid
+          className="mt-12 grid grid-cols-1 gap-4 lg:mt-5 lg:grid-cols-2 lg:gap-3"
+        >
           {AGENTS.map((agent) => (
             <article
               key={agent.slug}
               id={agent.slug}
-              className="group relative rounded-3xl border border-ink-3 bg-ink-2 p-6 transition-colors duration-300 hover:border-acid/40 lg:p-5"
+              className="group relative rounded-3xl border border-ink-3 bg-ink-2 p-6 transition-colors duration-300 hover:border-acid/40 lg:rounded-2xl lg:p-4"
             >
               <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <h3 className="text-xl text-paper lg:text-lg">{agent.name}</h3>
-                <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-faint">
+                <h3 className="text-xl text-paper lg:text-base">{agent.name}</h3>
+                <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-faint lg:text-[0.6rem]">
                   {agent.channel}
                 </span>
               </div>
 
-              <p className="mt-3 text-sm leading-relaxed text-mist">
+              <p className="mt-3 text-sm leading-relaxed text-mist lg:mt-2 lg:text-xs">
                 {agent.definition}
               </p>
 
-              <p className="mt-3 font-mono text-xs text-acid">
+              <p className="mt-3 font-mono text-xs text-acid lg:mt-2 lg:text-[0.7rem]">
                 {agent.outcome}
               </p>
 
               {/* A plain list, not a <dl>: every item is one behaviour with no
                   term/definition pairing, and a repeated <dt> label would just
-                  add noise to the text a crawler or an LLM extracts. */}
-              <ul className="mt-5 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+                  add noise to the text a crawler or an LLM extracts.
+                  Hidden on the pinned stage, where the chapter must fit one
+                  viewport — the definition and outcome above already carry the
+                  sell. Still in the DOM for crawlers and the prerender, which
+                  runs the document-flow path. */}
+              <ul className="mt-5 grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:hidden">
                 {agent.behaviours.map((b) => (
                   <li key={b} className="flex items-start gap-2">
                     <span
@@ -86,16 +101,17 @@ export default function Agents() {
                 ))}
               </ul>
 
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-ink-3 pt-4">
-                <p className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-faint">
-                  Connects: {agent.connects.join(' · ')}
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-ink-3 pt-4 lg:mt-3 lg:pt-3">
+                <p className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-faint lg:text-[0.55rem]">
+                  {agent.connects.join(' · ')}
                 </p>
                 <a
                   {...waLinkProps('agent-card', agentWaPrefill(agent))}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-acid/40 px-3.5 py-2 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-ink"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-acid/40 px-3.5 py-2 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-ink lg:px-2.5 lg:py-1.5 lg:text-[0.7rem]"
                 >
                   <WhatsappLogo weight="fill" size={14} />
-                  Ask about this agent
+                  <span className="lg:hidden">Ask about this agent</span>
+                  <span className="hidden lg:inline">Ask</span>
                 </a>
               </div>
             </article>

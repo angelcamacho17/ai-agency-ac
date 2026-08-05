@@ -123,7 +123,9 @@ export function SceneStage({ scenes }: { scenes: Scene[] }) {
           <div
             key={scene.key}
             data-scene-layer={scene.key}
-            className="absolute inset-0 flex items-center"
+            // pt-16 clears the 64px fixed nav: a tall chapter centred in the
+            // full viewport puts its heading underneath the header bar.
+            className="absolute inset-0 flex items-center overflow-hidden pt-16"
             style={{
               opacity: i === 0 ? 1 : 0,
               visibility: i === 0 ? 'visible' : 'hidden',

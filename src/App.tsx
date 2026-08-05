@@ -86,7 +86,13 @@ function FlowJourney() {
       {/* The mind -> the network */}
       <MorphStage />
       <div data-dim-zone>
-        <Agents />
+        {/* Anchor ids live on these wrappers, never on the sections
+            themselves: in staged mode SceneStage puts the same ids on its
+            driver rail, and a duplicate on a pinned layer would shadow it and
+            break the nav links. */}
+        <div id="agents">
+          <Agents />
+        </div>
         <div id="playground">
           <Playground />
         </div>
@@ -101,7 +107,7 @@ function FlowJourney() {
 
       {/* The proof room: deliberately calm, objection handling at rest. */}
       <MorphStage />
-      <div data-dim-zone>
+      <div data-dim-zone id="questions">
         <Questions />
       </div>
 

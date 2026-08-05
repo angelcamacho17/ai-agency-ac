@@ -26,11 +26,13 @@ export default function Questions() {
   return (
     <section
       ref={sectionRef}
-      id="questions"
       aria-labelledby="questions-heading"
       className="relative px-6 py-28 sm:py-36 lg:py-6"
     >
-      <div className="lg:ml-auto lg:w-1/2 lg:max-w-xl">
+      {/* Eight Q&As overflowed the pinned stage; from lg up they run in two
+          columns so the chapter fits one viewport without cutting the last
+          answer or its CTA. */}
+      <div className="lg:ml-auto lg:w-[54%] lg:max-w-3xl">
         <span
           data-umbilical
           aria-hidden="true"
@@ -45,13 +47,13 @@ export default function Questions() {
           Questions, answered straight.
         </h2>
 
-        <div className="mt-12 flex flex-col gap-8 lg:mt-6 lg:gap-5">
+        <div className="mt-12 flex flex-col gap-8 lg:mt-5 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-4">
           {FAQ.map((item) => (
             <div key={item.q} data-birth>
-              <h3 className="font-display text-lg text-paper lg:text-base">
+              <h3 className="font-display text-lg text-paper lg:text-sm">
                 {item.q}
               </h3>
-              <p className="mt-2 max-w-lg font-mono text-sm leading-relaxed text-mist lg:text-xs">
+              <p className="mt-2 max-w-lg font-mono text-sm leading-relaxed text-mist lg:mt-1.5 lg:text-[0.7rem] lg:leading-relaxed">
                 {item.a}
               </p>
             </div>

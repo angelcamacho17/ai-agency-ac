@@ -73,6 +73,14 @@ export function birthReveal(root: HTMLElement, side: 'left' | 'right'): void {
   const rules = root.querySelectorAll<HTMLElement>('[data-umbilical]')
   if (items.length === 0 && rules.length === 0) return
 
+  // The reveal parks every item 44px to one side while it waits. Unclipped,
+  // that offset widens the document — on a 390px phone it produced 20px of
+  // horizontal scroll and pushed copy past the edge. Clip it at the section
+  // root so the wait state can never contribute to page width, on any
+  // viewport. Set here rather than in markup so it is scoped to sections that
+  // actually animate, and reverts with the anime scope.
+  root.style.overflowX = 'clip'
+
   const fromX = side === 'left' ? '-2.75rem' : '2.75rem'
   utils.set(items, { opacity: 0, x: fromX, filter: 'blur(10px)' })
   utils.set(rules, { scaleX: 0 })

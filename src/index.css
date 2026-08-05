@@ -180,10 +180,27 @@ html:not(.jsready) [data-scene-layer] {
    the nav and the fold (the pinned stage never scrolls internally). The
    static downscale lives on the layer's inner wrapper so it composes with
    the layer-level dissolve transform. */
-@media (min-width: 1024px) and (max-height: 780px) {
+/* The pinned stage cannot scroll internally, so a chapter taller than the
+   screen silently loses its bottom — the last agent card, the last FAQ answer,
+   the Ship phase. A single scale step at 780px left the whole 780–920px band
+   (13", 14" and scaled-DPI laptops — the most common desktop sizes there are)
+   clipped.
+
+   Instead of one step, scale continuously across that band: full size at 940px
+   of viewport height, down to 0.8 at 700px. The transform-origin sits just
+   below centre so the chapter grows upward away from the fold rather than
+   sliding under the nav. */
+@media (min-width: 1024px) and (max-height: 940px) {
   [data-scene-layer] > div {
-    transform: scale(0.84);
-    transform-origin: 50% 54%;
+    /* `zoom`, not `transform: scale()`. Zoom shrinks the real layout box, so
+       the layer's own flexbox re-centres the smaller chapter inside the
+       nav-padded area automatically. A transform only paints smaller — the box
+       keeps its original height, so the layer centres the OLD size and the
+       visible content drifts either under the nav or past the fold depending
+       on which origin you guess. There is no correct origin; the box itself
+       has to change. 700px -> 0.72, 940px -> 1.0, linear between. The floor is
+       set by the agent catalog, the tallest chapter on the page. */
+    zoom: clamp(0.72, 0.72 + (100vh - 700px) * 0.28 / 240px, 1);
   }
 }
 

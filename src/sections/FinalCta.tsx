@@ -87,7 +87,10 @@ export default function FinalCta() {
   return (
     <section
       ref={setRoot}
-      className="relative flex min-h-[100dvh] flex-col items-center justify-end overflow-hidden px-6 pb-16 pt-32 text-center sm:px-10 lg:px-16 lg:pt-[42dvh]"
+      // min-h-[100dvh] is for document flow. Inside the pinned stage the layer
+      // already supplies the height and adds nav padding on top, so forcing a
+      // full viewport here overflows it — hence lg:min-h-0.
+      className="relative flex min-h-[100dvh] flex-col items-center justify-end overflow-hidden px-6 pb-16 pt-32 text-center sm:px-10 lg:min-h-0 lg:px-16 lg:pb-0 lg:pt-0"
     >
       {/* Recap curve that exhales flat behind the title-block, kept in the
           lower half so the mark above stays pristine. */}
