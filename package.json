@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run prerender && npm run verify:seo",
+    "build:only": "tsc -b && vite build",
+    "prerender": "node scripts/prerender.mjs",
+    "verify:seo": "node scripts/verify-seo.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -28,6 +31,7 @@
     "@types/three": "^0.185.0",
     "@vitejs/plugin-react": "^6.0.2",
     "oxlint": "^1.69.0",
+    "puppeteer": "^24.43.1",
     "tailwindcss": "^4.3.2",
     "typescript": "~6.0.2",
     "vite": "^8.1.0"

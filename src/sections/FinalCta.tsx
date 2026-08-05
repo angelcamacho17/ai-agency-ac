@@ -1,13 +1,17 @@
 import { useRef } from 'react'
-import { animate, createTimeline, stagger, svg, utils, spring, splitText, onScroll } from 'animejs'
-import { ArrowUpRight } from '@phosphor-icons/react'
+import { animate, createTimeline, stagger, svg, utils, spring, splitText } from 'animejs'
+import { WhatsappLogo } from '@phosphor-icons/react'
 import { useAnimeScope } from '../hooks/useAnimeScope'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
+import { onSectionEnter } from '../motion/birth'
+import { WA_DISPLAY, WA_PREFILL, waHref, waLinkProps } from '../lib/whatsapp'
 
 /**
- * FinalCta - Michelangelo Devs closing title-block.
- * The breath metaphor exhales: on enter one createTimeline splits the headline
- * into line-masked reveals, draws a single acid "signature" underline stroke
+ * FinalCta - Michelangelo Devs closing lockup.
+ * The sculpture settles top-center as the brand "m." while this copy anchors
+ * to the bottom of the viewport beneath it, rising out of the mark like the
+ * rest of the page. On enter one createTimeline splits the headline into
+ * line-masked reveals, draws a single acid "signature" underline stroke
  * (svg.createDrawable) as the final beat, then morphs the recap curve flat
  * (svg.morphTo) so the page settles to a calm baseline.
  */
@@ -50,11 +54,7 @@ export default function FinalCta() {
       )
       .add(curve, { d: svg.morphTo(flat), duration: 900, ease: 'inOutSine' }, '<')
 
-    onScroll({
-      target: root,
-      enter: 'bottom bottom',
-      onEnter: () => tl.play(),
-    })
+    onSectionEnter(root, () => tl.play(), 'bottom bottom')
   }, !reduce)
 
   // Reduced motion: headline visible, underline drawn static, curve already flat.
@@ -87,23 +87,15 @@ export default function FinalCta() {
   return (
     <section
       ref={setRoot}
-      id="contact"
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 py-24 text-center sm:px-10 lg:px-16"
+      className="relative flex min-h-[100dvh] flex-col items-center justify-end overflow-hidden px-6 pb-16 pt-32 text-center sm:px-10 lg:px-16 lg:pt-[42dvh]"
     >
-      {/* Readability scrim so the headline reads over the sculpture behind it. */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 56% 46% at 50% 50%, color-mix(in srgb, var(--color-ink) 66%, transparent) 26%, transparent 74%)',
-        }}
-      />
-      {/* Recap curve that exhales flat behind the title-block. */}
+      {/* Recap curve that exhales flat behind the title-block, kept in the
+          lower half so the mark above stays pristine. */}
       <svg
         aria-hidden
         viewBox="0 0 600 200"
         preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-x-0 top-1/2 mx-auto h-40 w-full max-w-3xl -translate-y-1/2"
+        className="pointer-events-none absolute inset-x-0 bottom-[10%] mx-auto h-40 w-full max-w-3xl"
         style={{ opacity: 0.14 }}
         fill="none"
       >
@@ -124,10 +116,15 @@ export default function FinalCta() {
       <div className="relative z-10 flex flex-col items-center">
         <h2
           ref={h2Ref}
-          className="text-balance font-display text-[clamp(2.5rem,8vw,6rem)] leading-[0.95] text-paper"
+          className="text-balance font-display text-[clamp(2.25rem,5.5vw,4.5rem)] leading-[0.95] text-paper"
         >
-          Let us build your agent.
+          Write to us on WhatsApp.
         </h2>
+
+        <p className="mt-6 max-w-lg text-balance font-display text-lg text-mist">
+          Tell us what you sell and which channel is leaking. We reply the same
+          day and tell you straight whether an agent helps.
+        </p>
 
         {/* Single acid signature underline stroke, drawn as the final beat. */}
         <svg
@@ -147,35 +144,56 @@ export default function FinalCta() {
 
         <a
           ref={pillRef}
-          href="mailto:hello@michelangelodevs.com"
+          {...waLinkProps('final-cta', WA_PREFILL.default)}
           onPointerEnter={onPillEnter}
-          className="mt-12 inline-flex items-center gap-2 rounded-2xl bg-acid px-8 py-4 font-mono text-sm font-medium uppercase tracking-wide text-ink"
+          className="mt-8 inline-flex items-center gap-2.5 rounded-2xl bg-acid px-8 py-4 font-mono text-sm font-medium uppercase tracking-wide text-ink"
         >
-          Start a build
-          <ArrowUpRight weight="bold" size={18} />
+          <WhatsappLogo weight="fill" size={20} />
+          WhatsApp {WA_DISPLAY}
         </a>
 
-        {/* Mono footer arranged as a drawing title block. */}
-        <dl className="mt-20 grid w-full max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink-3 bg-ink-3 font-mono text-xs text-faint sm:grid-cols-4">
-          {(
-            [
-              ['Studio', 'Michelangelo Devs'],
-              ['Focus', 'AI sales agents'],
-              ['Email', 'hello@michelangelodevs.com'],
-              ['Reply', 'Within a day'],
-            ] as const
-          ).map(([label, value]) => (
-            <div
-              key={label}
-              className="flex flex-col gap-2 bg-ink px-5 py-4 text-left"
-            >
-              <dt className="text-[0.6rem] uppercase tracking-[0.18em] text-faint">
-                {label}
-              </dt>
-              <dd className="break-all text-paper">{value}</dd>
-            </div>
-          ))}
-        </dl>
+        <p className="mt-4 font-mono text-xs text-faint">
+          You write, a person answers — usually within the hour.
+        </p>
+
+        {/* Mono footer arranged as a drawing title block; also the NAP block
+            that search engines read for the business entity. */}
+        <footer className="w-full">
+          <dl className="mt-12 grid w-full max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink-3 bg-ink-3 font-mono text-xs text-faint sm:grid-cols-4">
+            {(
+              [
+                ['Studio', 'Michelangelo Devs', null],
+                ['Focus', 'AI sales agents', null],
+                ['WhatsApp', WA_DISPLAY, waHref(WA_PREFILL.default)],
+                ['Reply', 'Usually within the hour', null],
+              ] as const
+            ).map(([label, value, href]) => (
+              <div
+                key={label}
+                className="flex flex-col gap-2 bg-ink px-5 py-4 text-left"
+              >
+                <dt className="text-[0.6rem] uppercase tracking-[0.18em] text-faint">
+                  {label}
+                </dt>
+                <dd className="break-all text-paper">
+                  {href ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-cta-source="footer"
+                      className="underline-offset-4 hover:text-acid hover:underline"
+                    >
+                      {value}
+                    </a>
+                  ) : (
+                    value
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </footer>
       </div>
     </section>
   )

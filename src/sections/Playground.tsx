@@ -11,6 +11,7 @@ import {
 import { Hand, ArrowsOutCardinal } from '@phosphor-icons/react'
 import { useAnimeScope } from '../hooks/useAnimeScope'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
+import { birthReveal } from '../motion/birth'
 
 /**
  * Playground - Michelangelo Devs signature interactive.
@@ -48,7 +49,9 @@ export default function Playground() {
 
   const [readout, setReadout] = useState({ dx: 0, dy: 0 })
 
-  const rootRef = useAnimeScope<HTMLElement>(() => {
+  const rootRef = useAnimeScope<HTMLElement>((_scope, root) => {
+    birthReveal(root, 'right')
+
     const mass = massRef.current
     const bounds = boundsRef.current
     const graph = graphRef.current
@@ -176,24 +179,26 @@ export default function Playground() {
   return (
     <section
       ref={setRoot}
-      id="playground"
-      className="relative px-6 py-24 sm:px-10 lg:px-16"
+      className="relative px-6 py-24 sm:px-10 lg:px-16 lg:py-6"
     >
-      <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h2 className="max-w-xl text-balance font-display text-[clamp(2rem,6vw,4rem)] leading-[0.98] text-paper">
+      {/* Copy column on the left; the sculpture still owns the right lane. */}
+      <div className="lg:mr-auto lg:w-1/2 lg:max-w-2xl">
+      <div className="mb-10 flex flex-col gap-4 sm:mb-12 lg:mb-5">
+        <div data-birth>
+          <h2 className="max-w-xl text-balance font-display text-[clamp(2rem,6vw,4rem)] leading-[0.98] text-paper lg:text-4xl">
             Drag a lead. Watch it route.
           </h2>
-          <p className="mt-5 max-w-md font-display text-base text-mist sm:text-lg">
+          <p className="mt-5 max-w-md font-display text-base text-mist sm:text-lg lg:mt-3 lg:text-base">
             Every lead that lands gets caught, qualified and routed in real
             time. Grab the node and feel the response.
           </p>
         </div>
         {!reduce && (
           <button
+            data-birth
             type="button"
             onClick={tipTray}
-            className="inline-flex shrink-0 items-center gap-2 self-start rounded-2xl border border-ink-3 bg-ink-2 px-5 py-3 font-mono text-sm uppercase tracking-wide text-paper transition-colors hover:border-acid hover:text-acid sm:self-end"
+            className="inline-flex shrink-0 items-center gap-2 self-start rounded-2xl border border-ink-3 bg-ink-2 px-5 py-3 font-mono text-sm uppercase tracking-wide text-paper transition-colors hover:border-acid hover:text-acid"
           >
             <ArrowsOutCardinal weight="bold" size={18} />
             Tip the tray
@@ -203,8 +208,9 @@ export default function Playground() {
 
       {/* The bounds tray. */}
       <div
+        data-birth
         ref={boundsRef}
-        className="relative h-[26rem] w-full overflow-hidden rounded-3xl border border-ink-3 bg-ink-2 sm:h-[32rem]"
+        className="relative h-[26rem] w-full overflow-hidden rounded-3xl border border-ink-3 bg-ink-2 sm:h-[32rem] lg:h-[min(26rem,52dvh)]"
       >
         {/* Faint plotting grid inside the tray. */}
         <svg
@@ -302,11 +308,12 @@ export default function Playground() {
         </div>
       </div>
 
-      <p className="mt-5 font-mono text-xs text-faint">
+      <p data-birth className="mt-5 font-mono text-xs text-faint">
         {reduce
           ? 'fig.04 / release spring, plotted (motion reduced)'
           : 'fig.04 / releaseEase: spring(stiffness 120, damping 12)'}
       </p>
+      </div>
     </section>
   )
 }

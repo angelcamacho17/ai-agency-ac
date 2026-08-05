@@ -4,10 +4,8 @@ import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 import * as THREE from 'three'
 import type { MutableRefObject } from 'react'
 import { Sculpture } from './Sculpture'
+import { CHAPTER_Z } from './choreography'
 import type { JourneyRefs } from './journey'
-
-/** Per-chapter camera distance: each state gets its own framing. */
-const CHAPTER_Z = [5.0, 5.5, 6.3, 5.8, 6.1]
 
 function Rig({ journey }: { journey: MutableRefObject<number> }) {
   const { camera, pointer, size } = useThree()
@@ -29,9 +27,11 @@ function Rig({ journey }: { journey: MutableRefObject<number> }) {
 }
 
 /**
- * Fixed WebGL layer holding the morphing particle sculpture, centered like
- * animejs.com's hero object. Sits behind all DOM, pointer-events-none so the
- * page scrolls normally. Reads the shared journey refs every frame.
+ * Fixed WebGL layer holding the morphing particle sculpture. It rides a
+ * horizontal lane per chapter (see choreography.ts), always opposite the copy
+ * column, so the object stays pristine with nothing above it. Sits behind all
+ * DOM, pointer-events-none so the page scrolls normally. Reads the shared
+ * journey refs every frame.
  */
 export function SculptureCanvas({ journey, dim }: JourneyRefs) {
   const reduce =

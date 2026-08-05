@@ -65,7 +65,7 @@ export default function WordBand() {
   return (
     <section
       ref={rootRef}
-      aria-label="Motion craft band"
+      aria-label="What the agents do"
       className="relative overflow-hidden border-y border-ink-3 bg-ink/70 py-10 sm:py-16"
     >
       {/* Ruled measurement baseline the verbs sit on. */}

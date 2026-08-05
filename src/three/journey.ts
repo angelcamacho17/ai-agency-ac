@@ -16,7 +16,8 @@ export type JourneyRefs = {
  * the viewport, so transformations always happen on an open stage and the
  * object rests in a chapter shape while its section is being read.
  * `[data-dim-zone]` wrappers mark the sections where copy needs to win over
- * the particles.
+ * the particles; on desktop (>= 1024px) the sculpture rides its own lane
+ * beside the copy, nothing overlaps it, and the dim never engages.
  */
 export function useJourney(): JourneyRefs {
   const journey = useRef(0)
@@ -57,8 +58,13 @@ export function useJourney(): JourneyRefs {
       }
       targetJourney = j
 
+      // Dim only matters on stacked layouts, where copy sits over the object.
+      const stacked = window.innerWidth < 1024
       const center = y + vh * 0.5
-      targetDim = dimZones.some((z) => center > z.top && center < z.bottom) ? 1 : 0
+      targetDim =
+        stacked && dimZones.some((z) => center > z.top && center < z.bottom)
+          ? 1
+          : 0
     }
 
     measure()

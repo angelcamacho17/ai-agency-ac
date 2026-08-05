@@ -1,8 +1,10 @@
+import { WhatsappLogo } from '@phosphor-icons/react'
+import { WA_PREFILL, waLinkProps } from '../lib/whatsapp'
+
 const LINKS = [
-  { label: 'Anatomy', href: '#anatomy' },
-  { label: 'What we build', href: '#capabilities' },
-  { label: 'Playground', href: '#playground' },
-  { label: 'Process', href: '#process' },
+  { label: 'Agents', href: '#agents' },
+  { label: 'How it works', href: '#process' },
+  { label: 'Questions', href: '#questions' },
 ]
 
 export function Nav() {
@@ -12,7 +14,7 @@ export function Nav() {
         <a href="#top" className="flex items-center gap-2.5">
           <span className="h-2.5 w-2.5 rounded-full bg-acid" />
           <span className="font-mono text-[13px] font-medium tracking-tight">
-michelangelo<span className="text-acid">devs</span>
+            michelangelo<span className="text-acid">devs</span>
           </span>
         </a>
 
@@ -29,10 +31,11 @@ michelangelo<span className="text-acid">devs</span>
         </nav>
 
         <a
-          href="#contact"
-          className="rounded-full bg-acid px-4 py-2 text-[13px] font-semibold text-ink transition-transform active:scale-[0.97]"
+          {...waLinkProps('nav', WA_PREFILL.nav)}
+          className="inline-flex items-center gap-1.5 rounded-full bg-acid px-4 py-2 text-[13px] font-semibold text-ink transition-transform active:scale-[0.97]"
         >
-          Start a build
+          <WhatsappLogo weight="fill" size={16} />
+          WhatsApp
         </a>
       </div>
     </header>

@@ -23,7 +23,18 @@
       "Bash(git reset *)",
       "WebSearch",
       "WebFetch(domain:animejs.com)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(git -C /Users/angelcamacho/michelangelo.devs/ai-agency-ac log --stat -1)",
+      "Bash(npm run *)",
+      "Bash(npx playwright *)",
+      "Read(//Users/angelcamacho/Library/Caches/ms-playwright/**)",
+      "Bash(npm init *)",
+      "Bash(npm i *)",
+      "Bash(git restore *)",
+      "Bash(lsof -ti:5199)",
+      "Bash(xargs kill)",
+      "Bash(python3 *)",
+      "Bash(grep -rniE 'price|pricing|\\\\$[0-9]|usd|eur|cost|from \\\\$|per month|/mo|fee|plan|tier|budget' src/ index.html public/)"
     ],
     "deny": [],
     "ask": []

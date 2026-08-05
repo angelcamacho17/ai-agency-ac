@@ -1,8 +1,10 @@
 import { useRef } from 'react'
 import { animate, stagger, utils, spring, splitText } from 'animejs'
-import { ArrowUpRight } from '@phosphor-icons/react'
+import { WhatsappLogo } from '@phosphor-icons/react'
 import { useAnimeScope } from '../hooks/useAnimeScope'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
+import { WA_PREFILL, waLinkProps } from '../lib/whatsapp'
+import { ORG } from '../content/offer'
 
 /**
  * Hero - Michelangelo Devs.
@@ -23,9 +25,12 @@ export default function Hero() {
     const { chars, lines } = splitText(h1, { chars: true, lines: true })
     lines.forEach((line) => (line as HTMLElement).classList.add('split-line'))
 
+    // The H1 is the LCP element. Animate `y` only — the chars are clipped by
+    // .split-line, so they still sweep in, but the text is never at opacity 0.
+    // Fading it in would push LCP out by the full animation duration and would
+    // leave the headline invisible if this script stalled.
     animate(chars, {
       y: ['110%', '0%'],
-      opacity: [0, 1],
       delay: stagger(26, { from: 'center' }),
       duration: 900,
       ease: 'outExpo',
@@ -61,7 +66,6 @@ export default function Hero() {
   return (
     <section
       ref={setRoot}
-      id="top"
       className="relative flex min-h-[100dvh] items-center overflow-hidden px-6 py-20 sm:px-10 lg:px-16"
     >
       {/* Faint dotted blueprint grid. */}
@@ -102,34 +106,41 @@ export default function Hero() {
           ref={h1Ref}
           className="text-balance font-display text-[clamp(2.75rem,8.5vw,6.5rem)] leading-[0.95] text-paper"
         >
-          We sculpt AI agents that sell.
+          AI agents that answer, qualify and close.
         </h1>
 
+        {/* The entity sentence. Self-contained on purpose: it names the
+            subject, the category, the channels and the timeline in one
+            quotable line, so a generative engine can lift it with no
+            surrounding context. Identical string in JSON-LD and llms.txt. */}
         <p
           data-hero-fade
-          className="mt-7 max-w-md font-display text-lg text-mist sm:text-xl"
+          className="mt-7 max-w-lg font-display text-lg text-mist sm:text-xl"
         >
-          Production agents that answer every message, qualify leads and close
-          sales around the clock. Live in about five days.
+          {ORG.definition}
         </p>
 
         <div data-hero-fade className="mt-10 flex flex-wrap items-center gap-7">
           <a
             ref={pillRef}
-            href="#contact"
+            {...waLinkProps('hero', WA_PREFILL.hero)}
             onPointerEnter={onPillEnter}
             className="inline-flex items-center gap-2 rounded-2xl bg-acid px-7 py-3.5 font-mono text-sm font-medium uppercase tracking-wide text-ink"
           >
-            Start a build
-            <ArrowUpRight weight="bold" size={18} />
+            <WhatsappLogo weight="fill" size={18} />
+            Message us on WhatsApp
           </a>
           <a
-            href="#capabilities"
+            href="#agents"
             className="font-mono text-sm text-mist underline-offset-4 transition-colors hover:text-paper hover:underline"
           >
-            See the work
+            See the agents
           </a>
         </div>
+
+        <p data-hero-fade className="mt-5 font-mono text-xs text-faint">
+          You write, a person answers — usually within the hour.
+        </p>
       </div>
     </section>
   )

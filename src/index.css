@@ -12,7 +12,9 @@
   --color-ink-3: #1a1a16;
   --color-paper: #f4f3ea; /* warm off-white */
   --color-mist: #b7b6ab; /* muted body on dark */
-  --color-faint: #75746b;
+  /* 8a897e clears 4.5:1 on --color-ink; the old #75746b measured ~4.19:1
+     and failed WCAG AA for the mono labels and captions that use it. */
+  --color-faint: #8a897e;
 
   --color-acid: #d9ff3d; /* THE signal — acid lime */
   --color-acid-deep: #aacc1f;
@@ -60,6 +62,85 @@
   .split-line {
     overflow: hidden;
   }
+
+  /* ------------------------------------------------------------------ a11y
+     There were no focus styles anywhere on the site. Tailwind Preflight
+     resets the UA outline, so on a #0b0b09 page keyboard users had no visible
+     caret at all. Acid measures 17.19:1 on ink. */
+  :focus-visible {
+    outline: 2px solid var(--color-acid);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  /* Off-stage scene layers are inert; never let focus land inside one. */
+  [inert],
+  [inert] * {
+    pointer-events: none;
+  }
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+  }
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--color-acid);
+    color: var(--color-ink);
+    border-radius: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* ============================================================================
+   CRAWLER / NO-JS SAFETY NET
+   Animated copy is hidden by JS at runtime (birth.ts, section scopes), never
+   in markup. These rules guarantee that if JS never runs — a crawler, a failed
+   chunk, a thrown error — every word is still rendered and indexable. The
+   .jsready class is stamped by an inline script in index.html.
+   ========================================================================= */
+html:not(.jsready) [data-birth],
+html:not(.jsready) [data-hero-fade],
+html:not(.jsready) .cap-cell,
+html:not(.jsready) [data-card],
+html:not(.jsready) [data-marker] {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+html:not(.jsready) [data-umbilical] {
+  transform: scaleX(1) !important;
+}
+html:not(.jsready) [data-scene-layer] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+@media (scripting: none) {
+  [data-birth],
+  [data-hero-fade],
+  [data-scene-layer],
+  .cap-cell,
+  [data-card] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    transform: none !important;
+  }
 }
 
 @layer utilities {
@@ -93,6 +174,17 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-acid-deep);
+}
+
+/* Short desktop viewports: shrink staged chapters so each one fits between
+   the nav and the fold (the pinned stage never scrolls internally). The
+   static downscale lives on the layer's inner wrapper so it composes with
+   the layer-level dissolve transform. */
+@media (min-width: 1024px) and (max-height: 780px) {
+  [data-scene-layer] > div {
+    transform: scale(0.84);
+    transform-origin: 50% 54%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
