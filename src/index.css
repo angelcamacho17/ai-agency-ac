@@ -179,18 +179,25 @@
    script never runs (crawler, prerender failure), every element stays visible. */
 html.jsready [data-reveal],
 html.jsready [data-day],
-html.jsready [data-dot] {
+html.jsready [data-dot],
+html.jsready [data-sketch] {
   opacity: 0;
 }
 html.jsready [data-rail] {
   transform: scaleX(0);
 }
+html.jsready [data-ghost] {
+  clip-path: inset(0 100% 0 0);
+}
 @media (prefers-reduced-motion: reduce) {
   html.jsready [data-reveal],
   html.jsready [data-day],
   html.jsready [data-dot],
+  html.jsready [data-sketch],
+  html.jsready [data-ghost],
   html.jsready [data-rail] {
     opacity: 1 !important;
     transform: none !important;
+    clip-path: none !important;
   }
 }
