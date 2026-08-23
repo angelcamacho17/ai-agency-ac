@@ -9,7 +9,7 @@ import { CLIENTS as CLIENTS_ES, ORG as ORG_ES } from './offer'
 export const ORG = {
   ...ORG_ES,
   definition:
-    'Michelangelo Devs is an AI agents agency that builds production sales agents for WhatsApp, Instagram and web, live in about five days.',
+    'Michelangelo Devs is an AI agents agency that builds production sales agents for WhatsApp, Instagram and web, live in less than two weeks.',
   tagline: 'One AI agent that answers, qualifies and closes on WhatsApp, Instagram and your site.',
   areaServed: ['Venezuela', 'Latin America'],
 } as const
@@ -62,10 +62,10 @@ export const AGENTS: readonly Agent[] = [
 ]
 
 export const PHASES: readonly Phase[] = [
-  { key: 'map', label: 'Map', duration: 'Day 1', copy: 'We trace how your best rep sells.' },
-  { key: 'build', label: 'Build', duration: 'Day 2-3', copy: 'Your data, your voice, your CRM and calendar.' },
-  { key: 'pressure-test', label: 'Test', duration: 'Day 4', copy: 'Real conversations, edge cases, handoff rules.' },
-  { key: 'ship', label: 'Ship', duration: 'Day 5', copy: 'Live on your channels. We iterate weekly.' },
+  { key: 'map', label: 'Map', duration: 'Days 1-2', copy: 'We trace how your best rep sells.' },
+  { key: 'build', label: 'Build', duration: 'Days 3-8', copy: 'Your data, your voice, your CRM and calendar.' },
+  { key: 'pressure-test', label: 'Test', duration: 'Days 9-12', copy: 'Real conversations, edge cases, handoff rules.' },
+  { key: 'ship', label: 'Ship', duration: 'Day 13', copy: 'Live on your channels. We iterate weekly.' },
 ]
 
 const SECTOR_EN: Record<string, string> = {
@@ -90,7 +90,7 @@ export const CLIENTS: readonly Client[] = CLIENTS_ES.map((c) => ({
 export const FAQ: readonly Faq[] = [
   {
     q: 'How long until an AI sales agent is live?',
-    a: 'About five working days: one day mapping how you sell, two building, one testing and one shipping.',
+    a: 'Less than two weeks: a couple of days mapping how you sell, a week building, a few days testing and the launch.',
   },
   {
     q: 'What does an AI sales agent cost?',

@@ -174,6 +174,44 @@
   }
 }
 
+/* --------------------------------------------------------------- cursor
+   Custom dot cursor (fine pointers only). Lime on the dark page, black over
+   lime surfaces, a ring over interactive elements. Colour is switched by the
+   component via data attributes after sampling what is under the pointer. */
+html.cursor-custom,
+html.cursor-custom * {
+  cursor: none !important;
+}
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--color-neo);
+  border: 1.5px solid var(--color-neo);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  transition:
+    width 0.2s var(--ease-out-expo),
+    height 0.2s var(--ease-out-expo),
+    background-color 0.2s,
+    border-color 0.2s,
+    opacity 0.2s;
+}
+.cursor-dot[data-dark='1'] {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+}
+.cursor-dot[data-link='1'] {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+}
+
 /* ------------------------------------------------------------ crawler net
    Reveal targets start hidden only once JS has stamped html.jsready. If the
    script never runs (crawler, prerender failure), every element stays visible. */

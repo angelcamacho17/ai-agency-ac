@@ -9,6 +9,7 @@ import { Nav } from './components/Nav'
 import { MobileWhatsappBar } from './components/MobileWhatsappBar'
 import { HorizontalTrack } from './components/HorizontalTrack'
 import { CursorField } from './components/CursorField'
+import { Cursor } from './components/Cursor'
 import { LangProvider, useLang } from './lib/lang'
 
 /**
@@ -23,6 +24,7 @@ function Page() {
     <div className="relative bg-ink text-paper">
       <a href="#main" className="skip-link">{ui.skip}</a>
       <CursorField />
+      <Cursor />
       <Nav />
       <main id="main" className="relative">
         <HorizontalTrack>

@@ -21,7 +21,7 @@ export const ORG = {
   url: 'https://michelangelodevs.com',
   /** The entity sentence. Must appear verbatim in the hero, JSON-LD and llms.txt. */
   definition:
-    'Michelangelo Devs es una agencia de agentes de IA que construye agentes de ventas en producción para WhatsApp, Instagram y web, en vivo en unos cinco días.',
+    'Michelangelo Devs es una agencia de agentes de IA que construye agentes de ventas en producción para WhatsApp, Instagram y web, en vivo en menos de dos semanas.',
   /** The H1. Its first words are what verify-seo looks for. */
   tagline: 'Un agente de IA que responde, califica y cierra en WhatsApp, Instagram y tu web.',
   instagram: 'https://www.instagram.com/michelangelo.devs/',
@@ -100,10 +100,10 @@ export const AGENTS: readonly Agent[] = [
 export type Phase = { key: string; label: string; duration: string; copy: string }
 
 export const PHASES: readonly Phase[] = [
-  { key: 'map', label: 'Mapear', duration: 'Día 1', copy: 'Trazamos cómo vende tu mejor vendedor.' },
-  { key: 'build', label: 'Construir', duration: 'Día 2-3', copy: 'Tus datos, tu voz, tu CRM y tu agenda.' },
-  { key: 'pressure-test', label: 'Probar', duration: 'Día 4', copy: 'Conversaciones reales, casos borde, reglas de escalado.' },
-  { key: 'ship', label: 'Lanzar', duration: 'Día 5', copy: 'En vivo en tus canales. Iteramos cada semana.' },
+  { key: 'map', label: 'Mapear', duration: 'Días 1-2', copy: 'Trazamos cómo vende tu mejor vendedor.' },
+  { key: 'build', label: 'Construir', duration: 'Días 3-8', copy: 'Tus datos, tu voz, tu CRM y tu agenda.' },
+  { key: 'pressure-test', label: 'Probar', duration: 'Días 9-12', copy: 'Conversaciones reales, casos borde, reglas de escalado.' },
+  { key: 'ship', label: 'Lanzar', duration: 'Día 13', copy: 'En vivo en tus canales. Iteramos cada semana.' },
 ] as const
 
 /* ----------------------------------------------------------------- clients */
@@ -196,7 +196,7 @@ export type Faq = { q: string; a: string }
 export const FAQ: readonly Faq[] = [
   {
     q: '¿Cuánto tarda en estar en vivo un agente de ventas con IA?',
-    a: 'Unos cinco días hábiles: uno para mapear cómo vendes, dos para construir, uno para probar y uno para lanzar.',
+    a: 'Menos de dos semanas: un par de días para mapear cómo vendes, una semana para construir, unos días para probar y el lanzamiento.',
   },
   {
     q: '¿Cuánto cuesta un agente de ventas con IA?',

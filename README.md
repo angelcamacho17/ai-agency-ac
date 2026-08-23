@@ -20,7 +20,7 @@ call to action.
 | Hero | `src/sections/Hero.tsx` | Entity sentence + WhatsApp |
 | Capabilities | `src/sections/Capabilities.tsx` | Nine things the agent does, icon + title |
 | Agent | `src/sections/Agent.tsx` | One agent, four jobs, with the hub graphic |
-| Process | `src/sections/Process.tsx` | Five days, four moves |
+| Process | `src/sections/Process.tsx` | Less than two weeks, four moves |
 | Clients | `src/sections/Clients.tsx` | Bento of live agents, Lidotel featured |
 | Questions | `src/sections/Questions.tsx` | FAQ as an index: question list, active answer large (vertical) |
 | FinalCta | `src/sections/FinalCta.tsx` | Instagram close + footer |

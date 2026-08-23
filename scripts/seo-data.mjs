@@ -110,7 +110,7 @@ export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }) {
       {
         '@type': 'HowTo',
         '@id': `${SITE}/#howto`,
-        name: 'How Michelangelo Devs ships an AI sales agent in five days',
+        name: 'How Michelangelo Devs ships an AI sales agent in less than two weeks',
         totalTime: 'P5D',
         step: PHASES.map((p, i) => ({
           '@type': 'HowToStep',
@@ -169,7 +169,7 @@ ${agents}
 
 ## How a build runs
 
-An agent goes live in about five working days.
+An agent goes live in less than two weeks.
 
 ${process}
 
@@ -182,7 +182,7 @@ ${faq}
 - ${ORG.definition}
 - Channels supported: WhatsApp, Instagram direct messages, website.
 - Languages: Spanish and English, switching mid-conversation with the customer.
-- Time to launch: about five working days.
+- Time to launch: less than two weeks.
 - Integrations wired during the build: CRM, calendar.
 - When the agent is unsure it escalates to a human with the full conversation.
 - Contact: WhatsApp ${WA_E164}.

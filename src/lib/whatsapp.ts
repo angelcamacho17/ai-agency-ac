@@ -43,7 +43,7 @@ export const WA_PREFILL = {
   nav: 'Hola, vengo de la web de Michelangelo Devs.',
   hero: 'Hola, quiero un agente de IA para mi negocio.',
   demoHandoff: 'Hola, probé el agente en su web y quiero uno para mi negocio.',
-  process: 'Hola, quiero lanzar mi agente en 5 días.',
+  process: 'Hola, quiero lanzar mi agente en menos de dos semanas.',
   faq: 'Hola, tengo una pregunta sobre los agentes de IA.',
 } as const
 
