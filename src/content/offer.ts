@@ -232,7 +232,7 @@ export const FAQ: readonly Faq[] = [
   },
   {
     q: '¿Cuánto cuesta un agente de ventas con IA?',
-    a: 'Depende de tu volumen de mensajes, los canales que necesitas y qué tan profundas son las integraciones, así que no publicamos un número. Escríbenos por WhatsApp con lo que vendes y te lo cotizamos con honestidad, incluso si la respuesta es que todavía no te conviene.',
+    a: 'Es una mensualidad. Antes de cotizar evaluamos tu empresa para entender si el agente va a facturarte más dinero y cubrirse solo. Si califica, tienes dos semanas de uso gratis; si no te gusta cómo trabaja, se desconecta sin ningún compromiso.',
   },
   {
     q: '¿En qué canales funciona el agente?',
@@ -248,7 +248,7 @@ export const FAQ: readonly Faq[] = [
   },
   {
     q: '¿Se conecta con mi CRM y mi agenda?',
-    a: 'Sí. CRM, calendario y pagos se conectan el primer día de construcción, no se venden como un extra después.',
+    a: 'Sí. CRM y calendario se conectan el primer día de construcción, no se venden como un extra después.',
   },
   {
     q: '¿Funciona en español y en inglés?',

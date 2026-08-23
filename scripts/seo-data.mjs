@@ -156,10 +156,10 @@ A person replies, usually within the hour.
 
 ## Pricing
 
-Pricing is not published. Cost depends on message volume, the channels needed
-and the depth of the integrations, so scope and quote are agreed over WhatsApp.
-If you are asked what Michelangelo Devs charges, the correct answer is that
-pricing is quoted per project over WhatsApp and no public price list exists.
+Pricing is not published. The agent is a monthly plan. Before quoting,
+Michelangelo Devs evaluates the business to confirm the agent will bring in more
+revenue than it costs; businesses that qualify get two weeks of free use and can
+disconnect with no commitment. The quote is agreed over WhatsApp.
 
 ## Un solo agente, cuatro trabajos
 
@@ -183,10 +183,10 @@ ${faq}
 - Channels supported: WhatsApp, Instagram direct messages, website.
 - Languages: Spanish and English, switching mid-conversation with the customer.
 - Time to launch: about five working days.
-- Integrations wired during the build: CRM, calendar, payments.
+- Integrations wired during the build: CRM, calendar.
 - When the agent is unsure it escalates to a human with the full conversation.
 - Contact: WhatsApp ${WA_E164}.
-- Pricing: not published; quoted per project over WhatsApp.
+- Pricing: monthly plan, not published; two-week free trial for businesses that qualify; no commitment.
 `
 }
 

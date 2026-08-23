@@ -113,7 +113,7 @@ export const FAQ: readonly Faq[] = [
   },
   {
     q: 'What does an AI sales agent cost?',
-    a: 'It depends on your message volume, the channels you need and how deep the integrations go, so we do not publish a number. Write to us on WhatsApp with what you sell and we will quote it honestly, even if the answer is that it is not worth it for you yet.',
+    a: 'It is a monthly plan. Before quoting we evaluate your business to understand whether the agent will bring in more revenue than it costs. If it qualifies, you get two weeks of free use; if you do not like how it works, it is disconnected with no commitment.',
   },
   {
     q: 'Which channels does the agent work on?',
@@ -129,7 +129,7 @@ export const FAQ: readonly Faq[] = [
   },
   {
     q: 'Does it connect to my CRM and calendar?',
-    a: 'Yes. CRM, calendar and payments are wired in on day one of the build, not sold as an upgrade later.',
+    a: 'Yes. CRM and calendar are wired in on day one of the build, not sold as an upgrade later.',
   },
   {
     q: 'Does it work in Spanish and English?',
