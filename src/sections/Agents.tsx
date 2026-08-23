@@ -24,12 +24,11 @@ export default function Agents() {
               key={a.slug}
               id={a.slug}
               data-reveal
-              className="flex flex-col rounded-2xl bg-ink-2 p-5 lg:min-h-[22rem]"
+              className="flex flex-col rounded-2xl bg-ink-2 p-5 lg:min-h-[15rem]"
             >
               <span className="font-display text-xs text-neo">{a.channel}</span>
               <h3 className="display-sm mt-3">{a.name}</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-paper">{a.outcome}</p>
-              <p className="mt-3 text-sm leading-relaxed text-faint">{a.definition}</p>
+              <p className="mt-3 text-[15px] leading-relaxed text-mist">{a.outcome}</p>
               <a
                 {...waLinkProps('agent-card', agentWaPrefill(a))}
                 className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-medium text-paper hover:text-neo"

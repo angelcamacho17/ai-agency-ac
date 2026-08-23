@@ -46,56 +46,16 @@ export type Capability = {
  * production today, phrased for a business owner, not an engineer.
  */
 export const CAPABILITIES: readonly Capability[] = [
-  {
-    key: 'channels',
-    title: 'One brain, three channels',
-    copy: 'Instagram DMs, WhatsApp and a web widget share one memory, so nobody repeats themselves.',
-  },
-  {
-    key: 'knowledge',
-    title: 'Answers from your own catalog',
-    copy: 'Inventory, prices and policies come from your sheets. Nothing is invented.',
-  },
-  {
-    key: 'booking',
-    title: 'Books and reschedules alone',
-    copy: 'Real availability, confirmations and reminders across several locations.',
-  },
-  {
-    key: 'payments',
-    title: 'Closes with a payment link',
-    copy: 'Hotel reservations and orders get paid inside the chat.',
-  },
-  {
-    key: 'crm',
-    title: 'Keeps your CRM honest',
-    copy: 'Every lead lands in a pipeline stage with the reason it moved there.',
-  },
-  {
-    key: 'handoff',
-    title: 'Hands off to a human on time',
-    copy: 'Frustration, medical questions or a large order go to your team with full context.',
-  },
-  {
-    key: 'languages',
-    title: 'Spanish, English, Portuguese',
-    copy: 'Detects the language and switches mid conversation when the customer does.',
-  },
-  {
-    key: 'voice',
-    title: 'Replies with voice notes',
-    copy: 'On Instagram it can answer in audio when the moment calls for it.',
-  },
-  {
-    key: 'followup',
-    title: 'Follows up twice, then stops',
-    copy: 'One nudge after an hour, one the next day, only in business hours, never after a no.',
-  },
-  {
-    key: 'review',
-    title: 'Reviews its own answers',
-    copy: 'Prices and appointments are checked before sending. A second model audits the draft.',
-  },
+  { key: 'channels', title: 'One brain, three channels', copy: 'Instagram, WhatsApp and web share one memory.' },
+  { key: 'knowledge', title: 'Answers from your catalog', copy: 'Prices and stock from your own sheets.' },
+  { key: 'booking', title: 'Books and reschedules', copy: 'Real availability, several locations.' },
+  { key: 'payments', title: 'Closes with a payment link', copy: 'Paid inside the chat.' },
+  { key: 'crm', title: 'Keeps your CRM honest', copy: 'Every lead lands in the right stage.' },
+  { key: 'handoff', title: 'Hands off to a human', copy: 'With the full context attached.' },
+  { key: 'languages', title: 'Spanish, English, Portuguese', copy: 'Switches when the customer does.' },
+  { key: 'voice', title: 'Replies with voice notes', copy: 'When the moment calls for it.' },
+  { key: 'followup', title: 'Follows up twice, then stops', copy: 'Never after a no.' },
+  { key: 'review', title: 'Reviews its own answers', copy: 'A second model checks every draft.' },
 ] as const
 
 /* ------------------------------------------------------------------ agents */
@@ -214,41 +174,42 @@ export const PHASES: readonly Phase[] = [
     key: 'map',
     label: 'Map',
     duration: 'Day 1',
-    copy: 'We trace how your best rep sells and pick the channel with the most leakage.',
+    copy: 'We trace how your best rep sells.',
   },
   {
     key: 'build',
     label: 'Build',
     duration: 'Day 2-3',
-    copy: 'We train the agent on your data and voice, then wire it into your CRM, calendar and payments.',
+    copy: 'Your data, your voice, your CRM and calendar.',
   },
   {
     key: 'pressure-test',
     label: 'Pressure-test',
     duration: 'Day 4',
-    copy: 'We run it against real conversations, tune edge cases and set the human-handoff rules with you.',
+    copy: 'Real conversations, edge cases, handoff rules.',
   },
   {
     key: 'ship',
     label: 'Ship',
     duration: 'Day 5',
-    copy: 'It goes live on your channels. You watch every conversation and we iterate weekly from real outcomes.',
+    copy: 'Live on your channels. We iterate weekly.',
   },
 ] as const
 
 /* ----------------------------------------------------------------- clients */
 
+export type ClientLink = { channel: 'Website' | 'WhatsApp' | 'Instagram'; href: string }
+
 export type Client = {
   key: string
   name: string
-  /** What they do, five words or fewer. */
+  /** What they do, four words or fewer. */
   sector: string
-  /** Where the agent lives. Shown as the link label. */
-  channel: 'Website' | 'WhatsApp' | 'Instagram'
-  href: string
-  /** One sentence on what the agent does for them. */
-  copy: string
-  /** The biggest account gets the wide tile. */
+  /** Alpha-mask PNG in public/clients; painted in currentColor. Absent = wordmark. */
+  logo?: string
+  links: readonly ClientLink[]
+  /** One line, featured tile only. */
+  copy?: string
   featured?: boolean
 }
 
@@ -257,74 +218,61 @@ export const CLIENTS: readonly Client[] = [
     key: 'lidotel',
     name: 'Lidotel',
     sector: 'Hotel chain',
-    channel: 'Website',
-    href: 'https://lidotel.com/',
-    copy: 'One agent across Instagram, WhatsApp and the website. It quotes real availability, books the room and sends the payment link inside the chat.',
+    logo: '/clients/lidotel.png',
+    links: [{ channel: 'Website', href: 'https://lidotel.com/' }],
+    copy: 'Quotes real rooms and takes the payment, on Instagram, WhatsApp and lidotel.com.',
     featured: true,
   },
   {
     key: 'terracota',
     name: 'Terracota',
-    sector: 'Clothing retail and wholesale',
-    channel: 'WhatsApp',
-    href: 'https://wa.me/584226325858',
-    copy: 'Checks live inventory for retail and wholesale buyers.',
-  },
-  {
-    key: 'terracota-ig',
-    name: 'Terracota',
-    sector: 'Clothing retail and wholesale',
-    channel: 'Instagram',
-    href: 'https://www.instagram.com/terraccota.vip',
-    copy: 'The same agent, answering story replies and DMs.',
-  },
-  {
-    key: 'viajes-premiere',
-    name: 'Viajes Premiere',
-    sector: 'Travel agency',
-    channel: 'Instagram',
-    href: 'https://www.instagram.com/viajespremiereve/',
-    copy: 'Qualifies travellers and hands warm quotes to the team.',
+    sector: 'Clothing, retail and wholesale',
+    logo: '/clients/terracota.png',
+    links: [
+      { channel: 'WhatsApp', href: 'https://wa.me/584226325858' },
+      { channel: 'Instagram', href: 'https://www.instagram.com/terraccota.vip' },
+    ],
   },
   {
     key: 'renaissence',
     name: 'Clínica Renaissence',
-    sector: 'Medical clinic, four locations',
-    channel: 'Instagram',
-    href: 'https://www.instagram.com/dra.gabrielarodriguezplaza/',
-    copy: 'Books across four locations, escalates clinical questions.',
+    sector: 'Medical clinic',
+    logo: '/clients/renaissence.png',
+    links: [{ channel: 'Instagram', href: 'https://www.instagram.com/dra.gabrielarodriguezplaza/' }],
   },
   {
     key: 'topone',
     name: 'TopOne',
     sector: 'Wholesale auto parts',
-    channel: 'WhatsApp',
-    href: 'https://wa.me/584220421739',
-    copy: 'Routes each distributor to their seller.',
+    logo: '/clients/topone.png',
+    links: [{ channel: 'WhatsApp', href: 'https://wa.me/584220421739' }],
   },
   {
     key: 'coloreal',
     name: 'Coloreal y Sensacolor',
     sector: 'Paint manufacturer',
-    channel: 'Instagram',
-    href: 'https://www.instagram.com/pinturascolorealvzla/',
-    copy: 'Technical support: which product, how many coats.',
+    logo: '/clients/coloreal.png',
+    links: [{ channel: 'Instagram', href: 'https://www.instagram.com/pinturascolorealvzla/' }],
   },
   {
     key: 'mariu',
     name: 'Mariu Bustamante',
-    sector: 'Interior design studio',
-    channel: 'Instagram',
-    href: 'https://www.instagram.com/mariubustamante/',
-    copy: 'Filters project enquiries and books the first consultation.',
+    sector: 'Interior design',
+    logo: '/clients/mariu.png',
+    links: [{ channel: 'Instagram', href: 'https://www.instagram.com/mariubustamante/' }],
   },
   {
     key: 'vic',
     name: 'Victoria Poggioli',
     sector: 'Social media educator',
-    channel: 'Instagram',
-    href: 'https://www.instagram.com/victoria.poggioli/',
-    copy: 'Sets course appointments straight from the DMs.',
+    logo: '/clients/vic.png',
+    links: [{ channel: 'Instagram', href: 'https://www.instagram.com/victoria.poggioli/' }],
+  },
+  {
+    key: 'viajes-premiere',
+    name: 'Viajes Premiere',
+    sector: 'Travel agency',
+    links: [{ channel: 'Instagram', href: 'https://www.instagram.com/viajespremiereve/' }],
   },
 ] as const
 
@@ -336,10 +284,10 @@ export type Proof = { value: string; label: string }
  * Numbers from our own production systems. Keep them real and keep them few.
  */
 export const PROOF: readonly Proof[] = [
-  { value: '504', label: 'Instagram conversations our own agent handled in 30 days' },
-  { value: '141', label: 'of those arrived between 8 and 11 pm and were answered anyway' },
-  { value: '2,505', label: 'automated tests guarding the agents in production' },
-  { value: '13', label: 'agents live across hotels, clinics, retail and manufacturing' },
+  { value: '504', label: 'conversations our own agent handled in 30 days' },
+  { value: '141', label: 'of them arrived after 8 pm and got answered' },
+  { value: '2,505', label: 'automated tests in production' },
+  { value: '13', label: 'agents live across hotels, clinics, retail and industry' },
 ] as const
 
 /* --------------------------------------------------------------------- faq */

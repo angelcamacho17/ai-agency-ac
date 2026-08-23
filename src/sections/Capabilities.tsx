@@ -19,7 +19,7 @@ export default function Capabilities() {
           {CAPABILITIES.map((c) => (
             <li key={c.key} data-reveal className="border-t border-grey pt-4">
               <h3 className="display-sm">{c.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-mist">{c.copy}</p>
+              <p className="mt-1.5 text-sm leading-snug text-faint">{c.copy}</p>
             </li>
           ))}
         </ul>

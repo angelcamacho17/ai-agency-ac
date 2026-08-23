@@ -2,10 +2,9 @@ import { PROOF } from '../content/offer'
 import { useReveal } from '../hooks/useReveal'
 
 const DASHBOARD = [
-  'Every conversation in one inbox, with the ones that need a human ranked first',
-  'Take over any chat, pause the agent, hand it back',
-  'A pipeline that moves leads on its own and tells you why',
-  'Hours saved, conversations automated, hot leads and their value',
+  'One inbox, the chats that need a human first',
+  'Take over any conversation, hand it back',
+  'Pipeline, hot leads and hours saved, on your phone',
 ]
 
 /**
@@ -36,9 +35,6 @@ export default function Proof() {
 
         <div className="lg:col-span-5 lg:pt-2">
           <h3 data-reveal className="display-md">You see everything.</h3>
-          <p data-reveal className="mt-3 max-w-[40ch] text-[15px] leading-relaxed text-mist">
-            Every agent ships with a dashboard for your team, in Spanish, on your phone.
-          </p>
           <ul className="mt-6 space-y-4">
             {DASHBOARD.map((d) => (
               <li key={d} data-reveal className="border-t border-grey pt-4 text-[15px] leading-relaxed text-paper">

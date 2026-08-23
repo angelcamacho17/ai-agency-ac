@@ -15,12 +15,11 @@ export default function FinalCta() {
     <section id="contact" ref={ref} className="px-5 pb-10 pt-12 sm:px-10 lg:px-16 lg:pt-16">
       <div className="mx-auto w-full max-w-[1600px]">
         <div className="rounded-[2rem] bg-neo px-6 py-16 text-ink sm:px-12 sm:py-24 lg:px-20 lg:py-28">
-          <p data-reveal className="font-display text-sm font-medium">Watch the agents work</p>
-          <h2 data-reveal className="display-xl mt-5 max-w-[12ch]">
+          <h2 data-reveal className="display-xl max-w-[12ch]">
             Follow the build on Instagram.
           </h2>
           <p data-reveal className="mt-6 max-w-[44ch] text-base leading-relaxed sm:text-lg">
-            Live demos, before and after, and every new client the week it goes live.
+            Live demos and every new client the week it goes live.
           </p>
           <div data-reveal className="mt-9 flex flex-wrap items-center gap-3">
             <a
