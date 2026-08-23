@@ -20,7 +20,6 @@ call to action.
 | Hero | `src/sections/Hero.tsx` | Entity sentence + WhatsApp |
 | Capabilities | `src/sections/Capabilities.tsx` | What every agent ships with |
 | Agent | `src/sections/Agent.tsx` | One agent, four jobs, with the hub graphic |
-| Demo | `src/sections/Demo.tsx` | Loom embeds (ids in `DEMOS`) |
 | Process | `src/sections/Process.tsx` | Five days, four moves |
 | Clients | `src/sections/Clients.tsx` | Bento of live agents, Lidotel featured |
 | Proof | `src/sections/Proof.tsx` | Production numbers + the client dashboard |

@@ -11,7 +11,6 @@ export type Offer = {
   CAPABILITIES: typeof ES.CAPABILITIES
   AGENTS: typeof ES.AGENTS
   PHASES: typeof ES.PHASES
-  DEMOS: typeof ES.DEMOS
   CLIENTS: typeof ES.CLIENTS
   PROOF: typeof ES.PROOF
   DASHBOARD: typeof ES.DASHBOARD
@@ -22,16 +21,13 @@ export type Offer = {
 export const UI = {
   es: {
     skip: 'Saltar al contenido',
-    nav: { agent: 'El agente', process: 'Proceso', demo: 'Demo', clients: 'Clientes', questions: 'Preguntas' },
+    nav: { agent: 'El agente', process: 'Proceso', clients: 'Clientes', questions: 'Preguntas' },
     whatsapp: 'WhatsApp',
     seeWork: 'Ver el trabajo',
     capabilitiesH: ['No es un chatbot.', 'Es un vendedor que ', 'nunca duerme.'],
     agentH: ['Un solo agente.', 'Cuatro trabajos.'],
     agentAsk: 'Pregunta por esto',
     processH: ['En vivo en ', 'cinco días.'],
-    demoH: ['Míralo ', 'trabajar.'],
-    demoEmpty: 'Demo en camino',
-    demoAsk: 'Pídela por WhatsApp',
     clientsH: ['Ya vende para ', 'estos equipos.'],
     proofH: ['Construido como software, ', 'no como un demo.'],
     dashboardH: 'Lo ves todo.',
@@ -43,16 +39,13 @@ export const UI = {
   },
   en: {
     skip: 'Skip to content',
-    nav: { agent: 'The agent', process: 'Process', demo: 'Demo', clients: 'Clients', questions: 'Questions' },
+    nav: { agent: 'The agent', process: 'Process', clients: 'Clients', questions: 'Questions' },
     whatsapp: 'WhatsApp',
     seeWork: 'See the work',
     capabilitiesH: ['Not a chatbot.', 'A salesperson that ', 'never sleeps.'],
     agentH: ['One agent.', 'Four jobs.'],
     agentAsk: 'Ask about this',
     processH: ['Live in ', 'five days.'],
-    demoH: ['Watch it ', 'work.'],
-    demoEmpty: 'Demo coming',
-    demoAsk: 'Ask for it on WhatsApp',
     clientsH: ['Already selling for ', 'these teams.'],
     proofH: ['Built like software, ', 'not like a demo.'],
     dashboardH: 'You see everything.',

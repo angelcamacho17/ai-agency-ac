@@ -3,7 +3,7 @@
  * same keys, same links. Not read by the build scripts: Spanish is what the
  * prerender and structured data carry.
  */
-import type { Agent, Capability, Client, Demo, Faq, Phase, Proof } from './offer'
+import type { Agent, Capability, Client, Faq, Phase, Proof } from './offer'
 import { CLIENTS as CLIENTS_ES, ORG as ORG_ES } from './offer'
 
 export const ORG = {
@@ -67,11 +67,6 @@ export const PHASES: readonly Phase[] = [
   { key: 'build', label: 'Build', duration: 'Day 2-3', copy: 'Your data, your voice, your CRM and calendar.' },
   { key: 'pressure-test', label: 'Test', duration: 'Day 4', copy: 'Real conversations, edge cases, handoff rules.' },
   { key: 'ship', label: 'Ship', duration: 'Day 5', copy: 'Live on your channels. We iterate weekly.' },
-]
-
-export const DEMOS: readonly Demo[] = [
-  { key: 'instagram', title: 'The agent selling on Instagram', loomId: '' },
-  { key: 'whatsapp', title: 'The agent booking on WhatsApp', loomId: '' },
 ]
 
 const SECTOR_EN: Record<string, string> = {

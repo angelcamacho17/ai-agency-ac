@@ -9,7 +9,6 @@ export function Nav() {
   const links = [
     { label: ui.nav.agent, id: 'agent' },
     { label: ui.nav.process, id: 'process' },
-    { label: ui.nav.demo, id: 'demo' },
     { label: ui.nav.clients, id: 'clients' },
     { label: ui.nav.questions, id: 'questions' },
   ]

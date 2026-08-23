@@ -107,20 +107,6 @@ export const PHASES: readonly Phase[] = [
   { key: 'ship', label: 'Lanzar', duration: 'Día 5', copy: 'En vivo en tus canales. Iteramos cada semana.' },
 ] as const
 
-/* ------------------------------------------------------------------- demos */
-
-export type Demo = {
-  key: string
-  title: string
-  /** Loom share id (the part after loom.com/share/). Empty = slot waiting for a video. */
-  loomId: string
-}
-
-export const DEMOS: readonly Demo[] = [
-  { key: 'instagram', title: 'El agente vendiendo por Instagram', loomId: '' },
-  { key: 'whatsapp', title: 'El agente agendando por WhatsApp', loomId: '' },
-] as const
-
 /* ----------------------------------------------------------------- clients */
 
 export type ClientLink = { channel: 'Website' | 'WhatsApp' | 'Instagram'; href: string }
