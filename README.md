@@ -19,16 +19,19 @@ call to action.
 |---|---|---|
 | Hero | `src/sections/Hero.tsx` | Entity sentence + WhatsApp |
 | Capabilities | `src/sections/Capabilities.tsx` | What every agent ships with |
-| Agents | `src/sections/Agents.tsx` | The five productised agents |
+| Agent | `src/sections/Agent.tsx` | One agent, four jobs, with the hub graphic |
+| Demo | `src/sections/Demo.tsx` | Loom embeds (ids in `DEMOS`) |
 | Process | `src/sections/Process.tsx` | Five days, four moves |
 | Clients | `src/sections/Clients.tsx` | Bento of live agents, Lidotel featured |
 | Proof | `src/sections/Proof.tsx` | Production numbers + the client dashboard |
 | Questions | `src/sections/Questions.tsx` | FAQ, always open (vertical) |
 | FinalCta | `src/sections/FinalCta.tsx` | Instagram close + footer |
 
-- `src/content/offer.ts` is the single source of truth for all copy. It feeds
-  the React sections, the JSON-LD graph and `llms.txt`, and is evaluated
-  without a TS toolchain by `scripts/seo-data.mjs`, so keep it plain data.
+- `src/content/offer.ts` (Spanish) is the single source of truth for all copy.
+  It feeds the React sections, the JSON-LD graph and `llms.txt`, and is
+  evaluated without a TS toolchain by `scripts/seo-data.mjs`, so keep it plain
+  data. `src/content/offer.en.ts` mirrors it for the ES/EN toggle
+  (`src/lib/lang.tsx`, persisted in localStorage, `?lang=en` to force).
 - `src/components/HorizontalTrack.tsx` turns vertical scroll into the
   horizontal pan on `lg+` viewports. Below that, under
   `prefers-reduced-motion`, and during the prerender (`?static=1`) the chapters

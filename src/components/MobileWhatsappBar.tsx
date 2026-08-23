@@ -65,7 +65,7 @@ export function MobileWhatsappBar() {
         className="pointer-events-auto flex items-center justify-center gap-2.5 rounded-2xl bg-neo px-6 py-4 font-display text-sm font-semibold text-ink shadow-[0_8px_32px_rgba(0,0,0,0.5)] active:scale-[0.98]"
       >
         <WhatsappLogo weight="fill" size={20} />
-        Message us on WhatsApp
+        Escríbenos por WhatsApp
       </a>
     </div>
   )

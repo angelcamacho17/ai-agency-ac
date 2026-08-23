@@ -47,9 +47,9 @@ export const WA_PREFILL = {
   faq: 'Hola, tengo una pregunta sobre los agentes de IA.',
 } as const
 
-/** `Hola, me interesa el {agent}.` — used by every agent card. */
-export const agentPrefill = (agentName: string) =>
-  `Hola, me interesa el ${agentName}.`
+/** Used by every job card: `Hola, quiero un agente para mi negocio. Me interesa: {job}.` */
+export const agentPrefill = (job: string) =>
+  `Hola, quiero un agente para mi negocio. Me interesa: ${job}.`
 
 /** `Quiero un agente para {channel}.` — used by the Switchboard satellites. */
 export const channelPrefill = (channel: string) =>

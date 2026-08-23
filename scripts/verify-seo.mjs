@@ -57,12 +57,12 @@ if (!prerendered) {
     if (!text.includes(needle)) fail(`${label} missing from prerendered HTML: "${needle}"`)
   }
 
-  need('AI agents that answer, qualify and close', 'H1')
+  need(ORG.tagline.slice(0, 40), 'H1')
   need(ORG.definition.slice(0, 60), 'Entity sentence')
   for (const a of AGENTS) need(a.name, `Agent name`)
   for (const f of FAQ) need(f.q, `FAQ question`)
 
-  if (!/Skip to content/.test(text)) fail('Skip link missing from prerendered HTML')
+  if (!/Saltar al contenido/.test(text)) fail('Skip link missing from prerendered HTML')
 }
 
 /* ------------------------------------------------------- 2. the CTA rule */

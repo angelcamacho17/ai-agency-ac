@@ -1,6 +1,7 @@
 import { ArrowUpRight, Globe, InstagramLogo, WhatsappLogo } from '@phosphor-icons/react'
-import { CLIENTS, type Client, type ClientLink } from '../content/offer'
+import type { Client, ClientLink } from '../content/offer'
 import { useReveal } from '../hooks/useReveal'
+import { useLang } from '../lib/lang'
 
 const ICON: Record<ClientLink['channel'], typeof Globe> = {
   Website: Globe,
@@ -73,8 +74,10 @@ function Tile({ client }: { client: Client }) {
 
 export default function Clients() {
   const ref = useReveal<HTMLElement>()
-  const featured = CLIENTS.find((c) => c.featured)!
-  const rest = CLIENTS.filter((c) => !c.featured)
+  const { t, ui } = useLang()
+  const [a, b] = ui.clientsH
+  const featured = t.CLIENTS.find((c) => c.featured)!
+  const rest = t.CLIENTS.filter((c) => !c.featured)
   const beside = rest.slice(0, 4)
   const below = rest.slice(4)
 
@@ -82,7 +85,7 @@ export default function Clients() {
     <section id="clients" ref={ref} className="chapter">
       <div className="mx-auto grid w-full max-w-[1600px] gap-8 lg:grid-cols-12 lg:gap-6">
         <h2 data-reveal className="display-lg lg:col-span-3 lg:text-[2.4rem] xl:text-[3rem]">
-          Already selling for <span className="text-neo">these teams.</span>
+          {a}<span className="text-neo">{b}</span>
         </h2>
 
         <div className="grid gap-3 lg:col-span-9">
