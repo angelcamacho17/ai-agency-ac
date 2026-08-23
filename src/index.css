@@ -1,0 +1,241 @@
+@import 'tailwindcss';
+
+/* ============================================================================
+   MICHELANGELO - design tokens (Tailwind v4 @theme)
+   From the 2026 brand board: black, "neo" lime, grey. Unbounded for display.
+   One accent across the whole page: --color-neo. Body type: Space Grotesk.
+   ============================================================================ */
+@theme {
+  --color-ink: #0a0a0a; /* brand black, kept a hair off pure */
+  --color-ink-2: #141414;
+  --color-grey: #3a3a3a; /* brand grey */
+  --color-grey-2: #555555;
+  --color-paper: #f3f3ee;
+  --color-mist: #b9b9b2; /* body copy on ink, 9.6:1 */
+  --color-faint: #8c8c86; /* captions on ink, 4.6:1 */
+
+  --color-neo: #d4e04a; /* THE signal */
+  --color-neo-deep: #aab82a;
+
+  --font-display: 'Unbounded', 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    background: var(--color-ink);
+    /* clip, not hidden: a hidden overflow on the root or body turns the body
+       into the scroller in Chrome and silently breaks smooth window.scrollTo,
+       which the nav relies on to reach chapters inside the horizontal track. */
+    overflow-x: clip;
+  }
+  body {
+    margin: 0;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    margin: 0;
+    text-wrap: balance;
+  }
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-neo);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-neo);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 100;
+    padding: 0.6rem 1rem;
+    background: var(--color-neo);
+    color: var(--color-ink);
+    font-weight: 600;
+    border-radius: 999px;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+}
+
+@layer components {
+  /* Outline pills for nav links and secondary actions. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--color-paper) 28%, transparent);
+    border-radius: 999px;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-paper);
+    white-space: nowrap;
+    transition:
+      border-color 0.25s var(--ease-out-expo),
+      background-color 0.25s var(--ease-out-expo),
+      color 0.25s var(--ease-out-expo),
+      transform 0.2s var(--ease-out-expo);
+  }
+  .pill:hover {
+    border-color: var(--color-paper);
+  }
+  .pill:active {
+    transform: scale(0.97);
+  }
+  .pill-solid {
+    background: var(--color-neo);
+    border-color: var(--color-neo);
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .pill-solid:hover {
+    background: var(--color-paper);
+    border-color: var(--color-paper);
+  }
+
+  /* A chapter of the journey. On the horizontal track each is one viewport
+     wide; in document flow each is a normal full-height section. */
+  .chapter {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    display: grid;
+    align-content: center;
+    padding: 6rem 1.25rem 5rem;
+  }
+  [data-track] .chapter {
+    flex: 0 0 100vw;
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
+  }
+  @media (min-width: 640px) {
+    .chapter {
+      padding: 6rem 2.5rem 5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .chapter {
+      padding: 5.5rem 4rem 4rem;
+    }
+  }
+
+  .display-xl {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 0.98;
+    font-size: clamp(2.5rem, 6.6vw, 6.4rem);
+  }
+  .display-lg {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    font-size: clamp(1.9rem, 4.2vw, 4rem);
+  }
+  .display-md {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.12;
+    font-size: clamp(1.25rem, 2vw, 1.85rem);
+  }
+  .display-sm {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.2;
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+  }
+}
+
+/* --------------------------------------------------------------- cursor
+   Custom dot cursor (fine pointers only). Lime on the dark page, black over
+   lime surfaces, a ring over interactive elements. Colour is switched by the
+   component via data attributes after sampling what is under the pointer. */
+html.cursor-custom,
+html.cursor-custom * {
+  cursor: none !important;
+}
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--color-neo);
+  border: 1.5px solid var(--color-neo);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  transition:
+    width 0.2s var(--ease-out-expo),
+    height 0.2s var(--ease-out-expo),
+    background-color 0.2s,
+    border-color 0.2s,
+    opacity 0.2s;
+}
+.cursor-dot[data-dark='1'] {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+}
+.cursor-dot[data-link='1'] {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+}
+
+/* ------------------------------------------------------------ crawler net
+   Reveal targets start hidden only once JS has stamped html.jsready. If the
+   script never runs (crawler, prerender failure), every element stays visible. */
+html.jsready [data-reveal],
+html.jsready [data-day],
+html.jsready [data-dot],
+html.jsready [data-sketch] {
+  opacity: 0;
+}
+html.jsready [data-rail] {
+  transform: scaleX(0);
+}
+html.jsready [data-ghost] {
+  clip-path: inset(0 100% 0 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  html.jsready [data-reveal],
+  html.jsready [data-day],
+  html.jsready [data-dot],
+  html.jsready [data-sketch],
+  html.jsready [data-ghost],
+  html.jsready [data-rail] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
