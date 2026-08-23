@@ -42,7 +42,6 @@ export const CAPABILITIES: readonly Capability[] = [
   { key: 'crm', title: 'Mantiene tu CRM al día', copy: 'Cada lead cae en la etapa correcta.' },
   { key: 'handoff', title: 'Escala a un humano', copy: 'Con todo el contexto adjunto.' },
   { key: 'languages', title: 'Español, inglés, portugués', copy: 'Cambia cuando el cliente cambia.' },
-  { key: 'voice', title: 'Responde con notas de voz', copy: 'Cuando el momento lo pide.' },
   { key: 'followup', title: 'Hace seguimiento dos veces', copy: 'Y nunca después de un no.' },
   { key: 'review', title: 'Revisa sus propias respuestas', copy: 'Un segundo modelo audita cada borrador.' },
 ] as const
@@ -184,23 +183,6 @@ export const CLIENTS: readonly Client[] = [
     sector: 'Agencia de viajes',
     links: [{ channel: 'Instagram', href: 'https://www.instagram.com/viajespremiereve/' }],
   },
-] as const
-
-/* ------------------------------------------------------------------- proof */
-
-export type Proof = { value: string; label: string }
-
-export const PROOF: readonly Proof[] = [
-  { value: '504', label: 'conversaciones atendió nuestro propio agente en 30 días' },
-  { value: '141', label: 'de ellas llegaron después de las 8 pm y se respondieron' },
-  { value: '2.505', label: 'pruebas automáticas en producción' },
-  { value: '13', label: 'agentes en vivo en hoteles, clínicas, retail e industria' },
-] as const
-
-export const DASHBOARD: readonly string[] = [
-  'Una bandeja, primero los chats que necesitan un humano',
-  'Toma cualquier conversación y devuélvela cuando quieras',
-  'Pipeline, leads calientes y horas ahorradas, en tu teléfono',
 ] as const
 
 /* --------------------------------------------------------------------- faq */

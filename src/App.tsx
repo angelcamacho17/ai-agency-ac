@@ -3,12 +3,12 @@ import Capabilities from './sections/Capabilities'
 import Agent from './sections/Agent'
 import Process from './sections/Process'
 import Clients from './sections/Clients'
-import Proof from './sections/Proof'
 import Questions from './sections/Questions'
 import FinalCta from './sections/FinalCta'
 import { Nav } from './components/Nav'
 import { MobileWhatsappBar } from './components/MobileWhatsappBar'
 import { HorizontalTrack } from './components/HorizontalTrack'
+import { CursorField } from './components/CursorField'
 import { LangProvider, useLang } from './lib/lang'
 
 /**
@@ -22,6 +22,7 @@ function Page() {
   return (
     <div className="relative bg-ink text-paper">
       <a href="#main" className="skip-link">{ui.skip}</a>
+      <CursorField />
       <Nav />
       <main id="main" className="relative">
         <HorizontalTrack>
@@ -30,7 +31,6 @@ function Page() {
           <Agent />
           <Process />
           <Clients />
-          <Proof />
         </HorizontalTrack>
         <Questions />
         <FinalCta />

@@ -3,7 +3,7 @@
  * same keys, same links. Not read by the build scripts: Spanish is what the
  * prerender and structured data carry.
  */
-import type { Agent, Capability, Client, Faq, Phase, Proof } from './offer'
+import type { Agent, Capability, Client, Faq, Phase } from './offer'
 import { CLIENTS as CLIENTS_ES, ORG as ORG_ES } from './offer'
 
 export const ORG = {
@@ -22,7 +22,6 @@ export const CAPABILITIES: readonly Capability[] = [
   { key: 'crm', title: 'Keeps your CRM honest', copy: 'Every lead lands in the right stage.' },
   { key: 'handoff', title: 'Hands off to a human', copy: 'With the full context attached.' },
   { key: 'languages', title: 'Spanish, English, Portuguese', copy: 'Switches when the customer does.' },
-  { key: 'voice', title: 'Replies with voice notes', copy: 'When the moment calls for it.' },
   { key: 'followup', title: 'Follows up twice, then stops', copy: 'Never after a no.' },
   { key: 'review', title: 'Reviews its own answers', copy: 'A second model checks every draft.' },
 ]
@@ -87,19 +86,6 @@ export const CLIENTS: readonly Client[] = CLIENTS_ES.map((c) => ({
     ? 'Quotes real rooms and takes the payment, on Instagram, WhatsApp and lidotel.com.'
     : undefined,
 }))
-
-export const PROOF: readonly Proof[] = [
-  { value: '504', label: 'conversations our own agent handled in 30 days' },
-  { value: '141', label: 'of them arrived after 8 pm and got answered' },
-  { value: '2,505', label: 'automated tests in production' },
-  { value: '13', label: 'agents live across hotels, clinics, retail and industry' },
-]
-
-export const DASHBOARD: readonly string[] = [
-  'One inbox, the chats that need a human first',
-  'Take over any conversation, hand it back',
-  'Pipeline, hot leads and hours saved, on your phone',
-]
 
 export const FAQ: readonly Faq[] = [
   {

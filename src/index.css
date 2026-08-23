@@ -177,11 +177,19 @@
 /* ------------------------------------------------------------ crawler net
    Reveal targets start hidden only once JS has stamped html.jsready. If the
    script never runs (crawler, prerender failure), every element stays visible. */
-html.jsready [data-reveal] {
+html.jsready [data-reveal],
+html.jsready [data-day],
+html.jsready [data-dot] {
   opacity: 0;
 }
+html.jsready [data-rail] {
+  transform: scaleX(0);
+}
 @media (prefers-reduced-motion: reduce) {
-  html.jsready [data-reveal] {
+  html.jsready [data-reveal],
+  html.jsready [data-day],
+  html.jsready [data-dot],
+  html.jsready [data-rail] {
     opacity: 1 !important;
     transform: none !important;
   }

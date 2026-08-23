@@ -18,12 +18,11 @@ call to action.
 | Chapter | File | Job |
 |---|---|---|
 | Hero | `src/sections/Hero.tsx` | Entity sentence + WhatsApp |
-| Capabilities | `src/sections/Capabilities.tsx` | What every agent ships with |
+| Capabilities | `src/sections/Capabilities.tsx` | Nine things the agent does, icon + title |
 | Agent | `src/sections/Agent.tsx` | One agent, four jobs, with the hub graphic |
 | Process | `src/sections/Process.tsx` | Five days, four moves |
 | Clients | `src/sections/Clients.tsx` | Bento of live agents, Lidotel featured |
-| Proof | `src/sections/Proof.tsx` | Production numbers + the client dashboard |
-| Questions | `src/sections/Questions.tsx` | FAQ, always open (vertical) |
+| Questions | `src/sections/Questions.tsx` | FAQ as an index: question list, active answer large (vertical) |
 | FinalCta | `src/sections/FinalCta.tsx` | Instagram close + footer |
 
 - `src/content/offer.ts` (Spanish) is the single source of truth for all copy.
@@ -36,6 +35,8 @@ call to action.
   `prefers-reduced-motion`, and during the prerender (`?static=1`) the chapters
   stack as a normal document. `src/lib/chapters.ts#scrollToChapter` makes nav
   anchors work in both modes.
+- `src/components/CursorField.tsx` is the retro dot-matrix background; the
+  pointer leaves a cooling lime trail on it. Off under reduced motion.
 - `src/hooks/useReveal.ts` plays the entrance for `[data-reveal]` elements via
   IntersectionObserver (document flow) or the track's `chapter:enter` event.
 - `docs/ANIMEJS_V4_CONTRACT.md` is the verified v4 API reference.

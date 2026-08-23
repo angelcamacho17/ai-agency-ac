@@ -13,18 +13,19 @@ import { isStaticRender } from '../lib/staticMode'
  * the track dispatches a `chapter:enter` event instead; both paths converge on
  * the same `play`.
  */
-export function useReveal<T extends HTMLElement>() {
+export function useReveal<T extends HTMLElement>(onEnter?: () => void) {
   const reduce = usePrefersReducedMotion()
 
   return useAnimeScope<T>((_scope, root) => {
     if (isStaticRender()) return
     const targets = Array.from(root.querySelectorAll<HTMLElement>('[data-reveal]'))
-    if (!targets.length) return
 
     let played = false
     const play = () => {
       if (played) return
       played = true
+      onEnter?.()
+      if (!targets.length) return
       animate(targets, {
         opacity: [0, 1],
         y: ['1.25rem', '0rem'],

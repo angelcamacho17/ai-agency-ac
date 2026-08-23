@@ -1,6 +1,31 @@
+import {
+  ArrowsClockwise,
+  BookOpenText,
+  CalendarCheck,
+  ChatsCircle,
+  CreditCard,
+  Kanban,
+  ShieldCheck,
+  Translate,
+  UserSwitch,
+  type Icon,
+} from '@phosphor-icons/react'
 import { useReveal } from '../hooks/useReveal'
 import { useLang } from '../lib/lang'
 
+const ICON: Record<string, Icon> = {
+  channels: ChatsCircle,
+  knowledge: BookOpenText,
+  booking: CalendarCheck,
+  payments: CreditCard,
+  crm: Kanban,
+  handoff: UserSwitch,
+  languages: Translate,
+  followup: ArrowsClockwise,
+  review: ShieldCheck,
+}
+
+/** Nine things the agent does, as icon + title. The copy lives in the FAQ. */
 export default function Capabilities() {
   const ref = useReveal<HTMLElement>()
   const { t, ui } = useLang()
@@ -8,18 +33,25 @@ export default function Capabilities() {
 
   return (
     <section id="capabilities" ref={ref} className="chapter">
-      <div className="mx-auto w-full max-w-[1600px]">
-        <h2 data-reveal className="display-lg max-w-[18ch]">
+      <div className="mx-auto grid w-full max-w-[1600px] items-center gap-10 lg:grid-cols-12">
+        <h2 data-reveal className="display-lg lg:col-span-4">
           {a} {b}<span className="text-neo">{c}</span>
         </h2>
 
-        <ul className="mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:mt-14 lg:grid-cols-5 lg:gap-y-10">
-          {t.CAPABILITIES.map((cap) => (
-            <li key={cap.key} data-reveal className="border-t border-grey pt-4">
-              <h3 className="display-sm">{cap.title}</h3>
-              <p className="mt-1.5 text-sm leading-snug text-faint">{cap.copy}</p>
-            </li>
-          ))}
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:col-span-8">
+          {t.CAPABILITIES.map((cap) => {
+            const I = ICON[cap.key]
+            return (
+              <li
+                key={cap.key}
+                data-reveal
+                className="group flex min-h-[8.5rem] flex-col justify-between rounded-2xl bg-ink-2 p-5 transition-colors duration-300 hover:bg-neo hover:text-ink lg:min-h-[9.5rem]"
+              >
+                <I size={30} className="text-neo transition-colors group-hover:text-ink" />
+                <h3 className="display-sm mt-5">{cap.title}</h3>
+              </li>
+            )
+          })}
         </ul>
       </div>
     </section>

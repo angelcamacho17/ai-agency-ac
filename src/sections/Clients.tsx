@@ -49,7 +49,7 @@ function Links({ client, dark }: { client: Client; dark?: boolean }) {
             rel="noopener noreferrer"
             aria-label={`${client.name} on ${l.channel}`}
             className={`inline-flex items-center gap-1.5 whitespace-nowrap text-[13px] font-medium ${
-              dark ? 'text-ink hover:underline' : 'text-paper hover:text-neo'
+              dark ? 'text-ink hover:underline' : 'text-paper hover:underline group-hover:text-ink'
             }`}
           >
             <Icon weight={l.channel === 'Website' ? 'regular' : 'fill'} size={15} />
@@ -64,9 +64,9 @@ function Links({ client, dark }: { client: Client; dark?: boolean }) {
 
 function Tile({ client }: { client: Client }) {
   return (
-    <li data-reveal className="flex min-h-[11rem] flex-col rounded-2xl bg-ink-2 p-5">
+    <li data-reveal className="group flex min-h-[11rem] flex-col rounded-2xl bg-ink-2 p-5 transition-colors duration-300 hover:bg-neo hover:text-ink">
       <Logo client={client} className="h-16 w-full text-xl" />
-      <span className="mt-3 text-[13px] text-faint">{client.sector}</span>
+      <span className="mt-3 text-[13px] text-faint transition-colors group-hover:text-ink/70">{client.sector}</span>
       <Links client={client} />
     </li>
   )
@@ -92,7 +92,7 @@ export default function Clients() {
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <li
               data-reveal
-              className="flex flex-col rounded-2xl bg-neo p-6 text-ink sm:col-span-2 lg:row-span-2"
+              className="flex flex-col rounded-2xl bg-neo p-6 text-ink transition-colors duration-300 hover:bg-paper sm:col-span-2 lg:row-span-2"
             >
               <Logo client={featured} className="h-28 w-full lg:h-32" />
               <p className="mt-6 max-w-[34ch] text-base leading-relaxed lg:text-lg">{featured.copy}</p>
