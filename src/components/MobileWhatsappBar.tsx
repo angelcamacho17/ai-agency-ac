@@ -62,7 +62,7 @@ export function MobileWhatsappBar() {
       <a
         {...waLinkProps('mobile-bar', WA_PREFILL.default)}
         tabIndex={visible ? 0 : -1}
-        className="pointer-events-auto flex items-center justify-center gap-2.5 rounded-2xl bg-acid px-6 py-4 font-mono text-sm font-semibold uppercase tracking-wide text-ink shadow-[0_8px_32px_rgba(0,0,0,0.5)] active:scale-[0.98]"
+        className="pointer-events-auto flex items-center justify-center gap-2.5 rounded-2xl bg-neo px-6 py-4 font-display text-sm font-semibold text-ink shadow-[0_8px_32px_rgba(0,0,0,0.5)] active:scale-[0.98]"
       >
         <WhatsappLogo weight="fill" size={20} />
         Message us on WhatsApp

@@ -1,27 +1,24 @@
 @import 'tailwindcss';
 
 /* ============================================================================
-   MICHELANGELO DEVS - design system tokens (Tailwind v4 @theme)
-   Theme: warm near-black + acid-lime signal + electric violet secondary.
-   Type: Space Grotesk (display) / JetBrains Mono (technical voice).
-   Locked accent = --color-acid. ONE accent across the whole page.
+   MICHELANGELO - design tokens (Tailwind v4 @theme)
+   From the 2026 brand board: black, "neo" lime, grey. Unbounded for display.
+   One accent across the whole page: --color-neo. Body type: Space Grotesk.
    ============================================================================ */
 @theme {
-  --color-ink: #0b0b09; /* warm near-black base */
-  --color-ink-2: #121210;
-  --color-ink-3: #1a1a16;
-  --color-paper: #f4f3ea; /* warm off-white */
-  --color-mist: #b7b6ab; /* muted body on dark */
-  /* 8a897e clears 4.5:1 on --color-ink; the old #75746b measured ~4.19:1
-     and failed WCAG AA for the mono labels and captions that use it. */
-  --color-faint: #8a897e;
+  --color-ink: #0a0a0a; /* brand black, kept a hair off pure */
+  --color-ink-2: #141414;
+  --color-grey: #3a3a3a; /* brand grey */
+  --color-grey-2: #555555;
+  --color-paper: #f3f3ee;
+  --color-mist: #b9b9b2; /* body copy on ink, 9.6:1 */
+  --color-faint: #8c8c86; /* captions on ink, 4.6:1 */
 
-  --color-acid: #d9ff3d; /* THE signal — acid lime */
-  --color-acid-deep: #aacc1f;
-  --color-violet: #7b5cff; /* secondary, used only for depth/gradients */
+  --color-neo: #d4e04a; /* THE signal */
+  --color-neo-deep: #aab82a;
 
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-display: 'Unbounded', 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -32,182 +29,160 @@
   }
   html {
     -webkit-text-size-adjust: 100%;
+    background: var(--color-ink);
+    /* clip, not hidden: a hidden overflow on the root or body turns the body
+       into the scroller in Chrome and silently breaks smooth window.scrollTo,
+       which the nav relies on to reach chapters inside the horizontal track. */
+    overflow-x: clip;
   }
   body {
     margin: 0;
     background: var(--color-ink);
     color: var(--color-paper);
-    font-family: var(--font-body, 'Space Grotesk', system-ui, sans-serif);
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
   }
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 0.98;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
     margin: 0;
+    text-wrap: balance;
   }
-  .font-mono {
-    font-family: var(--font-mono);
+  p {
+    margin: 0;
+    text-wrap: pretty;
   }
   ::selection {
-    background: var(--color-acid);
+    background: var(--color-neo);
     color: var(--color-ink);
   }
-  /* anime.js text.split wraps need overflow clipping for the y-mask reveal */
-  .split-line {
-    overflow: hidden;
-  }
-
-  /* ------------------------------------------------------------------ a11y
-     There were no focus styles anywhere on the site. Tailwind Preflight
-     resets the UA outline, so on a #0b0b09 page keyboard users had no visible
-     caret at all. Acid measures 17.19:1 on ink. */
   :focus-visible {
-    outline: 2px solid var(--color-acid);
+    outline: 2px solid var(--color-neo);
     outline-offset: 3px;
     border-radius: 4px;
   }
-  /* Off-stage scene layers are inert; never let focus land inside one. */
-  [inert],
-  [inert] * {
-    pointer-events: none;
-  }
   .skip-link {
     position: absolute;
-    left: -9999px;
-    top: 0;
+    left: 1rem;
+    top: -4rem;
     z-index: 100;
+    padding: 0.6rem 1rem;
+    background: var(--color-neo);
+    color: var(--color-ink);
+    font-weight: 600;
+    border-radius: 999px;
   }
   .skip-link:focus {
-    left: 1rem;
     top: 1rem;
-    padding: 0.75rem 1.25rem;
-    background: var(--color-acid);
-    color: var(--color-ink);
-    border-radius: 0.75rem;
-    font-family: var(--font-mono);
+  }
+}
+
+@layer components {
+  /* Outline pills for nav links and secondary actions. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--color-paper) 28%, transparent);
+    border-radius: 999px;
+    padding: 0.55rem 1.1rem;
     font-size: 0.875rem;
-  }
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    font-weight: 500;
+    color: var(--color-paper);
     white-space: nowrap;
-    border-width: 0;
+    transition:
+      border-color 0.25s var(--ease-out-expo),
+      background-color 0.25s var(--ease-out-expo),
+      color 0.25s var(--ease-out-expo),
+      transform 0.2s var(--ease-out-expo);
+  }
+  .pill:hover {
+    border-color: var(--color-paper);
+  }
+  .pill:active {
+    transform: scale(0.97);
+  }
+  .pill-solid {
+    background: var(--color-neo);
+    border-color: var(--color-neo);
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .pill-solid:hover {
+    background: var(--color-paper);
+    border-color: var(--color-paper);
+  }
+
+  /* A chapter of the journey. On the horizontal track each is one viewport
+     wide; in document flow each is a normal full-height section. */
+  .chapter {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    display: grid;
+    align-content: center;
+    padding: 6rem 1.25rem 5rem;
+  }
+  [data-track] .chapter {
+    flex: 0 0 100vw;
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
+  }
+  @media (min-width: 640px) {
+    .chapter {
+      padding: 6rem 2.5rem 5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .chapter {
+      padding: 5.5rem 4rem 4rem;
+    }
+  }
+
+  .display-xl {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 0.98;
+    font-size: clamp(2.5rem, 6.6vw, 6.4rem);
+  }
+  .display-lg {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    font-size: clamp(1.9rem, 4.2vw, 4rem);
+  }
+  .display-md {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.12;
+    font-size: clamp(1.25rem, 2vw, 1.85rem);
+  }
+  .display-sm {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.2;
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
   }
 }
 
-/* ============================================================================
-   CRAWLER / NO-JS SAFETY NET
-   Animated copy is hidden by JS at runtime (birth.ts, section scopes), never
-   in markup. These rules guarantee that if JS never runs — a crawler, a failed
-   chunk, a thrown error — every word is still rendered and indexable. The
-   .jsready class is stamped by an inline script in index.html.
-   ========================================================================= */
-html:not(.jsready) [data-birth],
-html:not(.jsready) [data-hero-fade],
-html:not(.jsready) .cap-cell,
-html:not(.jsready) [data-card],
-html:not(.jsready) [data-marker] {
-  opacity: 1 !important;
-  filter: none !important;
-  transform: none !important;
+/* ------------------------------------------------------------ crawler net
+   Reveal targets start hidden only once JS has stamped html.jsready. If the
+   script never runs (crawler, prerender failure), every element stays visible. */
+html.jsready [data-reveal] {
+  opacity: 0;
 }
-html:not(.jsready) [data-umbilical] {
-  transform: scaleX(1) !important;
-}
-html:not(.jsready) [data-scene-layer] {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-@media (scripting: none) {
-  [data-birth],
-  [data-hero-fade],
-  [data-scene-layer],
-  .cap-cell,
-  [data-card] {
-    opacity: 1 !important;
-    visibility: visible !important;
-    filter: none !important;
-    transform: none !important;
-  }
-}
-
-@layer utilities {
-  .acid-glow {
-    text-shadow: 0 0 28px rgba(217, 255, 61, 0.35);
-  }
-  .text-balance {
-    text-wrap: balance;
-  }
-  /* fixed, non-interactive grain over the whole page */
-  .grain::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 90;
-    pointer-events: none;
-    opacity: 0.045;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-}
-
-::-webkit-scrollbar {
-  width: 9px;
-}
-::-webkit-scrollbar-track {
-  background: #0b0b09;
-}
-::-webkit-scrollbar-thumb {
-  background: #2c2c24;
-  border-radius: 99px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-acid-deep);
-}
-
-/* Short desktop viewports: shrink staged chapters so each one fits between
-   the nav and the fold (the pinned stage never scrolls internally). The
-   static downscale lives on the layer's inner wrapper so it composes with
-   the layer-level dissolve transform. */
-/* The pinned stage cannot scroll internally, so a chapter taller than the
-   screen silently loses its bottom — the last agent card, the last FAQ answer,
-   the Ship phase. A single scale step at 780px left the whole 780–920px band
-   (13", 14" and scaled-DPI laptops — the most common desktop sizes there are)
-   clipped.
-
-   Instead of one step, scale continuously across that band: full size at 940px
-   of viewport height, down to 0.8 at 700px. The transform-origin sits just
-   below centre so the chapter grows upward away from the fold rather than
-   sliding under the nav. */
-@media (min-width: 1024px) and (max-height: 940px) {
-  [data-scene-layer] > div {
-    /* `zoom`, not `transform: scale()`. Zoom shrinks the real layout box, so
-       the layer's own flexbox re-centres the smaller chapter inside the
-       nav-padded area automatically. A transform only paints smaller — the box
-       keeps its original height, so the layer centres the OLD size and the
-       visible content drifts either under the nav or past the fold depending
-       on which origin you guess. There is no correct origin; the box itself
-       has to change. 700px -> 0.72, 940px -> 1.0, linear between. The floor is
-       set by the agent catalog, the tallest chapter on the page. */
-    zoom: clamp(0.72, 0.72 + (100vh - 700px) * 0.28 / 240px, 1);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+  html.jsready [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

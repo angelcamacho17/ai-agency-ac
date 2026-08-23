@@ -1,122 +1,47 @@
 import { WhatsappLogo } from '@phosphor-icons/react'
-import { useAnimeScope } from '../hooks/useAnimeScope'
-import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
-import { birthReveal } from '../motion/birth'
 import { AGENTS, agentWaPrefill } from '../content/offer'
 import { waLinkProps } from '../lib/whatsapp'
+import { useReveal } from '../hooks/useReveal'
 
 /**
- * The agent catalog — the offer itself, in buyer language.
- *
- * Every card is a real <article> with an <h3> named the way someone would
- * actually search for it ("WhatsApp Sales Agent", not a studio codename),
- * a self-contained definition sentence, and its own WhatsApp CTA carrying a
- * prefill that names the agent. Nothing here lives inside the canvas and
- * nothing is hidden in markup, so this section is fully extractable by
- * crawlers and generative engines whether or not any script runs.
+ * The five agents as five columns. Each column is quotable on its own: the
+ * name, the channel, the one-line outcome and the definition sentence that
+ * the JSON-LD OfferCatalog and llms.txt also carry.
  */
 export default function Agents() {
-  const reduce = usePrefersReducedMotion()
-
-  const sectionRef = useAnimeScope<HTMLElement>((_scope, root) => {
-    birthReveal(root, 'right')
-  }, !reduce)
+  const ref = useReveal<HTMLElement>()
 
   return (
-    <section
-      ref={sectionRef}
-      aria-labelledby="agents-heading"
-      className="relative px-6 py-28 sm:py-36 lg:py-6"
-    >
-      {/* On the pinned stage the chapter must fit one viewport — it cannot
-          scroll internally. Five stacked cards overflowed by ~845px, so from
-          lg up the catalog becomes a two-column grid and the card interior
-          tightens. In document flow (mobile/tablet/reduced-motion) it stays a
-          single readable column. */}
-      <div className="lg:mr-auto lg:w-[54%] lg:max-w-3xl">
-        <span
-          data-umbilical
-          aria-hidden="true"
-          className="mb-8 ml-auto block h-px w-36 origin-right bg-gradient-to-l from-acid/70 to-transparent lg:mb-5"
-        />
-
-        <h2
-          data-birth
-          id="agents-heading"
-          className="max-w-xl text-balance text-4xl text-paper sm:text-5xl lg:text-3xl"
-        >
-          The agents we build.
+    <section id="agents" ref={ref} className="chapter">
+      <div className="mx-auto w-full max-w-[1600px]">
+        <h2 data-reveal className="display-lg max-w-[16ch]">
+          Five agents. <span className="text-neo">One that fits your leak.</span>
         </h2>
 
-        {/* Hidden on the pinned stage: the chapter is the tallest on the page
-            and this line is the most expendable thing in it — the five cards
-            below already say it. Stays in flow (and in the prerender) where
-            there is room. */}
-        <p data-birth className="mt-5 max-w-lg text-mist lg:hidden">
-          Five production agents, each one trained on how you actually sell and
-          wired into the tools you already run.
-        </p>
-
-        <div
-          data-agent-grid
-          className="mt-12 grid grid-cols-1 gap-4 lg:mt-5 lg:grid-cols-2 lg:gap-3"
-        >
-          {AGENTS.map((agent) => (
-            <article
-              key={agent.slug}
-              id={agent.slug}
-              className="group relative rounded-3xl border border-ink-3 bg-ink-2 p-6 transition-colors duration-300 hover:border-acid/40 lg:rounded-2xl lg:p-4"
+        <ol className="mt-10 grid gap-6 md:grid-cols-2 lg:mt-14 lg:grid-cols-5 lg:gap-5">
+          {AGENTS.map((a, i) => (
+            <li
+              key={a.slug}
+              id={a.slug}
+              data-reveal
+              className="flex flex-col rounded-2xl bg-ink-2 p-5 lg:min-h-[22rem]"
             >
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <h3 className="text-xl text-paper lg:text-base">{agent.name}</h3>
-                <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-faint lg:text-[0.6rem]">
-                  {agent.channel}
-                </span>
-              </div>
-
-              <p className="mt-3 text-sm leading-relaxed text-mist lg:mt-2 lg:text-xs">
-                {agent.definition}
-              </p>
-
-              <p className="mt-3 font-mono text-xs text-acid lg:mt-2 lg:text-[0.7rem]">
-                {agent.outcome}
-              </p>
-
-              {/* A plain list, not a <dl>: every item is one behaviour with no
-                  term/definition pairing, and a repeated <dt> label would just
-                  add noise to the text a crawler or an LLM extracts.
-                  Hidden on the pinned stage, where the chapter must fit one
-                  viewport — the definition and outcome above already carry the
-                  sell. Still in the DOM for crawlers and the prerender, which
-                  runs the document-flow path. */}
-              <ul className="mt-5 grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:hidden">
-                {agent.behaviours.map((b) => (
-                  <li key={b} className="flex items-start gap-2">
-                    <span
-                      aria-hidden="true"
-                      className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-acid/70"
-                    />
-                    <span className="text-xs leading-relaxed text-mist">{b}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-ink-3 pt-4 lg:mt-3 lg:pt-3">
-                <p className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-faint lg:text-[0.55rem]">
-                  {agent.connects.join(' · ')}
-                </p>
-                <a
-                  {...waLinkProps('agent-card', agentWaPrefill(agent))}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-acid/40 px-3.5 py-2 font-mono text-xs text-acid transition-colors hover:bg-acid hover:text-ink lg:px-2.5 lg:py-1.5 lg:text-[0.7rem]"
-                >
-                  <WhatsappLogo weight="fill" size={14} />
-                  <span className="lg:hidden">Ask about this agent</span>
-                  <span className="hidden lg:inline">Ask</span>
-                </a>
-              </div>
-            </article>
+              <span className="font-display text-xs text-neo">{a.channel}</span>
+              <h3 className="display-sm mt-3">{a.name}</h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-paper">{a.outcome}</p>
+              <p className="mt-3 text-sm leading-relaxed text-faint">{a.definition}</p>
+              <a
+                {...waLinkProps('agent-card', agentWaPrefill(a))}
+                className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-medium text-paper hover:text-neo"
+                aria-label={`Ask about the ${a.name} on WhatsApp`}
+              >
+                <WhatsappLogo weight="fill" size={15} />
+                Ask about this one
+              </a>
+              <span className="sr-only">{i + 1} of {AGENTS.length}</span>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   )

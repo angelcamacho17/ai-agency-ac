@@ -64,6 +64,7 @@ export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }) {
         url: SITE,
         description: ORG.definition,
         slogan: ORG.tagline,
+        sameAs: [ORG.instagram],
         areaServed: [
           { '@type': 'Country', name: 'Venezuela' },
           { '@type': 'Place', name: 'Latin America' },
