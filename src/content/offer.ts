@@ -18,13 +18,14 @@
 
 export const ORG = {
   name: 'Michelangelo Devs',
-  url: 'https://michelangelodevs.com',
+  url: 'https://www.michelangelodevs.com',
   /** The entity sentence. Must appear verbatim in the hero, JSON-LD and llms.txt. */
   definition:
     'Michelangelo Devs es una agencia de agentes de IA que construye agentes de ventas en producción para WhatsApp, Instagram y web, en vivo en menos de dos semanas.',
   /** The H1. Its first words are what verify-seo looks for. */
   tagline: 'Un agente de IA que responde, califica y cierra en WhatsApp, Instagram y tu web.',
   instagram: 'https://www.instagram.com/michelangelo.devs/',
+  linkedin: 'https://www.linkedin.com/company/michelangelo-devs/',
   instagramHandle: '@michelangelo.devs',
   areaServed: ['Venezuela', 'Latinoamérica'],
   languages: ['es', 'en'],

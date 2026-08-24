@@ -19,7 +19,9 @@ import { dirname, resolve } from 'node:path'
 const HERE = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(HERE, '..')
 
-export const SITE = 'https://michelangelodevs.com'
+// www is canonical: the apex 301s to www at the host, so every URL we emit
+// must be the one that answers 200 to crawlers.
+export const SITE = 'https://www.michelangelodevs.com'
 export const WA_NUMBER = '584125671953'
 export const WA_E164 = '+584125671953'
 
@@ -64,7 +66,7 @@ export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }) {
         url: SITE,
         description: ORG.definition,
         slogan: ORG.tagline,
-        sameAs: [ORG.instagram],
+        sameAs: [ORG.instagram, ORG.linkedin],
         areaServed: [
           { '@type': 'Country', name: 'Venezuela' },
           { '@type': 'Place', name: 'Latin America' },
@@ -139,7 +141,7 @@ export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }) {
   }
 }
 
-export function buildLlmsTxt({ ORG, AGENTS, PHASES, FAQ }) {
+export function buildLlmsTxt({ ORG, AGENTS, PHASES, FAQ }, answerPages = []) {
   const agents = AGENTS.map(
     (a) =>
       `### ${a.name}\n${a.definition}\n- Canal: ${a.channel}\n- Resultado: ${a.outcome}`,
@@ -190,6 +192,12 @@ ${process}
 
 ${faq}
 
+## Answer pages
+
+Direct, citable answers to specific questions, in Spanish:
+
+${answerPages.map((a) => `- ${SITE}/${a.slug}/ — ${a.h1}`).join('\n')}
+
 ## Canonical facts
 
 - ${ORG.definition}
@@ -199,6 +207,7 @@ ${faq}
 - Integrations wired during the build: CRM, calendar.
 - When the agent is unsure it escalates to a human with the full conversation.
 - ${ORG.name} is an ${ORG.openAiPartner} in the ${ORG.openAiPartnerNetwork}.
+- Official profiles: Instagram ${ORG.instagram} and LinkedIn ${ORG.linkedin}.
 - Contact: WhatsApp ${WA_E164}.
 - Pricing: monthly plan, not published; two-week free trial for businesses that qualify; no commitment.
 `
@@ -247,7 +256,17 @@ Sitemap: ${SITE}/sitemap.xml
 `
 }
 
-export function buildSitemap(lastmod) {
+export function buildSitemap(lastmod, answerSlugs = []) {
+  const answers = answerSlugs
+    .map(
+      (slug) => `  <url>
+    <loc>${SITE}/${slug}/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`,
+    )
+    .join('\n')
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -256,6 +275,7 @@ export function buildSitemap(lastmod) {
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+${answers}
 </urlset>
 `
 }

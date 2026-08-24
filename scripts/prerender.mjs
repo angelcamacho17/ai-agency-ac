@@ -17,7 +17,7 @@
  */
 
 import { createServer } from 'node:http'
-import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join, extname } from 'node:path'
 import {
@@ -27,6 +27,7 @@ import {
   buildRobots,
   buildSitemap,
 } from './seo-data.mjs'
+import { ANSWERS, renderAnswerPage } from './answers.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(HERE, '..')
@@ -73,10 +74,21 @@ async function main() {
 
   // ---- static SEO/GEO assets (no browser needed) -------------------------
   const lastmod = new Date().toISOString().slice(0, 10)
-  writeFileSync(resolve(DIST, 'llms.txt'), buildLlmsTxt(offer))
+  writeFileSync(resolve(DIST, 'llms.txt'), buildLlmsTxt(offer, ANSWERS))
   writeFileSync(resolve(DIST, 'robots.txt'), buildRobots())
-  writeFileSync(resolve(DIST, 'sitemap.xml'), buildSitemap(lastmod))
+  writeFileSync(
+    resolve(DIST, 'sitemap.xml'),
+    buildSitemap(lastmod, ANSWERS.map((a) => a.slug)),
+  )
   console.log('  ✓ llms.txt, robots.txt, sitemap.xml')
+
+  // ---- citable answer pages (static, self-contained) ---------------------
+  for (const a of ANSWERS) {
+    const dir = resolve(DIST, a.slug)
+    mkdirSync(dir, { recursive: true })
+    writeFileSync(resolve(dir, 'index.html'), renderAnswerPage(a, offer))
+  }
+  console.log(`  ✓ ${ANSWERS.length} answer pages (${ANSWERS.map((a) => `/${a.slug}/`).join(', ')})`)
 
   // ---- JSON-LD -----------------------------------------------------------
   const jsonLd = buildJsonLd(offer)
