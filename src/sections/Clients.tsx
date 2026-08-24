@@ -10,12 +10,27 @@ const ICON: Record<ClientLink['channel'], typeof Globe> = {
 }
 
 /**
+ * Per-logo tile height (px) that levels optical weight across the marks.
+ * Derived from each file's measured alpha coverage and aspect ratio
+ * (h ∝ 1 / (coverage × aspect)^0.4), so the dense Renaissence crest and the
+ * ultra-wide VIC wordmark carry the same visual mass as the thin Mariú script.
+ */
+const LOGO_H: Record<string, number> = {
+  terracota: 50,
+  renaissence: 58,
+  topone: 52,
+  coloreal: 44,
+  mariu: 58,
+  vic: 38,
+}
+
+/**
  * Client logos are shipped as alpha masks and painted in currentColor, so one
  * file reads as paper on the dark tiles and as ink on the lime one.
  */
-function Logo({ client, className }: { client: Client; className: string }) {
+function Logo({ client, className, h }: { client: Client; className: string; h?: number }) {
   if (!client.logo) {
-    return <span className={`font-display font-medium leading-none ${className}`}>{client.name}</span>
+    return <span className={`font-display text-xl font-medium leading-none ${className}`}>{client.name}</span>
   }
   return (
     <span
@@ -23,6 +38,7 @@ function Logo({ client, className }: { client: Client; className: string }) {
       aria-label={client.name}
       className={`block bg-current ${className}`}
       style={{
+        ...(h ? { height: h } : {}),
         maskImage: `url(${client.logo})`,
         WebkitMaskImage: `url(${client.logo})`,
         maskSize: 'contain',
@@ -65,7 +81,9 @@ function Links({ client, dark }: { client: Client; dark?: boolean }) {
 function Tile({ client }: { client: Client }) {
   return (
     <li data-reveal className="group flex min-h-[11rem] flex-col rounded-2xl bg-ink-2 p-5 transition-colors duration-300 hover:bg-neo hover:text-ink">
-      <Logo client={client} className="h-16 w-full text-xl" />
+      <span className="flex h-16 w-full items-center">
+        <Logo client={client} className="w-full" h={LOGO_H[client.key] ?? 48} />
+      </span>
       <span className="mt-3 text-[13px] text-faint transition-colors group-hover:text-ink/70">{client.sector}</span>
       <Links client={client} />
     </li>

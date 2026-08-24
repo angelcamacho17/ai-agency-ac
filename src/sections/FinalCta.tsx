@@ -2,6 +2,7 @@ import { ArrowUpRight, InstagramLogo, WhatsappLogo } from '@phosphor-icons/react
 import { WA_DISPLAY, WA_PREFILL, waLinkProps } from '../lib/whatsapp'
 import { useReveal } from '../hooks/useReveal'
 import { useLang } from '../lib/lang'
+import { PartnerBadge } from '../components/PartnerBadge'
 
 export default function FinalCta() {
   const ref = useReveal<HTMLElement>()
@@ -35,9 +36,12 @@ export default function FinalCta() {
         </div>
 
         <footer className="mt-10 flex flex-col gap-4 text-sm text-faint sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2.5 text-paper">
-            <img src="/m-mark.png" alt="" width={30} height={15} className="h-[15px] w-auto" />
-            <span className="font-display text-[13px] font-medium">michelangelo.</span>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-3 text-paper">
+            <span className="flex items-center gap-2.5">
+              <img src="/m-mark.png" alt="" width={30} height={15} className="h-[15px] w-auto" />
+              <span className="font-display text-[13px] font-medium">michelangelo.</span>
+            </span>
+            <PartnerBadge className="h-8" />
           </div>
           <p>
             {t.ORG.name}. {ui.footer}{' '}

@@ -1,4 +1,5 @@
 import { ArrowRight, WhatsappLogo } from '@phosphor-icons/react'
+import { PartnerBadge } from '../components/PartnerBadge'
 import { WA_PREFILL, waLinkProps } from '../lib/whatsapp'
 import { useReveal } from '../hooks/useReveal'
 import { scrollToChapter } from '../lib/chapters'
@@ -19,6 +20,15 @@ export default function Hero() {
             {lead}
             <span className="block text-neo">{rest}</span>
           </h1>
+
+          <div data-reveal className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-4 lg:mt-10">
+            <PartnerBadge className="h-14 sm:h-16" />
+            <p className="font-display text-lg font-medium leading-snug tracking-tight sm:text-xl">
+              {ui.partnerH[0]}
+              <span className="text-neo">{ui.partnerH[1]}</span>
+              <span className="block text-sm font-normal text-mist sm:text-base">{ui.partnerSub}</span>
+            </p>
+          </div>
         </div>
 
         <div className="lg:col-span-4 lg:pb-2">

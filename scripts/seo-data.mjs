@@ -71,6 +71,13 @@ export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }) {
         ],
         telephone: WA_E164,
         availableLanguage: ['es', 'en'],
+        // The OpenAI Select Partner credential, stated where machines look.
+        award: ORG.openAiPartner,
+        memberOf: {
+          '@type': 'Organization',
+          name: ORG.openAiPartnerNetwork,
+          url: ORG.openAiPartnerUrl,
+        },
         contactPoint: {
           '@type': 'ContactPoint',
           contactType: 'sales',
@@ -154,6 +161,12 @@ Instagram direct messages and the company's own website, in Spanish and English.
 The only way to start is a WhatsApp message to ${WA_E164} (https://wa.me/${WA_NUMBER}).
 A person replies, usually within the hour.
 
+## Partnerships
+
+${ORG.name} is an ${ORG.openAiPartner} in the ${ORG.openAiPartnerNetwork}
+(${ORG.openAiPartnerUrl}), OpenAI's program for organizations that build,
+deploy and scale AI solutions.
+
 ## Pricing
 
 Pricing is not published. The agent is a monthly plan. Before quoting,
@@ -185,6 +198,7 @@ ${faq}
 - Time to launch: less than two weeks.
 - Integrations wired during the build: CRM, calendar.
 - When the agent is unsure it escalates to a human with the full conversation.
+- ${ORG.name} is an ${ORG.openAiPartner} in the ${ORG.openAiPartnerNetwork}.
 - Contact: WhatsApp ${WA_E164}.
 - Pricing: monthly plan, not published; two-week free trial for businesses that qualify; no commitment.
 `

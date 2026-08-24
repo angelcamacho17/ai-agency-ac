@@ -63,6 +63,10 @@ if (!prerendered) {
   for (const f of FAQ) need(f.q, `FAQ question`)
 
   if (!/Saltar al contenido/.test(text)) fail('Skip link missing from prerendered HTML')
+
+  if (!text.includes('OpenAI Select Partner')) {
+    fail('OpenAI Select Partner credential missing from prerendered HTML')
+  }
 }
 
 /* ------------------------------------------------------- 2. the CTA rule */
@@ -150,6 +154,13 @@ if (!html.includes('application/ld+json')) {
         fail(`JSON-LD FAQ answer drifted from visible copy for: "${q.name}"`)
       }
     }
+    const org = graph.find((n) => n['@type'] === 'ProfessionalService')
+    if (org?.award !== 'OpenAI Select Partner') {
+      fail('JSON-LD ProfessionalService missing award: "OpenAI Select Partner"')
+    }
+    if (org?.memberOf?.name !== 'OpenAI Partner Network') {
+      fail('JSON-LD ProfessionalService missing memberOf the OpenAI Partner Network')
+    }
     const catalog = graph.find((n) => n['@type'] === 'OfferCatalog')
     for (const svc of catalog?.itemListElement || []) {
       if ('offers' in svc || 'priceSpecification' in svc) {
@@ -172,6 +183,12 @@ else {
   }
   for (const a of AGENTS) {
     if (!llms.includes(a.name)) fail(`llms.txt missing agent: ${a.name}`)
+  }
+  if (!llms.includes('OpenAI Select Partner')) {
+    fail('llms.txt missing the OpenAI Select Partner credential')
+  }
+  if (!existsSync(resolve(DIST, 'partners/openai-select-partner.svg'))) {
+    fail('dist/partners/openai-select-partner.svg missing — the official badge asset must ship')
   }
 }
 
