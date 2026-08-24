@@ -4,6 +4,14 @@ import { useReveal } from '../hooks/useReveal'
 import { useLang } from '../lib/lang'
 import { PartnerBadge } from '../components/PartnerBadge'
 
+/** Spanish answer pages (static, built by scripts/answers.mjs). Linked here so
+    crawlers and readers can reach them from the SPA. */
+const ANSWER_LINKS = [
+  { href: '/agente-de-ia-para-whatsapp/', label: 'Agente de IA para WhatsApp' },
+  { href: '/cuanto-cuesta-un-agente-de-ventas-con-ia/', label: '¿Cuánto cuesta un agente de ventas con IA?' },
+  { href: '/agente-de-ia-para-hoteles/', label: 'Agente de IA para hoteles' },
+]
+
 export default function FinalCta() {
   const ref = useReveal<HTMLElement>()
   const { t, ui } = useLang()
@@ -48,6 +56,11 @@ export default function FinalCta() {
             <a {...waLinkProps('footer', WA_PREFILL.default)} className="text-paper hover:text-neo">{WA_DISPLAY}</a>
           </p>
         </footer>
+        <nav aria-label="Respuestas" className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-[13px] text-faint">
+          {ANSWER_LINKS.map((l) => (
+            <a key={l.href} href={l.href} className="hover:text-paper">{l.label}</a>
+          ))}
+        </nav>
       </div>
     </section>
   )

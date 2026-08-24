@@ -9,10 +9,11 @@
  * Run automatically as part of `npm run build`.
  */
 
-import { readFileSync, existsSync } from 'node:fs'
+import { readFileSync, existsSync, readdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
-import { readOffer } from './seo-data.mjs'
+import { readOffer, SITE } from './seo-data.mjs'
+import { ANSWERS } from './answers.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(HERE, '..')
@@ -123,9 +124,16 @@ for (const rel of srcFiles) {
   }
 }
 
-for (const re of PRICE_PATTERNS) {
-  const m = html.match(re)
-  if (m) fail(`Possible pricing language in built HTML: "${m[0]}"`)
+// Every built HTML file — the landing page AND the answer pages.
+const distHtml = readdirSync(DIST, { recursive: true })
+  .filter((f) => String(f).endsWith('.html'))
+  .map((f) => resolve(DIST, String(f)))
+for (const file of distHtml) {
+  const body = read(file)
+  for (const re of PRICE_PATTERNS) {
+    const m = body.match(re)
+    if (m) fail(`Possible pricing language in ${file.replace(DIST, 'dist')}: "${m[0]}"`)
+  }
 }
 
 /* ------------------------------------------------- 4. structured data set */
@@ -161,6 +169,11 @@ if (!html.includes('application/ld+json')) {
     if (org?.memberOf?.name !== 'OpenAI Partner Network') {
       fail('JSON-LD ProfessionalService missing memberOf the OpenAI Partner Network')
     }
+    for (const profile of ['instagram.com/michelangelo.devs', 'linkedin.com/company/michelangelo-devs']) {
+      if (!(org?.sameAs || []).some((u) => u.includes(profile))) {
+        fail(`JSON-LD sameAs missing the ${profile.split('.')[0]} profile`)
+      }
+    }
     const catalog = graph.find((n) => n['@type'] === 'OfferCatalog')
     for (const svc of catalog?.itemListElement || []) {
       if ('offers' in svc || 'priceSpecification' in svc) {
@@ -170,6 +183,35 @@ if (!html.includes('application/ld+json')) {
   } catch (err) {
     fail(`JSON-LD is not parseable: ${err.message}`)
   }
+}
+
+/* ------------------------------------------------- 4b. citable answer pages */
+
+for (const a of ANSWERS) {
+  const page = read(resolve(DIST, a.slug, 'index.html'))
+  if (!page) {
+    fail(`Answer page missing: dist/${a.slug}/index.html`)
+    continue
+  }
+  if (!page.includes(a.direct)) fail(`/${a.slug}/ does not open with its direct answer`)
+  if (!page.includes('application/ld+json')) fail(`/${a.slug}/ has no JSON-LD`)
+  if (!page.includes(`<link rel="canonical" href="${SITE}/${a.slug}/"`)) {
+    fail(`/${a.slug}/ canonical is wrong or missing`)
+  }
+  const words = a.direct.split(/\s+/).length
+  if (words < 40 || words > 60) {
+    fail(`/${a.slug}/ direct answer is ${words} words — must stay 40-60`)
+  }
+}
+
+const sitemapXml = read(resolve(DIST, 'sitemap.xml')) || ''
+for (const a of ANSWERS) {
+  if (!sitemapXml.includes(`${SITE}/${a.slug}/`)) fail(`sitemap.xml missing /${a.slug}/`)
+}
+
+// The canonical host answers 200; the apex 301s away. Never emit the apex.
+if (/href="https:\/\/michelangelodevs\.com/.test(html)) {
+  fail('Built HTML links the apex host — canonical is https://www.michelangelodevs.com')
 }
 
 /* ------------------------------------------------------- 5. GEO artefacts */
@@ -186,6 +228,9 @@ else {
   }
   if (!llms.includes('OpenAI Select Partner')) {
     fail('llms.txt missing the OpenAI Select Partner credential')
+  }
+  for (const a of ANSWERS) {
+    if (!llms.includes(`${SITE}/${a.slug}/`)) fail(`llms.txt missing answer page /${a.slug}/`)
   }
   if (!existsSync(resolve(DIST, 'partners/openai-select-partner.svg'))) {
     fail('dist/partners/openai-select-partner.svg missing — the official badge asset must ship')
