@@ -28,6 +28,12 @@ export const ORG = {
   instagramHandle: '@michelangelo.devs',
   areaServed: ['Venezuela', 'Latinoamérica'],
   languages: ['es', 'en'],
+  /** Official tier in the OpenAI Partner Network. Per the partner kit, copy
+      must reference the status with this exact phrase and the badge must be
+      used as provided. Rendered in the hero, the footer, JSON-LD and llms.txt. */
+  openAiPartner: 'OpenAI Select Partner',
+  openAiPartnerNetwork: 'OpenAI Partner Network',
+  openAiPartnerUrl: 'https://openai.com/business/partners/',
 } as const
 
 /* ------------------------------------------------------------ capabilities */
