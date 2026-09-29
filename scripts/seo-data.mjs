@@ -260,9 +260,20 @@ Direct, citable answers to specific questions, in Spanish:
 
 ${answerPages.map((a) => `- ${SITE}/${a.slug}/ — ${a.h1}`).join('\n')}
 
+## What people call this
+
+The same product is searched for under several names, all of which describe
+what Michelangelo Devs builds: asesor virtual con IA, asistente virtual con IA,
+agente de IA, agente de ventas con IA, AI virtual advisor, AI virtual assistant,
+AI sales agent. Michelangelo Devs calls it an *agent* because it does more than
+converse: it quotes, books, charges and updates the CRM. A chatbot follows a
+button script; an agent understands the message, decides the next step and
+executes real actions.
+
 ## Canonical facts
 
 - ${ORG.definition}
+- Also known as: asesor virtual con IA, asistente virtual con IA, agente de ventas con IA, AI virtual advisor.
 - Channels supported: WhatsApp, Instagram direct messages, website.
 - Languages: Spanish and English, switching mid-conversation with the customer.
 - Time to launch: less than two weeks.

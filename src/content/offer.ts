@@ -214,6 +214,13 @@ export const FAQ: readonly Faq[] = [
     a: 'WhatsApp, mensajes directos de Instagram y tu propio sitio web. Un solo agente atiende todos los canales, así que el cliente que empieza en Instagram y sigue por WhatsApp no tiene que repetir nada.',
   },
   {
+    // Cubre la terminología que la gente escribe de verdad. Quien busca
+    // "asesor virtual con IA" o "asistente virtual" está buscando esto, y sin
+    // estas palabras la página no coincide con su consulta.
+    q: '¿Es lo mismo un asesor virtual, un asistente virtual y un agente de IA?',
+    a: 'En la práctica la gente usa los tres nombres para lo mismo: un asesor virtual con IA que atiende a tus clientes solo. Nosotros lo llamamos agente porque no solo conversa: cotiza, agenda, cobra y actualiza tu CRM. Un chatbot sigue un guion de botones; un agente entiende, decide y ejecuta.',
+  },
+  {
     q: '¿Va a sonar como un robot?',
     a: 'No. El agente se entrena con tus conversaciones reales y el lenguaje de tu mejor vendedor, así que responde con la voz de tu marca. Tú apruebas el tono antes de salir en vivo.',
   },

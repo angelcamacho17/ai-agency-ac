@@ -9,6 +9,7 @@ import { PartnerBadge } from '../components/PartnerBadge'
 const ANSWER_LINKS = [
   { href: '/agente-de-ia-para-whatsapp/', label: 'Agente de IA para WhatsApp' },
   { href: '/cuanto-cuesta-un-agente-de-ventas-con-ia/', label: '¿Cuánto cuesta un agente de ventas con IA?' },
+  { href: '/asesor-virtual-con-ia/', label: 'Asesor virtual con IA' },
   { href: '/agente-de-ia-para-hoteles/', label: 'Agente de IA para hoteles' },
 ]
 

@@ -114,6 +114,60 @@ export const ANSWERS = [
     ],
   },
   {
+    // Cubre la familia de términos que la gente escribe cuando busca esto sin
+    // saber que se llama "agente": asesor virtual, asistente virtual, chatbot.
+    // El vocabulario del cliente, no el nuestro.
+    slug: 'asesor-virtual-con-ia',
+    title: 'Asesor virtual con IA: qué es y cómo contratarlo | Michelangelo Devs',
+    h1: 'Asesor virtual con IA',
+    description:
+      'Qué es un asesor virtual con IA, en qué se diferencia de un chatbot y cómo se contrata uno. Por Michelangelo Devs, OpenAI Select Partner.',
+    direct:
+      'Un asesor virtual con IA es un vendedor automático que atiende a tus clientes en WhatsApp, Instagram y tu web: responde al instante, cotiza, agenda citas y cobra dentro del chat. Michelangelo Devs construye estos asesores en producción, con tu voz y tu catálogo, y los pone en vivo en menos de dos semanas.',
+    sections: [
+      {
+        h2: '¿Asesor virtual, asistente virtual o agente de IA?',
+        lead:
+          'Son el mismo producto con tres nombres. Nosotros lo llamamos agente porque no se queda en conversar: cotiza con tu catálogo real, agenda con disponibilidad real, cobra y deja el lead en la etapa correcta de tu CRM. Si solo respondiera preguntas, sería un chatbot.',
+      },
+      {
+        h2: '¿En qué se diferencia de un chatbot?',
+        lead:
+          'Un chatbot sigue un guion de botones y se rompe cuando el cliente escribe algo que no estaba previsto. Un asesor virtual con IA entiende el mensaje, decide el siguiente paso y ejecuta acciones reales. Un segundo modelo audita cada borrador antes de enviarlo.',
+      },
+      {
+        h2: '¿Qué hace un asesor virtual con IA?',
+        bullets: [
+          'Atiende en WhatsApp, Instagram y tu sitio web, con un solo cerebro.',
+          'Responde con tu catálogo: precios y stock desde tus propias hojas.',
+          'Califica: separa compradores de curiosos y puntúa la intención.',
+          'Agenda, confirma y reagenda con disponibilidad real.',
+          'Cierra con link de pago dentro del chat.',
+          'Escala a una persona cuando no sabe, con la conversación completa.',
+        ],
+      },
+      {
+        h2: '¿Cómo se contrata?',
+        lead:
+          'Por WhatsApp. Primero evaluamos tu negocio para confirmar que el asesor te va a facturar más de lo que cuesta; si tu empresa califica, tienes dos semanas de uso gratis y puedes desconectarlo sin compromiso.',
+      },
+    ],
+    faqs: [
+      {
+        q: '¿Es lo mismo un asesor virtual, un asistente virtual y un agente de IA?',
+        a: 'En la práctica la gente usa los tres nombres para lo mismo: un asesor virtual con IA que atiende a tus clientes solo. Nosotros lo llamamos agente porque no solo conversa: cotiza, agenda, cobra y actualiza tu CRM. Un chatbot sigue un guion de botones; un agente entiende, decide y ejecuta.',
+      },
+      {
+        q: '¿En qué canales funciona el asesor virtual?',
+        a: 'WhatsApp, mensajes directos de Instagram y tu propio sitio web. Un solo agente atiende todos los canales, así que el cliente que empieza en Instagram y sigue por WhatsApp no tiene que repetir nada.',
+      },
+      {
+        q: '¿Cuánto tarda en estar en vivo?',
+        a: 'Menos de dos semanas: un par de días para mapear cómo vendes, una semana para construir, unos días para probar y el lanzamiento.',
+      },
+    ],
+  },
+  {
     slug: 'agente-de-ia-para-hoteles',
     title: 'Agente de IA para hoteles: el caso Lidotel | Michelangelo Devs',
     h1: 'Agente de IA para hoteles',

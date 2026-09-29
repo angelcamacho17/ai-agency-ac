@@ -348,6 +348,27 @@ if (!existsSync(resolve(DIST, 'og.jpg'))) {
   warn('public/og.jpg missing — link previews in WhatsApp will have no image')
 }
 
+/* ------------------------------------------ 7. vocabulary the market uses */
+
+/**
+ * People search for "asesor virtual" and "asistente virtual" far more than for
+ * "agente de IA". The product is the same; if these words are absent the page
+ * simply does not match the query a real buyer types. Observed in the wild: a
+ * ChatGPT search for "asesor virtual con ia" surfaced competitors instead.
+ */
+const SYNONYMS = ['asesor virtual', 'asistente virtual', 'chatbot']
+for (const term of SYNONYMS) {
+  if (!new RegExp(term, 'i').test(html)) {
+    fail(`Landing page never says "${term}" — buyers search this phrase`)
+  }
+}
+
+if (llms) {
+  for (const term of ['asesor virtual', 'asistente virtual', 'AI virtual advisor']) {
+    if (!llms.includes(term)) fail(`llms.txt missing the synonym "${term}"`)
+  }
+}
+
 /* ---------------------------------------------------------------- report */
 
 if (warnings.length) {
