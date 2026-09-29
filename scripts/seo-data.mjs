@@ -53,8 +53,60 @@ export function readOffer() {
   return { ORG: grab('ORG'), AGENTS: grab('AGENTS'), PHASES: grab('PHASES'), FAQ: grab('FAQ') }
 }
 
-export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }) {
+/**
+ * The English bundle. `offer.en.ts` overrides only part of ORG (it spreads the
+ * Spanish one) and declares AGENTS/PHASES/FAQ as plain literals, so the same
+ * scoped-eval trick works once ORG is merged over its Spanish base.
+ */
+export function readOfferEn() {
+  const es = readOffer()
+  const src = readFileSync(resolve(ROOT, 'src/content/offer.en.ts'), 'utf8')
+
+  // offer.en.ts annotates its exports (`: readonly Agent[]`) instead of using
+  // `as const`, so accept either terminator.
+  const grab = (name) => {
+    const re = new RegExp(
+      `export const ${name}[^=]*=\\s*(\\[[\\s\\S]*?\\n\\]|\\{[\\s\\S]*?\\n\\})`,
+      'm',
+    )
+    const m = src.match(re)
+    if (!m) throw new Error(`seo-data: could not extract "${name}" from offer.en.ts`)
+    // ORG spreads the Spanish object; drop the spread and merge it explicitly.
+    const literal = m[1].replace(/\.\.\.ORG_ES\s*,?/, '')
+    try {
+      return new Function(`return (${literal})`)()
+    } catch (err) {
+      throw new Error(`seo-data: failed to evaluate en "${name}": ${err.message}`)
+    }
+  }
+
+  return {
+    ORG: { ...es.ORG, ...grab('ORG') },
+    AGENTS: grab('AGENTS'),
+    PHASES: grab('PHASES'),
+    FAQ: grab('FAQ'),
+  }
+}
+
+/**
+ * Reciprocal hreflang. Every alternate set must list every variant INCLUDING
+ * itself, plus x-default, or search engines ignore the whole cluster.
+ */
+export function buildHreflang() {
+  return [
+    `<link rel="alternate" hreflang="es" href="${SITE}/" />`,
+    `<link rel="alternate" hreflang="en" href="${SITE}/en/" />`,
+    `<link rel="alternate" hreflang="x-default" href="${SITE}/" />`,
+  ].join('\n    ')
+}
+
+export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }, { lang = 'es' } = {}) {
+  // The organization is ONE entity across both languages, so its @id never
+  // varies. Page-scoped nodes get a per-language @id so the es and en
+  // documents describe themselves instead of overwriting each other.
   const orgId = `${SITE}/#org`
+  const page = lang === 'en' ? `${SITE}/en/` : `${SITE}/`
+  const sfx = lang === 'en' ? '-en' : ''
 
   return {
     '@context': 'https://schema.org',
@@ -94,17 +146,27 @@ export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }) {
         url: SITE,
         name: ORG.name,
         publisher: { '@id': orgId },
-        inLanguage: 'en',
+        inLanguage: ['es', 'en'],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': `${page}#webpage`,
+        url: page,
+        name: ORG.tagline,
+        description: ORG.definition,
+        inLanguage: lang,
+        isPartOf: { '@id': `${SITE}/#website` },
+        about: { '@id': orgId },
       },
       {
         '@type': 'OfferCatalog',
-        '@id': `${SITE}/#catalog`,
+        '@id': `${SITE}/#catalog${sfx}`,
         name: 'AI sales agents',
         // NOTE: Service nodes deliberately carry no `offers` node. Pricing is
         // not published; scope and quote are agreed over WhatsApp.
         itemListElement: AGENTS.map((a) => ({
           '@type': 'Service',
-          '@id': `${SITE}/#${a.slug}`,
+          '@id': `${SITE}/#${a.slug}${sfx}`,
           name: a.name,
           description: a.definition,
           serviceType: 'AI sales agent',
@@ -118,7 +180,7 @@ export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }) {
       },
       {
         '@type': 'HowTo',
-        '@id': `${SITE}/#howto`,
+        '@id': `${SITE}/#howto${sfx}`,
         name: 'How Michelangelo Devs ships an AI sales agent in less than two weeks',
         totalTime: 'P5D',
         step: PHASES.map((p, i) => ({
@@ -130,7 +192,7 @@ export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }) {
       },
       {
         '@type': 'FAQPage',
-        '@id': `${SITE}/#faq`,
+        '@id': `${SITE}/#faq${sfx}`,
         mainEntity: FAQ.map((f) => ({
           '@type': 'Question',
           name: f.q,
@@ -257,6 +319,14 @@ Sitemap: ${SITE}/sitemap.xml
 }
 
 export function buildSitemap(lastmod, answerSlugs = []) {
+  // xhtml:link alternates are the sitemap half of the hreflang cluster; search
+  // engines want the pairing declared in both the markup and the sitemap.
+  const alts = [
+    `    <xhtml:link rel="alternate" hreflang="es" href="${SITE}/" />`,
+    `    <xhtml:link rel="alternate" hreflang="en" href="${SITE}/en/" />`,
+    `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}/" />`,
+  ].join('\n')
+
   const answers = answerSlugs
     .map(
       (slug) => `  <url>
@@ -267,13 +337,23 @@ export function buildSitemap(lastmod, answerSlugs = []) {
   </url>`,
     )
     .join('\n')
+
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>${SITE}/</loc>
+${alts}
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${SITE}/en/</loc>
+${alts}
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 ${answers}
 </urlset>

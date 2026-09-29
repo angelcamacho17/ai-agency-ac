@@ -61,9 +61,13 @@ const LangContext = createContext<Ctx | null>(null)
 const KEY = 'mich.lang'
 
 function initial(): Lang {
-  if (typeof window === 'undefined' || isStaticRender()) return 'es'
+  if (typeof window === 'undefined') return 'es'
   const q = new URLSearchParams(window.location.search).get('lang')
   if (q === 'en' || q === 'es') return q
+  // The prerender pass must be deterministic: no stored preference, only the
+  // explicit ?lang= above. Without this the /en/ snapshot could inherit an
+  // unrelated localStorage value from the headless profile.
+  if (isStaticRender()) return 'es'
   try {
     const saved = localStorage.getItem(KEY)
     if (saved === 'en' || saved === 'es') return saved
