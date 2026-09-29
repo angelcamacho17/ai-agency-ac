@@ -348,6 +348,61 @@ if (!existsSync(resolve(DIST, 'og.jpg'))) {
   warn('public/og.jpg missing — link previews in WhatsApp will have no image')
 }
 
+/* ------------------------------------------ 7. vocabulary the market uses */
+
+/**
+ * People search for "asesor virtual" and "asistente virtual" far more than for
+ * "agente de IA". The product is the same; if these words are absent the page
+ * simply does not match the query a real buyer types. Observed in the wild: a
+ * ChatGPT search for "asesor virtual con ia" surfaced competitors instead.
+ */
+const SYNONYMS = ['asesor virtual', 'asistente virtual', 'chatbot']
+for (const term of SYNONYMS) {
+  if (!new RegExp(term, 'i').test(html)) {
+    fail(`Landing page never says "${term}" — buyers search this phrase`)
+  }
+}
+
+if (llms) {
+  for (const term of ['asesor virtual', 'asistente virtual', 'AI virtual advisor']) {
+    if (!llms.includes(term)) fail(`llms.txt missing the synonym "${term}"`)
+  }
+}
+
+/* ----------------------------------------- 8. cobertura de consultas clave */
+
+/**
+ * Las consultas que el negocio persigue. Cada una debe existir textualmente en
+ * alguna página construida: si nadie la escribe, la página no coincide con lo
+ * que el comprador teclea. Verificado contra dist/, no contra el código fuente.
+ */
+const TARGET_QUERIES = [
+  'agentes de IA',
+  'agencia de IA',
+  'agencia de agentes de IA',
+  'empresas de inteligencia artificial',
+  'agente de WhatsApp',
+  'agente de Instagram',
+  'asistente virtual',
+  'asesor virtual',
+  'Venezuela',
+]
+
+const allHtml = distHtml.map((f) => read(f) || '').join(' ')
+for (const q of TARGET_QUERIES) {
+  if (!new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(allHtml)) {
+    fail(`Ninguna página construida contiene la consulta objetivo "${q}"`)
+  }
+}
+
+// Cada página citable debe ser alcanzable desde la landing, o los rastreadores
+// no la descubren aunque esté en el sitemap.
+for (const a of ANSWERS) {
+  if (!html.includes(`href="/${a.slug}/"`)) {
+    fail(`La landing no enlaza /${a.slug}/ — quedaría huérfana`)
+  }
+}
+
 /* ---------------------------------------------------------------- report */
 
 if (warnings.length) {

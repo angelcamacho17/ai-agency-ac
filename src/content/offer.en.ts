@@ -101,6 +101,10 @@ export const FAQ: readonly Faq[] = [
     a: 'WhatsApp, Instagram direct messages and your own website. One agent serves every channel, so a customer who starts on Instagram and continues on WhatsApp never repeats themselves.',
   },
   {
+    q: 'Is a virtual advisor the same as an AI agent?',
+    a: 'In practice people use both names for the same thing: an AI virtual advisor that handles your customers on its own. We call it an agent because it does more than chat: it quotes, books, charges and updates your CRM. A chatbot follows a button script; an agent understands, decides and acts.',
+  },
+  {
     q: 'Will it sound like a robot?',
     a: 'No. The agent is trained on your real conversations and your best rep’s language, so it answers in your brand voice. You approve the tone before it goes live.',
   },

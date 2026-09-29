@@ -7,9 +7,16 @@ import { PartnerBadge } from '../components/PartnerBadge'
 /** Spanish answer pages (static, built by scripts/answers.mjs). Linked here so
     crawlers and readers can reach them from the SPA. */
 const ANSWER_LINKS = [
+  { href: '/agencia-de-agentes-de-ia-venezuela/', label: 'Agencia de agentes de IA en Venezuela' },
+  { href: '/asesor-virtual-con-ia/', label: 'Asesor virtual con IA' },
   { href: '/agente-de-ia-para-whatsapp/', label: 'Agente de IA para WhatsApp' },
+  { href: '/agente-de-ia-para-instagram/', label: 'Agente de IA para Instagram' },
+  { href: '/chatbot-vs-agente-de-ia/', label: 'Chatbot vs agente de IA' },
   { href: '/cuanto-cuesta-un-agente-de-ventas-con-ia/', label: '¿Cuánto cuesta un agente de ventas con IA?' },
   { href: '/agente-de-ia-para-hoteles/', label: 'Agente de IA para hoteles' },
+  { href: '/agente-de-ia-para-clinicas/', label: 'Agente de IA para clínicas' },
+  { href: '/agente-de-ia-para-tiendas-y-ecommerce/', label: 'Agente de IA para tiendas y ecommerce' },
+  { href: '/empresas-de-inteligencia-artificial-en-venezuela/', label: 'Empresas de inteligencia artificial en Venezuela' },
 ]
 
 export default function FinalCta() {
