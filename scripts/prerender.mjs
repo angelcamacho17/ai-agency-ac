@@ -22,6 +22,8 @@ import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join, extname } from 'node:path'
 import {
   readOffer,
+  readOfferEn,
+  buildHreflang,
   buildJsonLd,
   buildLlmsTxt,
   buildRobots,
@@ -90,16 +92,60 @@ async function main() {
   }
   console.log(`  ✓ ${ANSWERS.length} answer pages (${ANSWERS.map((a) => `/${a.slug}/`).join(', ')})`)
 
-  // ---- JSON-LD -----------------------------------------------------------
-  const jsonLd = buildJsonLd(offer)
-  const ldScript = `<script type="application/ld+json">${JSON.stringify(
-    jsonLd,
-  )}</script>`
+  // ---- per-locale head rewrite ------------------------------------------
+  const offerEn = readOfferEn()
+  const hreflang = buildHreflang()
 
   const indexPath = resolve(DIST, 'index.html')
-  let html = readFileSync(indexPath, 'utf8')
-  html = html.replace('<!-- BUILD-INJECTED-JSONLD -->', ldScript)
-  console.log('  ✓ JSON-LD @graph injected')
+  const baseHtml = readFileSync(indexPath, 'utf8')
+
+  const ld = (o, lang) =>
+    `<script type="application/ld+json">${JSON.stringify(buildJsonLd(o, { lang }))}</script>`
+
+  // Spanish: inject JSON-LD + hreflang into the shipped head.
+  let esHtml = baseHtml
+    .replace('<!-- BUILD-INJECTED-JSONLD -->', `${hreflang}\n    ${ld(offer, 'es')}`)
+
+  /**
+   * English: same document, translated head. The <head> is authored in Spanish
+   * for the default locale, so every locale-bearing tag is rewritten rather
+   * than duplicated — one template, two outputs.
+   */
+  const enTitle = 'Michelangelo Devs. AI agents that answer, qualify and close'
+  const enDesc =
+    "Michelangelo Devs is an AI agents agency that builds production sales agents for WhatsApp, Instagram and web, live in less than two weeks. OpenAI Select Partner. Message us on WhatsApp."
+  let enHtml = baseHtml
+    .replace('<html lang="es"', '<html lang="en"')
+    .replace(
+      /<title>[\s\S]*?<\/title>/,
+      `<title>${enTitle}</title>`,
+    )
+    .replace(
+      /<meta\s+name="description"[\s\S]*?\/>/,
+      `<meta name="description" content="${enDesc}" />`,
+    )
+    .replace(
+      '<link rel="canonical" href="https://www.michelangelodevs.com/" />',
+      '<link rel="canonical" href="https://www.michelangelodevs.com/en/" />',
+    )
+    .replace('content="es_VE"', 'content="en_US"')
+    .replace('<meta property="og:locale:alternate" content="en_US" />', '<meta property="og:locale:alternate" content="es_VE" />')
+    .replace(
+      '<meta property="og:url" content="https://www.michelangelodevs.com/" />',
+      '<meta property="og:url" content="https://www.michelangelodevs.com/en/" />',
+    )
+    .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${enTitle}$2`)
+    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${enTitle}$2`)
+    .replace('<!-- BUILD-INJECTED-JSONLD -->', `${hreflang}\n    ${ld(offerEn, 'en')}`)
+
+  // Absolute asset paths so /en/index.html resolves the same bundle as /.
+  enHtml = enHtml.replace(/(src|href)="\.\//g, '$1="/')
+
+  writeFileSync(indexPath, esHtml)
+  const enDir = resolve(DIST, 'en')
+  mkdirSync(enDir, { recursive: true })
+  writeFileSync(resolve(enDir, 'index.html'), enHtml)
+  console.log('  ✓ JSON-LD @graph + hreflang injected (es, en)')
 
   // ---- prerender ---------------------------------------------------------
   let puppeteer
@@ -110,12 +156,8 @@ async function main() {
       '  ! puppeteer not installed — skipping HTML prerender.\n' +
         '    Run `npm i -D puppeteer` to enable it. JSON-LD and llms.txt still shipped.',
     )
-    writeFileSync(indexPath, html)
     return
   }
-
-  // Write the JSON-LD version first so the served page already carries it.
-  writeFileSync(indexPath, html)
 
   const server = serveDist()
   await new Promise((r) => server.listen(PORT, r))
@@ -124,28 +166,34 @@ async function main() {
     args: ['--no-sandbox', '--disable-dev-shm-usage'],
   })
   try {
-    const page = await browser.newPage()
-    await page.setViewport({ width: 1440, height: 1200 })
-    await page.goto(`http://localhost:${PORT}/?static=1`, {
-      waitUntil: 'networkidle0',
-      timeout: 60_000,
-    })
-    // The flag renders everything at rest, but give React a beat to commit.
-    await page.waitForFunction(
-      () => (document.querySelector('#root')?.textContent || '').length > 500,
-      { timeout: 20_000 },
-    )
+    // One snapshot per locale. `?lang=` drives the content bundle; `?static=1`
+    // forces the plain at-rest document.
+    for (const { lang, file } of [
+      { lang: 'es', file: indexPath },
+      { lang: 'en', file: resolve(enDir, 'index.html') },
+    ]) {
+      const page = await browser.newPage()
+      await page.setViewport({ width: 1440, height: 1200 })
+      await page.goto(`http://localhost:${PORT}/?static=1&lang=${lang}`, {
+        waitUntil: 'networkidle0',
+        timeout: 60_000,
+      })
+      await page.waitForFunction(
+        () => (document.querySelector('#root')?.textContent || '').length > 500,
+        { timeout: 20_000 },
+      )
 
-    const rendered = await page.$eval('#root', (el) => el.innerHTML)
-
-    html = html.replace(
-      '<div id="root"></div>',
-      `<div id="root">${rendered}</div>`,
-    )
-    writeFileSync(indexPath, html)
-    console.log(
-      `  ✓ prerendered #root (${(rendered.length / 1024).toFixed(1)} KB of markup)`,
-    )
+      const rendered = await page.$eval('#root', (el) => el.innerHTML)
+      const doc = readFileSync(file, 'utf8').replace(
+        '<div id="root"></div>',
+        `<div id="root">${rendered}</div>`,
+      )
+      writeFileSync(file, doc)
+      console.log(
+        `  ✓ prerendered ${lang} #root (${(rendered.length / 1024).toFixed(1)} KB of markup)`,
+      )
+      await page.close()
+    }
   } finally {
     await browser.close()
     server.close()

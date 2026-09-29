@@ -12,7 +12,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
-import { readOffer, SITE } from './seo-data.mjs'
+import { readOffer, readOfferEn, SITE } from './seo-data.mjs'
 import { ANSWERS } from './answers.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -213,6 +213,97 @@ for (const a of ANSWERS) {
 if (/href="https:\/\/michelangelodevs\.com/.test(html)) {
   fail('Built HTML links the apex host — canonical is https://www.michelangelodevs.com')
 }
+
+/* ------------------------------------------- 4c. the English locale + hreflang */
+
+/**
+ * The site is bilingual, so English must exist as a crawlable URL rather than
+ * a client-side toggle. Without /en/ every English query competes against a
+ * document engines read as Spanish.
+ */
+const enHtml = read(resolve(DIST, 'en', 'index.html'))
+if (!enHtml) {
+  fail('dist/en/index.html missing — the English locale must ship as a real URL')
+} else {
+  const { ORG: EN_ORG, AGENTS: EN_AGENTS, FAQ: EN_FAQ } = readOfferEn()
+
+  if (!/<html lang="en"/.test(enHtml)) fail('/en/ does not declare <html lang="en">')
+  if (!enHtml.includes(`<link rel="canonical" href="${SITE}/en/"`)) {
+    fail('/en/ canonical is wrong or missing')
+  }
+  // Match the primary og:locale only; og:locale:alternate SHOULD be es_VE.
+  if (/<meta property="og:locale" content="es_VE"/.test(enHtml)) {
+    fail('/en/ still carries a primary og:locale of es_VE')
+  }
+  if (!/<meta property="og:locale" content="en_US"/.test(enHtml)) {
+    fail('/en/ is missing og:locale en_US')
+  }
+
+  const enRoot = enHtml.slice(enHtml.indexOf('<div id="root">'))
+  if (enRoot.trim().length < 200 || enRoot.startsWith('<div id="root"></div>')) {
+    fail('/en/ ships an EMPTY #root — the English prerender did not run')
+  } else {
+    const enText = enHtml
+      .replace(/<script[\s\S]*?<\/script>/g, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/\s+/g, ' ')
+
+    if (!enText.includes(EN_ORG.tagline.slice(0, 40))) fail('/en/ is missing the English H1')
+    if (!enText.includes('Skip to content')) fail('/en/ is not rendering English UI strings')
+    for (const a of EN_AGENTS) {
+      if (!enText.includes(a.name)) fail(`/en/ missing English agent name: ${a.name}`)
+    }
+    for (const f of EN_FAQ) {
+      if (!enText.includes(f.q.slice(0, 30))) fail(`/en/ missing English FAQ: "${f.q}"`)
+    }
+    // The Spanish H1 leaking in means the locale flag did not take.
+    if (enText.includes(ORG.tagline.slice(0, 40))) {
+      fail('/en/ still renders the Spanish H1 — the ?lang=en prerender regressed')
+    }
+  }
+
+  // English JSON-LD must actually be English, with page-scoped ids that do not
+  // collide with the Spanish document's nodes.
+  const enLd = enHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)
+  if (!enLd) fail('/en/ has no JSON-LD')
+  else {
+    try {
+      const graph = JSON.parse(enLd[1])['@graph'] || []
+      const enOrg = graph.find((n) => n['@type'] === 'ProfessionalService')
+      if (enOrg?.description !== EN_ORG.definition) {
+        fail('/en/ JSON-LD description is not the English entity sentence')
+      }
+      const wp = graph.find((n) => n['@type'] === 'WebPage')
+      if (wp?.inLanguage !== 'en') fail('/en/ JSON-LD WebPage is not inLanguage "en"')
+      for (const t of ['catalog', 'howto', 'faq']) {
+        if (!graph.some((n) => String(n['@id']).endsWith(`#${t}-en`))) {
+          fail(`/en/ JSON-LD reuses the Spanish @id for the ${t} node`)
+        }
+      }
+    } catch (err) {
+      fail(`/en/ JSON-LD is not parseable: ${err.message}`)
+    }
+  }
+}
+
+// hreflang is only honored when every variant is declared reciprocally on both
+// documents, x-default included.
+for (const [label, doc] of [['/', html], ['/en/', enHtml]]) {
+  if (!doc) continue
+  for (const [tag, href] of [
+    ['es', `${SITE}/`],
+    ['en', `${SITE}/en/`],
+    ['x-default', `${SITE}/`],
+  ]) {
+    if (!doc.includes(`hreflang="${tag}" href="${href}"`)) {
+      fail(`${label} missing reciprocal hreflang="${tag}" -> ${href}`)
+    }
+  }
+}
+
+if (!sitemapXml.includes(`${SITE}/en/`)) fail('sitemap.xml missing the /en/ URL')
+if (!sitemapXml.includes('xhtml:link')) fail('sitemap.xml missing xhtml:link hreflang alternates')
 
 /* ------------------------------------------------------- 5. GEO artefacts */
 
