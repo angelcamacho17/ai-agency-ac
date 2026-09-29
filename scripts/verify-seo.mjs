@@ -369,6 +369,40 @@ if (llms) {
   }
 }
 
+/* ----------------------------------------- 8. cobertura de consultas clave */
+
+/**
+ * Las consultas que el negocio persigue. Cada una debe existir textualmente en
+ * alguna página construida: si nadie la escribe, la página no coincide con lo
+ * que el comprador teclea. Verificado contra dist/, no contra el código fuente.
+ */
+const TARGET_QUERIES = [
+  'agentes de IA',
+  'agencia de IA',
+  'agencia de agentes de IA',
+  'empresas de inteligencia artificial',
+  'agente de WhatsApp',
+  'agente de Instagram',
+  'asistente virtual',
+  'asesor virtual',
+  'Venezuela',
+]
+
+const allHtml = distHtml.map((f) => read(f) || '').join(' ')
+for (const q of TARGET_QUERIES) {
+  if (!new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(allHtml)) {
+    fail(`Ninguna página construida contiene la consulta objetivo "${q}"`)
+  }
+}
+
+// Cada página citable debe ser alcanzable desde la landing, o los rastreadores
+// no la descubren aunque esté en el sitemap.
+for (const a of ANSWERS) {
+  if (!html.includes(`href="/${a.slug}/"`)) {
+    fail(`La landing no enlaza /${a.slug}/ — quedaría huérfana`)
+  }
+}
+
 /* ---------------------------------------------------------------- report */
 
 if (warnings.length) {

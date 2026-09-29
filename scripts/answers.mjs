@@ -20,7 +20,9 @@ import { SITE, WA_NUMBER, WA_E164 } from './seo-data.mjs'
 const WA_TEXT = encodeURIComponent('Hola, vengo de michelangelodevs.com y quiero un agente de IA para mi negocio.')
 export const WA_URL = `https://wa.me/${WA_NUMBER}?text=${WA_TEXT}`
 
-export const ANSWERS = [
+import { MORE_ANSWERS } from './answers-more.mjs'
+
+const BASE_ANSWERS = [
   {
     slug: 'agente-de-ia-para-whatsapp',
     title: 'Agente de IA para WhatsApp: qué es y cómo funciona | Michelangelo Devs',
@@ -209,6 +211,16 @@ export const ANSWERS = [
     ],
   },
 ]
+
+/** Todas las páginas citables. Un slug duplicado haría que dos páginas
+    compitieran por la misma consulta, así que se verifica al cargar. */
+export const ANSWERS = [...BASE_ANSWERS, ...MORE_ANSWERS]
+
+const seen = new Set()
+for (const a of ANSWERS) {
+  if (seen.has(a.slug)) throw new Error(`answers: slug duplicado "${a.slug}"`)
+  seen.add(a.slug)
+}
 
 /* ------------------------------------------------------------ rendering */
 
