@@ -15,6 +15,7 @@
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
     "animejs": "^4.5.0",
+    "posthog-js": "^1.435.7",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
