@@ -22,8 +22,8 @@ const ROOT = resolve(HERE, '..')
 // www is canonical: the apex 301s to www at the host, so every URL we emit
 // must be the one that answers 200 to crawlers.
 export const SITE = 'https://www.michelangelodevs.com'
-export const WA_NUMBER = '584125671953'
-export const WA_E164 = '+584125671953'
+export const WA_NUMBER = '584227197216'
+export const WA_E164 = '+584227197216'
 
 /**
  * Pull the exported literals out of src/content/offer.ts without a TS

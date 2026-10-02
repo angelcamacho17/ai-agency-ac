@@ -122,6 +122,6 @@ export const FAQ: readonly Faq[] = [
   },
   {
     q: 'How do I start?',
-    a: 'Write to us on WhatsApp at +58 412 567 1953. Tell us what you sell and which channel is leaking sales, and we reply the same day.',
+    a: 'Write to us on WhatsApp at +58 422 719 7216. Tell us what you sell and which channel is leaking sales, and we reply the same day.',
   },
 ]

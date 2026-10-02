@@ -111,7 +111,7 @@ const BASE_ANSWERS = [
       },
       {
         q: '¿Cómo empiezo?',
-        a: `Escríbenos por WhatsApp al ${WA_E164.replace('+58', '+58 ').replace('4125671953', '412 567 1953')}. Cuéntanos qué vendes y por qué canal se te escapan ventas, y respondemos el mismo día.`,
+        a: `Escríbenos por WhatsApp al ${WA_E164.replace('+58', '+58 ').replace('4227197216', '422 719 7216')}. Cuéntanos qué vendes y por qué canal se te escapan ventas, y respondemos el mismo día.`,
       },
     ],
   },

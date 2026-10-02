@@ -9,13 +9,13 @@
  */
 
 /** E.164 without the `+`, which is the format wa.me expects. */
-export const WA_NUMBER = '584125671953'
+export const WA_NUMBER = '584227197216'
 
 /** Human-readable form for display in copy and the footer NAP. */
-export const WA_DISPLAY = '+58 412 567 1953'
+export const WA_DISPLAY = '+58 422 719 7216'
 
 /** E.164 with the `+`, for `tel:` links and schema.org `telephone`. */
-export const WA_E164 = '+584125671953'
+export const WA_E164 = '+584227197216'
 
 /**
  * Where a click came from. Kept as a literal union so a typo fails the build

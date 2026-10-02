@@ -11,6 +11,7 @@ import { HorizontalTrack } from './components/HorizontalTrack'
 import { CursorField } from './components/CursorField'
 import { Cursor } from './components/Cursor'
 import { LangProvider, useLang } from './lib/lang'
+import { useAnalytics } from './hooks/useAnalytics'
 
 /**
  * Two movements. First a horizontal journey through who we are, what the
@@ -19,7 +20,8 @@ import { LangProvider, useLang } from './lib/lang'
  * Then the page resumes vertically for the questions and the Instagram close.
  */
 function Page() {
-  const { ui } = useLang()
+  const { ui, lang } = useLang()
+  useAnalytics(lang)
   return (
     <div className="relative bg-ink text-paper">
       <a href="#main" className="skip-link">{ui.skip}</a>

@@ -64,7 +64,7 @@ export const MORE_ANSWERS = [
       },
       {
         q: '¿Cómo empiezo?',
-        a: 'Escríbenos por WhatsApp al +58 412 567 1953. Cuéntanos qué vendes y por qué canal se te escapan ventas, y respondemos el mismo día.',
+        a: 'Escríbenos por WhatsApp al +58 422 719 7216. Cuéntanos qué vendes y por qué canal se te escapan ventas, y respondemos el mismo día.',
       },
     ],
   },
@@ -159,7 +159,7 @@ export const MORE_ANSWERS = [
       },
       {
         q: '¿Cómo empiezo?',
-        a: 'Escríbenos por WhatsApp al +58 412 567 1953. Cuéntanos qué vendes y por qué canal se te escapan ventas, y respondemos el mismo día.',
+        a: 'Escríbenos por WhatsApp al +58 422 719 7216. Cuéntanos qué vendes y por qué canal se te escapan ventas, y respondemos el mismo día.',
       },
     ],
   },

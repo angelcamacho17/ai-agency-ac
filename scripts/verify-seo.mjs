@@ -72,8 +72,8 @@ if (!prerendered) {
 
 /* ------------------------------------------------------- 2. the CTA rule */
 
-if (!html.includes('wa.me/584125671953')) {
-  fail('dist/index.html does not contain the WhatsApp link wa.me/584125671953')
+if (!html.includes('wa.me/584227197216')) {
+  fail('dist/index.html does not contain the WhatsApp link wa.me/584227197216')
 }
 
 // mailto: as a conversion action is a constraint violation.
@@ -310,7 +310,7 @@ if (!sitemapXml.includes('xhtml:link')) fail('sitemap.xml missing xhtml:link hre
 const llms = read(resolve(DIST, 'llms.txt'))
 if (!llms) fail('dist/llms.txt missing')
 else {
-  if (!llms.includes('wa.me/584125671953')) fail('llms.txt missing the WhatsApp link')
+  if (!llms.includes('wa.me/584227197216')) fail('llms.txt missing the WhatsApp link')
   if (!/Pricing is not published/.test(llms)) {
     fail('llms.txt must state explicitly that pricing is not published')
   }
@@ -400,6 +400,32 @@ for (const q of TARGET_QUERIES) {
 for (const a of ANSWERS) {
   if (!html.includes(`href="/${a.slug}/"`)) {
     fail(`La landing no enlaza /${a.slug}/ — quedaría huérfana`)
+  }
+}
+
+/* ------------------------------------------------------- 9. analytics limpio */
+
+/**
+ * El analytics se carga en runtime, NUNCA en el documento servido. Si el SDK
+ * apareciera en el HTML prerenderizado, cada build contaría como una visita
+ * (Puppeteer la dispararía) y además grabaría sesiones de un navegador
+ * headless, ensuciando las métricas con tráfico falso.
+ */
+const ANALYTICS_HOSTS = [
+  /googletagmanager\.com/,
+  /google-analytics\.com/,
+  /i\.posthog\.com/,
+  /posthog-js/,
+]
+for (const file of distHtml) {
+  const body = read(file) || ''
+  for (const re of ANALYTICS_HOSTS) {
+    if (re.test(body)) {
+      fail(
+        `${file.replace(DIST, 'dist')} incluye analytics en el HTML servido ` +
+          `(${re.source}) — debe cargarse solo en runtime, o el prerender inflará las métricas`,
+      )
+    }
   }
 }
 
