@@ -403,6 +403,24 @@ for (const a of ANSWERS) {
   }
 }
 
+/* ------------------------------------------------------- 9. analytics limpio */
+
+/**
+ * GA se carga en runtime, NUNCA en el documento servido. Si el script de
+ * Google apareciera en el HTML prerenderizado, cada build contaría como una
+ * visita (Puppeteer la dispararía) y las métricas quedarían infladas con
+ * tráfico falso.
+ */
+for (const file of distHtml) {
+  const body = read(file) || ''
+  if (/googletagmanager\.com|google-analytics\.com/.test(body)) {
+    fail(
+      `${file.replace(DIST, 'dist')} incluye el script de GA en el HTML servido — ` +
+        'debe cargarse solo en runtime, o el prerender inflará las métricas',
+    )
+  }
+}
+
 /* ---------------------------------------------------------------- report */
 
 if (warnings.length) {
