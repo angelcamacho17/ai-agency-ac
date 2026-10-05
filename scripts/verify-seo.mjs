@@ -417,6 +417,19 @@ const ANALYTICS_HOSTS = [
   /i\.posthog\.com/,
   /posthog-js/,
 ]
+// La SPA (index.html y /en/) carga su analítica desde el bundle. Las páginas
+// citables son HTML estático sin React, así que el pixel de OpenAI Ads SÍ va
+// inline en su <head>: es la única forma de medir la conversión ahí.
+const SPA_HTML = [resolve(DIST, 'index.html'), resolve(DIST, 'en', 'index.html')]
+for (const file of SPA_HTML) {
+  const body = read(file) || ''
+  if (/bzrcdn\.openai\.com|oaiq\(/.test(body)) {
+    fail(
+      `${file.replace(DIST, 'dist')} trae el pixel de OpenAI Ads inline — en la ` +
+        'SPA debe cargarse desde el bundle, o el prerender registrará conversiones falsas',
+    )
+  }
+}
 for (const file of distHtml) {
   const body = read(file) || ''
   for (const re of ANALYTICS_HOSTS) {

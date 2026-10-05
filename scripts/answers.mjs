@@ -280,6 +280,48 @@ function jsonLd(a, ORG) {
   })
 }
 
+/**
+ * OpenAI Ads Measurement Pixel para las páginas citables.
+ *
+ * Estas páginas son HTML estático (no React), así que no pueden reutilizar
+ * src/lib/oaiPixel.ts. El snippet es el oficial de la doc, y el listener de
+ * conversión es el mismo enfoque que en la SPA: delegado en `document`, en
+ * fase de captura, para que corra antes de que el enlace abra WhatsApp.
+ *
+ * Sin VITE_OPENAI_PIXEL_ID en el entorno de build no se emite nada, igual que
+ * en la SPA: el pixel es opt-in por configuración, nunca hardcodeado.
+ */
+function pixelTag() {
+  const id = process.env.VITE_OPENAI_PIXEL_ID
+  if (!id) return ''
+  return `
+  <script>
+    (function (w, d, s, u) {
+      if (w.oaiq) return;
+      var q = function () { q.q.push(arguments); };
+      q.q = [];
+      w.oaiq = q;
+      var js = d.createElement(s);
+      js.async = true;
+      js.src = u;
+      var f = d.getElementsByTagName(s)[0];
+      f.parentNode.insertBefore(js, f);
+    })(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+    oaiq("init", { pixelId: ${JSON.stringify(id)} });
+
+    document.addEventListener("click", function (e) {
+      var a = e.target && e.target.closest && e.target.closest("a[href]");
+      if (!a) return;
+      var h = a.getAttribute("href") || "";
+      if (!/(?:^|\\/\\/)(?:api\\.)?wa\\.me\\/|api\\.whatsapp\\.com|^whatsapp:\\/\\//.test(h)) return;
+      var id = (crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : "lead-" + Date.now() + "-" + Math.random().toString(16).slice(2, 10);
+      oaiq("measure", "lead_created", { type: "customer_action" }, { event_id: id });
+    }, true);
+  </script>`
+}
+
 export function renderAnswerPage(a, { ORG }) {
   const url = `${SITE}/${a.slug}/`
   const others = ANSWERS.filter((o) => o.slug !== a.slug)
@@ -316,7 +358,7 @@ export function renderAnswerPage(a, { ORG }) {
   <meta property="og:image" content="${SITE}/og.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="theme-color" content="#0a0a0a" />${pixelTag()}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600&family=Space+Grotesk:wght@400;500;600&display=swap" />

@@ -12,6 +12,7 @@
 
 import { useEffect } from 'react'
 import { initAnalytics, track, trackCtaClick, trackPageView } from '../lib/analytics'
+import { initOaiPixel, isWhatsappHref, trackLeadCreated } from '../lib/oaiPixel'
 import { isStaticRender } from '../lib/staticMode'
 
 /** Hitos de profundidad. Cada uno se emite una sola vez por visita. */
@@ -23,6 +24,7 @@ export function useAnalytics(lang: string) {
   useEffect(() => {
     if (isStaticRender()) return
     initAnalytics()
+    initOaiPixel()
     trackPageView(lang)
   }, [lang])
 
@@ -37,7 +39,11 @@ export function useAnalytics(lang: string) {
       const source = el.dataset.ctaSource
       const href = el.getAttribute('href') || ''
 
-      if (href.includes('wa.me')) {
+      if (isWhatsappHref(href)) {
+        // Conversión de OpenAI Ads + analítica propia. El listener está en
+        // fase de captura, así que corre antes de que el navegador abra el
+        // enlace.
+        trackLeadCreated()
         trackCtaClick(source || 'unknown')
         return
       }
