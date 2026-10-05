@@ -7,6 +7,7 @@ import Questions from './sections/Questions'
 import FinalCta from './sections/FinalCta'
 import { Nav } from './components/Nav'
 import { MobileWhatsappBar } from './components/MobileWhatsappBar'
+import { AgentChat } from './components/AgentChat'
 import { HorizontalTrack } from './components/HorizontalTrack'
 import { CursorField } from './components/CursorField'
 import { Cursor } from './components/Cursor'
@@ -40,6 +41,7 @@ function Page() {
         <FinalCta />
       </main>
       <MobileWhatsappBar />
+      <AgentChat />
     </div>
   )
 }
