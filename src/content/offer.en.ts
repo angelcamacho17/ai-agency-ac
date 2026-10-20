@@ -72,10 +72,11 @@ const SECTOR_EN: Record<string, string> = {
   lidotel: 'Hotel chain',
   terracota: 'Clothing, retail and wholesale',
   renaissence: 'Medical clinic',
-  topone: 'Wholesale auto parts',
+  burpee: 'Activewear',
   coloreal: 'Paint manufacturer',
   mariu: 'Interior design',
   vic: 'Social media educator',
+  pietra: 'Architecture and design',
   'viajes-premiere': 'Travel agency',
 }
 

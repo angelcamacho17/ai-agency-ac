@@ -18,10 +18,11 @@ const ICON: Record<ClientLink['channel'], typeof Globe> = {
 const LOGO_H: Record<string, number> = {
   terracota: 50,
   renaissence: 58,
-  topone: 52,
+  burpee: 62,
   coloreal: 44,
   mariu: 58,
   vic: 38,
+  pietra: 64,
 }
 
 /**
@@ -120,7 +121,7 @@ export default function Clients() {
               <Tile key={c.key} client={c} />
             ))}
           </ul>
-          <ul className="grid gap-3 sm:grid-cols-3">
+          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {below.map((c) => (
               <Tile key={c.key} client={c} />
             ))}

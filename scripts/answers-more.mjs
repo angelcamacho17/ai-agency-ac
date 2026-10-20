@@ -56,7 +56,7 @@ export const MORE_ANSWERS = [
       },
       {
         q: '¿Con qué empresas venezolanas han trabajado?',
-        a: 'Entre otras: Lidotel (cadena hotelera), Coloreal y Sensacolor (fabricante de pinturas), Clínica Renaissence, Terracota (ropa al detal y mayor) y TopOne (repuestos al mayor).',
+        a: 'Entre otras: Lidotel (cadena hotelera), Coloreal y Sensacolor (fabricante de pinturas), Clínica Renaissence, Terracota (ropa al detal y mayor) y Burpee (ropa deportiva).',
       },
       {
         q: '¿Qué es un OpenAI Select Partner?',
@@ -212,9 +212,9 @@ export const MORE_ANSWERS = [
     title: 'Agente de IA para tiendas y ecommerce | Michelangelo Devs',
     h1: 'Agente de IA para tiendas y ecommerce',
     description:
-      'Cómo un agente de IA responde con tu catálogo real, atiende detal y mayor por WhatsApp e Instagram y cierra con link de pago. Casos Terracota y TopOne.',
+      'Cómo un agente de IA responde con tu catálogo real, atiende detal y mayor por WhatsApp e Instagram y cierra con link de pago. Casos Terracota y Burpee.',
     direct:
-      'Un agente de IA para tiendas responde cada mensaje de WhatsApp e Instagram con tu catálogo real: precio, tallas y stock, tanto al detal como al mayor. Cierra con link de pago dentro del chat. Michelangelo Devs lo construyó para Terracota y TopOne, en vivo en menos de dos semanas.',
+      'Un agente de IA para tiendas responde cada mensaje de WhatsApp e Instagram con tu catálogo real: precio, tallas y stock, tanto al detal como al mayor. Cierra con link de pago dentro del chat. Michelangelo Devs lo construyó para Terracota y Burpee, en vivo en menos de dos semanas.',
     sections: [
       {
         h2: '¿De dónde saca los precios y el stock?',
@@ -234,7 +234,7 @@ export const MORE_ANSWERS = [
       {
         h2: '¿Sirve para venta al mayor?',
         lead:
-          'Sí, y suele ser donde más rinde. TopOne vende repuestos al mayor y Terracota maneja detal y mayor a la vez: el agente atiende pedidos grandes fuera de horario sin que haya un vendedor de guardia esperando el mensaje.',
+          'Sí, y suele ser donde más rinde. Terracota maneja detal y mayor a la vez: el agente distingue a quién le habla, aplica la lista correcta y atiende pedidos grandes fuera de horario sin que haya un vendedor de guardia esperando el mensaje.',
       },
     ],
     faqs: [

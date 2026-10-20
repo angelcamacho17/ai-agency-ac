@@ -157,11 +157,14 @@ export const CLIENTS: readonly Client[] = [
     links: [{ channel: 'Instagram', href: 'https://www.instagram.com/dra.gabrielarodriguezplaza/' }],
   },
   {
-    key: 'topone',
-    name: 'TopOne',
-    sector: 'Repuestos al mayor',
-    logo: '/clients/topone.png',
-    links: [{ channel: 'WhatsApp', href: 'https://wa.me/584220421739' }],
+    key: 'burpee',
+    name: 'Burpee',
+    sector: 'Ropa deportiva',
+    logo: '/clients/burpee.png',
+    links: [
+      { channel: 'WhatsApp', href: 'https://wa.me/584241895578' },
+      { channel: 'Instagram', href: 'https://www.instagram.com/burpee.act' },
+    ],
   },
   {
     key: 'coloreal',
@@ -183,6 +186,16 @@ export const CLIENTS: readonly Client[] = [
     sector: 'Educadora de redes',
     logo: '/clients/vic.png',
     links: [{ channel: 'Instagram', href: 'https://www.instagram.com/victoria.poggioli/' }],
+  },
+  {
+    key: 'pietra',
+    name: 'Pietra Design',
+    sector: 'Arquitectura y diseño',
+    logo: '/clients/pietra.png',
+    links: [
+      { channel: 'WhatsApp', href: 'https://wa.me/584245357418' },
+      { channel: 'Instagram', href: 'https://www.instagram.com/pietradesign_ve/' },
+    ],
   },
   {
     key: 'viajes-premiere',
