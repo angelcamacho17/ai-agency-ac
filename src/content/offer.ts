@@ -135,7 +135,10 @@ export const CLIENTS: readonly Client[] = [
     name: 'Lidotel',
     sector: 'Cadena hotelera',
     logo: '/clients/lidotel.png',
-    links: [{ channel: 'Website', href: 'https://lidotel.com/' }],
+    links: [
+      { channel: 'Website', href: 'https://lidotel.com/' },
+      { channel: 'WhatsApp', href: 'https://wa.me/584249232542' },
+    ],
     copy: 'Cotiza habitaciones reales y cobra, en Instagram, WhatsApp y lidotel.com.',
     featured: true,
   },
