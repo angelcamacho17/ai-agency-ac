@@ -254,9 +254,12 @@ export const MORE_ANSWERS = [
   },
   {
     // Consulta comparativa: quien la busca está evaluando, no explorando.
+    // Search Console muestra la búsqueda en el orden "agente ia vs chatbot",
+    // así que title y H1 la llevan en ese orden.
     slug: 'chatbot-vs-agente-de-ia',
-    title: 'Chatbot vs agente de IA: cuál es la diferencia | Michelangelo Devs',
-    h1: 'Chatbot vs agente de IA',
+    updated: '2026-10-20',
+    title: 'Agente de IA vs chatbot: cuál es la diferencia | Michelangelo Devs',
+    h1: 'Agente de IA vs chatbot',
     description:
       'La diferencia real entre un chatbot de botones y un agente de IA que ejecuta acciones: cotiza, agenda, cobra y actualiza el CRM.',
     direct:
@@ -266,6 +269,20 @@ export const MORE_ANSWERS = [
         h2: 'La diferencia en una frase',
         lead:
           'El chatbot responde; el agente actúa. Un chatbot te dice "un asesor te contactará"; un agente consulta la disponibilidad, aparta el cupo, manda el link de pago y deja el lead en la etapa correcta del CRM, todo dentro de la misma conversación.',
+      },
+      {
+        h2: 'Agente de IA vs chatbot, punto por punto',
+        table: {
+          head: ['', 'Agente de IA', 'Chatbot'],
+          rows: [
+            ['Cómo conversa', 'Entiende texto libre y notas de voz', 'Sigue un guion de botones y palabras clave'],
+            ['Si el cliente se sale del guion', 'Entiende y sigue la conversación', 'El flujo se cae o repite el menú'],
+            ['Precios y stock', 'Reales, desde tu catálogo', 'Fijos, programados a mano'],
+            ['Acciones', 'Cotiza, agenda, cobra y actualiza el CRM', 'Responde y deriva a un humano'],
+            ['Control de calidad', 'Un segundo modelo audita cada respuesta', 'No aplica: solo dice lo que se programó'],
+            ['Cuándo conviene', 'Cuando vendes por chat y cada lead cuenta', 'Para menús simples con pocas opciones'],
+          ],
+        },
       },
       {
         h2: 'Dónde se rompe un chatbot',
@@ -288,12 +305,103 @@ export const MORE_ANSWERS = [
         a: 'En la práctica la gente usa los tres nombres para lo mismo: un asesor virtual con IA que atiende a tus clientes solo. Nosotros lo llamamos agente porque no solo conversa: cotiza, agenda, cobra y actualiza tu CRM. Un chatbot sigue un guion de botones; un agente entiende, decide y ejecuta.',
       },
       {
+        q: '¿Qué es mejor, un agente de IA o un chatbot?',
+        a: 'Para vender, un agente de IA. Un chatbot sirve para menús simples, pero no entiende lo que el cliente escribe fuera del guion ni puede cotizar, agendar o cobrar. Un agente hace todo eso y escala a una persona cuando no sabe.',
+      },
+      {
         q: '¿Puedo migrar de mi chatbot actual a un agente?',
         a: 'Sí. Partimos de tus conversaciones reales, incluidas las que tu chatbot no supo resolver, y esas se vuelven los casos borde que el agente tiene que manejar antes de salir en vivo.',
       },
       {
         q: '¿Qué pasa cuando el agente no sabe la respuesta?',
         a: 'Escala a una persona con toda la conversación adjunta, en lugar de adivinar. Las reglas de escalado las definimos contigo el día cuatro, y el agente prefiere escalar antes que responder mal.',
+      },
+    ],
+  },
+  {
+    // Search Console (oct 2026): "asistente virtual" ya trae clics sin tener
+    // página propia. La búsqueda es ambigua: mitad busca una persona que
+    // trabaja en remoto, mitad busca IA. Esta página compara las dos opciones
+    // en vez de fingir que solo existe una, y deja "asesor virtual" a
+    // /asesor-virtual-con-ia/ para que no compitan.
+    slug: 'asistente-virtual-para-empresas',
+    updated: '2026-10-20',
+    title: 'Asistente virtual para empresas: humano o con IA | Michelangelo Devs',
+    h1: 'Asistente virtual para empresas',
+    description:
+      'Qué es un asistente virtual para empresas, la diferencia entre uno humano en remoto y uno con IA, qué hace cada uno y cuándo conviene combinarlos.',
+    direct:
+      'Un asistente virtual para empresas puede ser una persona que trabaja en remoto o un sistema con IA que atiende a tus clientes. El asistente virtual con IA responde en WhatsApp, Instagram y tu web en segundos y a cualquier hora: cotiza, agenda y cobra. Michelangelo Devs lo construye y lo pone en vivo en menos de dos semanas.',
+    sections: [
+      {
+        h2: 'Los dos tipos de asistente virtual',
+        lead:
+          'Cuando una empresa busca un asistente virtual suele estar buscando una de dos cosas. Un asistente humano en remoto es una persona que hace tareas administrativas desde su casa: correo, agenda, facturas, seguimiento. Un asistente virtual con IA es software que atiende a tus clientes en los chats, sin horario y sin límite de conversaciones. Resuelven problemas distintos.',
+      },
+      {
+        h2: 'Asistente virtual humano vs asistente virtual con IA',
+        table: {
+          head: ['', 'Asistente humano en remoto', 'Asistente virtual con IA'],
+          rows: [
+            ['Horario', 'Su jornada laboral', 'Las 24 horas, todos los días'],
+            ['Tiempo de respuesta', 'Minutos u horas', 'Menos de un segundo'],
+            ['Conversaciones a la vez', 'Una o pocas', 'Sin límite práctico'],
+            ['Idiomas', 'Los que hable la persona', 'Español, inglés y portugués'],
+            ['Mejor para', 'Tareas internas, criterio, casos únicos', 'Atender, cotizar, agendar y cobrar en el chat'],
+            ['Vacaciones y rotación', 'Hay que cubrirlas y volver a entrenar', 'No aplica'],
+            ['Tiempo para empezar', 'Buscar, contratar y entrenar', 'Menos de dos semanas'],
+          ],
+        },
+      },
+      {
+        h2: '¿Qué hace un asistente virtual con IA?',
+        bullets: [
+          'Responde a cada cliente en WhatsApp, Instagram y tu web, con un solo cerebro.',
+          'Contesta con tu catálogo: precios y stock desde tus propias hojas.',
+          'Califica: separa compradores de curiosos y deja cada lead en tu CRM.',
+          'Agenda, confirma y reagenda con disponibilidad real.',
+          'Cierra con link de pago dentro del chat.',
+          'Escala a una persona cuando no sabe, con la conversación completa.',
+        ],
+        see: ['agente-de-ia-para-whatsapp', 'asesor-virtual-con-ia'],
+      },
+      {
+        h2: '¿Cuándo conviene una persona?',
+        lead:
+          'Cuando el trabajo es interno o requiere criterio en cada caso: ordenar el correo del gerente, negociar con proveedores, preparar reportes, resolver un reclamo delicado. Un asistente con IA no reemplaza eso, y no lo promete.',
+      },
+      {
+        h2: 'Lo que mejor funciona: combinarlos',
+        lead:
+          'El asistente con IA atiende el primer contacto, responde las preguntas repetidas, califica y cierra las ventas simples a cualquier hora. Tu equipo recibe solo los casos que necesitan una persona, con toda la conversación adjunta. Así nadie pierde tiempo respondiendo lo mismo veinte veces, y ningún cliente espera hasta el día siguiente.',
+      },
+      {
+        h2: '¿Cuánto cuesta un asistente virtual con IA?',
+        lead:
+          'Es una mensualidad. Antes de cotizar evaluamos tu empresa para entender si el asistente va a facturarte más dinero y cubrirse solo. Si califica, tienes dos semanas de uso gratis; si no te gusta cómo trabaja, se desconecta sin ningún compromiso.',
+        see: ['cuanto-cuesta-un-agente-de-ventas-con-ia'],
+      },
+    ],
+    faqs: [
+      {
+        q: '¿Qué es un asistente virtual para empresas?',
+        a: 'Es quien atiende tareas o clientes de la empresa sin estar en la oficina. Puede ser una persona que trabaja en remoto o un sistema con IA que responde en WhatsApp, Instagram y la web, cotiza, agenda y cobra a cualquier hora.',
+      },
+      {
+        q: '¿Es lo mismo un asistente virtual que un chatbot?',
+        a: 'No. Un chatbot sigue un guion de botones y se rompe cuando el cliente escribe algo imprevisto. Un asistente virtual con IA entiende el mensaje, decide el siguiente paso y ejecuta acciones reales: cotiza, agenda, cobra y actualiza el CRM.',
+      },
+      {
+        q: '¿Un asistente virtual con IA reemplaza a mi equipo?',
+        a: 'No. Se encarga del primer contacto y de las preguntas repetidas, y le pasa a tu equipo los casos que necesitan una persona, con la conversación completa. Tu equipo deja de responder lo mismo todo el día y se concentra en cerrar y resolver.',
+      },
+      {
+        q: '¿Funciona con mi WhatsApp actual?',
+        a: 'En la mayoría de los casos sí. Meta permite registrar en la API un número que el negocio ya usa. Cómo se hace depende de tu caso, y lo revisamos contigo antes de construir para que no pierdas tus conversaciones ni tus contactos.',
+      },
+      {
+        q: '¿Cuánto tarda en estar en vivo?',
+        a: 'Menos de dos semanas: un par de días para mapear cómo vendes, una semana para construir, unos días para probar y el lanzamiento.',
       },
     ],
   },

@@ -385,6 +385,10 @@ const TARGET_QUERIES = [
   'agente de Instagram',
   'asistente virtual',
   'asesor virtual',
+  // Consultas con impresiones reales en Search Console (oct 2026).
+  'agentes de IA para WhatsApp',
+  'agente de IA vs chatbot',
+  'asistente virtual para empresas',
   'Venezuela',
 ]
 

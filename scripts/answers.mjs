@@ -24,11 +24,17 @@ import { MORE_ANSWERS } from './answers-more.mjs'
 
 const BASE_ANSWERS = [
   {
+    // La consulta con más demanda del sitio: Search Console (oct 2026) suma
+    // ~170 impresiones entre "agentes ia whatsapp", "agente ia whatsapp",
+    // "agentes de ia para whatsapp" y variantes, con 0 clics. La página corta
+    // no competía con guías completas; esta es la guía completa. El plural va
+    // en el title porque es la variante más buscada.
     slug: 'agente-de-ia-para-whatsapp',
-    title: 'Agente de IA para WhatsApp: qué es y cómo funciona | Michelangelo Devs',
-    h1: 'Agente de IA para WhatsApp',
+    updated: '2026-10-20',
+    title: 'Agentes de IA para WhatsApp: qué son y cómo funcionan (2026) | Michelangelo Devs',
+    h1: 'Agentes de IA para WhatsApp: qué son y cómo funcionan',
     description:
-      'Qué es un agente de IA para WhatsApp, qué hace en la práctica y cuánto tarda en estar en vivo. Por Michelangelo Devs, OpenAI Select Partner.',
+      'Guía completa de los agentes de IA para WhatsApp: qué hacen, cómo se conectan a la API oficial, qué permite Meta, cuánto cuestan y cuánto tardan en estar en vivo.',
     direct:
       'Un agente de IA para WhatsApp es un vendedor automático que responde cada mensaje en menos de un segundo, califica al comprador, agenda citas y cierra la venta con un link de pago dentro del chat. Michelangelo Devs construye estos agentes en producción y los pone en vivo en menos de dos semanas.',
     sections: [
@@ -46,17 +52,89 @@ const BASE_ANSWERS = [
         ],
       },
       {
-        h2: '¿No es lo mismo que un chatbot?',
+        h2: 'Así se ve una conversación',
+        lead: 'Un ejemplo ilustrativo de una tienda de ropa, a las once de la noche, sin nadie del equipo conectado:',
+        chat: [
+          { from: 'cliente', text: 'Hola, ¿tienen la chaqueta de jean negra en talla M?' },
+          { from: 'agente', text: '¡Hola! Sí, nos quedan dos en talla M en negro. ¿La quieres para retirar en tienda o con envío?' },
+          { from: 'cliente', text: 'Con envío a Valencia. ¿Cuánto tarda?' },
+          { from: 'agente', text: 'A Valencia llega en dos o tres días hábiles. Te dejo el link de pago con el envío incluido; apenas se confirme, te escribo con el número de guía.' },
+          { from: 'cliente', text: 'Listo, ya pagué.' },
+          { from: 'agente', text: 'Recibido, gracias. Tu pedido ya está en preparación y te aviso por aquí cuando salga.' },
+        ],
+        after:
+          'El agente consultó el stock real, respondió con la política de envíos de la tienda, cobró y dejó el pedido registrado en el CRM. Si el cliente hubiera pedido algo fuera de sus reglas, como un descuento especial, habría escalado a una persona con la conversación completa.',
+      },
+      {
+        h2: 'Agente de IA vs chatbot vs responder a mano',
+        table: {
+          head: ['', 'Agente de IA', 'Chatbot de botones', 'Responder a mano'],
+          rows: [
+            ['Tiempo de respuesta', 'Menos de un segundo', 'Inmediato, pero solo dentro del guion', 'Minutos u horas, según el equipo'],
+            ['Horario', 'Las 24 horas, todos los días', 'Las 24 horas', 'Horario laboral'],
+            ['Entiende texto libre y notas de voz', 'Sí', 'No: obliga a elegir opciones', 'Sí'],
+            ['Conoce precios y stock reales', 'Sí, desde tus hojas o tu sistema', 'Solo si se programan a mano', 'Sí, si la persona los tiene a mano'],
+            ['Agenda y cobra en el chat', 'Sí', 'Rara vez', 'Sí, con tiempo'],
+            ['Conversaciones a la vez', 'Sin límite práctico', 'Sin límite práctico', 'Una o pocas por persona'],
+            ['Cuándo escala a una persona', 'Cuando no sabe o el caso lo pide', 'Cuando el cliente se sale del menú', 'No aplica'],
+          ],
+        },
+        see: ['chatbot-vs-agente-de-ia'],
+      },
+      {
+        h2: '¿Cómo se conecta un agente de IA a WhatsApp?',
         lead:
-          'No. Un chatbot sigue un guion de botones; un agente de IA entiende el mensaje, decide el siguiente paso y ejecuta acciones reales: cotizar, agendar, cobrar y actualizar el CRM. Un segundo modelo audita cada borrador antes de enviarlo.',
+          'A través de la WhatsApp Business Platform, la API oficial de Meta para empresas. La app de WhatsApp Business del teléfono no permite que un sistema responda por ti; la API sí, y es la vía que Meta aprueba. Hace falta una cuenta de Meta Business verificada y un número de teléfono para el negocio. Ese trámite lo hacemos contigo durante la construcción.',
+      },
+      {
+        h2: '¿Meta permite usar IA en WhatsApp?',
+        lead:
+          'Sí, cuando es el agente de tu empresa. Desde enero de 2026, los términos de WhatsApp Business no permiten asistentes de IA de propósito general, del tipo chat abierto para hablar de cualquier tema, en la API. Sí permiten agentes que atienden a los clientes de una empresa: ventas, soporte, citas y pedidos. Un agente de ventas es exactamente ese caso.',
+      },
+      {
+        h2: '¿Para qué tipo de negocio sirve?',
+        bullets: [
+          'Hoteles: cotizar habitaciones con disponibilidad real y cobrar la reserva, como en Lidotel.',
+          'Clínicas y consultorios: filtrar consultas y agendar con la disponibilidad del médico.',
+          'Tiendas y ecommerce: responder precio, tallas y stock, al detal y al mayor.',
+          'Cualquier negocio que venda por chat y pierda clientes por responder tarde.',
+        ],
+        see: ['agente-de-ia-para-hoteles', 'agente-de-ia-para-clinicas', 'agente-de-ia-para-tiendas-y-ecommerce', 'agente-de-ia-para-instagram'],
+      },
+      {
+        h2: '¿Cuánto cuesta un agente de IA para WhatsApp?',
+        lead:
+          'Hay dos costos. El primero es la mensualidad del agente, que se cotiza después de evaluar tu negocio: el agente tiene que facturarte más de lo que cuesta. El segundo es lo que cobra Meta por mensajes. Meta no cobra las respuestas dentro de la ventana de 24 horas que se abre cuando el cliente te escribe; sí cobra las plantillas que la empresa envía por iniciativa propia, como promociones. Para un agente que sobre todo responde, ese segundo costo suele ser bajo.',
+        see: ['cuanto-cuesta-un-agente-de-ventas-con-ia'],
       },
       {
         h2: '¿Cuánto tarda en estar en vivo?',
-        lead:
-          'Menos de dos semanas: un par de días para mapear cómo vendes, una semana para construir, unos días para probar y el lanzamiento.',
+        lead: 'Menos de dos semanas, en cuatro pasos:',
+        steps: [
+          { label: 'Días 1-2, mapear', copy: 'Trazamos cómo vende tu mejor vendedor.' },
+          { label: 'Días 3-8, construir', copy: 'Tus datos, tu voz, tu CRM y tu agenda.' },
+          { label: 'Días 9-12, probar', copy: 'Conversaciones reales, casos borde, reglas de escalado.' },
+          { label: 'Día 13, lanzar', copy: 'En vivo en tus canales. Iteramos cada semana.' },
+        ],
       },
     ],
     faqs: [
+      {
+        q: '¿Qué son los agentes de IA para WhatsApp?',
+        a: 'Son vendedores automáticos que atienden el WhatsApp de una empresa: entienden lo que escribe el cliente, responden con el catálogo real, agendan, cobran y actualizan el CRM. A diferencia de un chatbot de botones, deciden el siguiente paso y ejecutan acciones.',
+      },
+      {
+        q: '¿Puedo usar mi número de WhatsApp actual?',
+        a: 'En la mayoría de los casos sí. Meta permite registrar en la API un número que el negocio ya usa. Cómo se hace depende de tu caso, y lo revisamos contigo antes de construir para que no pierdas tus conversaciones ni tus contactos.',
+      },
+      {
+        q: '¿Necesito la API de WhatsApp Business?',
+        a: 'Sí. La API oficial de Meta es la única vía permitida para que un agente responda por tu empresa. La app de WhatsApp Business del teléfono no sirve para esto. El alta en la API la hacemos contigo durante la construcción.',
+      },
+      {
+        q: '¿Es legal usar un agente de IA en WhatsApp?',
+        a: 'Sí, cuando el agente atiende a los clientes de tu empresa. Meta no permite en la API asistentes de IA de propósito general, pero sí agentes de ventas, soporte y citas como los que construimos.',
+      },
       {
         q: '¿En qué canales funciona el agente?',
         a: 'WhatsApp, mensajes directos de Instagram y tu propio sitio web. Un solo agente atiende todos los canales, así que el cliente que empieza en Instagram y sigue por WhatsApp no tiene que repetir nada.',
@@ -68,6 +146,10 @@ const BASE_ANSWERS = [
       {
         q: '¿Se conecta con mi CRM y mi agenda?',
         a: 'Sí. CRM y calendario se conectan el primer día de construcción, no se venden como un extra después.',
+      },
+      {
+        q: '¿Qué pasa cuando el agente no sabe la respuesta?',
+        a: 'Escala a una persona con toda la conversación adjunta, en lugar de adivinar. Las reglas de escalado las definimos contigo el día cuatro, y el agente prefiere escalar antes que responder mal.',
       },
     ],
   },
@@ -131,6 +213,7 @@ const BASE_ANSWERS = [
         h2: '¿Asesor virtual, asistente virtual o agente de IA?',
         lead:
           'Son el mismo producto con tres nombres. Nosotros lo llamamos agente porque no se queda en conversar: cotiza con tu catálogo real, agenda con disponibilidad real, cobra y deja el lead en la etapa correcta de tu CRM. Si solo respondiera preguntas, sería un chatbot.',
+        see: ['asistente-virtual-para-empresas'],
       },
       {
         h2: '¿En qué se diferencia de un chatbot?',
@@ -226,6 +309,41 @@ for (const a of ANSWERS) {
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
+/** Tabla comparativa: los motores generativos citan tablas casi literal, así
+    que la primera columna va como <th scope="row"> para que cada fila se lea
+    sola. */
+function renderTable({ head, rows }) {
+  return `<div class="tbl"><table>
+          <thead><tr>${head.map((h) => `<th scope="col">${esc(h)}</th>`).join('')}</tr></thead>
+          <tbody>${rows
+            .map(([first, ...rest]) => `<tr><th scope="row">${esc(first)}</th>${rest.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`)
+            .join('')}</tbody>
+        </table></div>`
+}
+
+function renderChat(msgs) {
+  return `<div class="chat">${msgs
+    .map((m) => `<p class="msg ${m.from}"><b>${m.from === 'agente' ? 'Agente' : 'Cliente'}</b>${esc(m.text)}</p>`)
+    .join('')}</div>`
+}
+
+/** Enlaces internos en contexto. Un slug inexistente rompe el build en vez
+    de publicar un 404. */
+function renderSee(slugs) {
+  const links = slugs.map((slug) => {
+    const target = ANSWERS.find((o) => o.slug === slug)
+    if (!target) throw new Error(`answers: "see" apunta a un slug inexistente "${slug}"`)
+    return `<a href="/${slug}/">${esc(target.h1)}</a>`
+  })
+  return `<p class="see">Ver también: ${links.join(' · ')}</p>`
+}
+
+const MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+const humanDate = (iso) => {
+  const [y, m] = iso.split('-')
+  return `${MONTHS[Number(m) - 1]} de ${y}`
+}
+
 function jsonLd(a, ORG) {
   const url = `${SITE}/${a.slug}/`
   const orgId = `${SITE}/#org`
@@ -255,6 +373,7 @@ function jsonLd(a, ORG) {
         headline: a.h1,
         description: a.direct,
         inLanguage: 'es',
+        ...(a.updated ? { dateModified: a.updated } : {}),
         author: { '@id': orgId },
         publisher: { '@id': orgId },
         mainEntityOfPage: url,
@@ -333,6 +452,11 @@ export function renderAnswerPage(a, { ORG }) {
         <h2>${esc(s.h2)}</h2>
         ${s.lead ? `<p>${esc(s.lead)}</p>` : ''}
         ${s.bullets ? `<ul>${s.bullets.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>` : ''}
+        ${s.steps ? `<ol>${s.steps.map((st) => `<li><strong>${esc(st.label)}.</strong> ${esc(st.copy)}</li>`).join('')}</ol>` : ''}
+        ${s.chat ? renderChat(s.chat) : ''}
+        ${s.table ? renderTable(s.table) : ''}
+        ${s.after ? `<p>${esc(s.after)}</p>` : ''}
+        ${s.see ? renderSee(s.see) : ''}
       </section>`,
     )
     .join('')
@@ -380,7 +504,22 @@ export function renderAnswerPage(a, { ORG }) {
     .lead { font-size:1.13rem; line-height:1.6; color:var(--paper); border-left:3px solid var(--neo); padding-left:16px; }
     p,li { color:var(--mist); }
     .lead { color:var(--paper); }
-    ul { padding-left:20px; margin:10px 0; }
+    ul,ol { padding-left:20px; margin:10px 0; }
+    li strong { color:var(--paper); font-weight:600; }
+    .updated { font-size:13px; color:var(--faint); margin:-8px 0 18px; }
+    .see { font-size:14px; margin-top:12px; }
+    .tbl { overflow-x:auto; margin:16px 0; border:1px solid #262626; border-radius:14px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; line-height:1.45; }
+    th,td { text-align:left; vertical-align:top; padding:11px 13px; border-bottom:1px solid #262626; }
+    tbody tr:last-child th, tbody tr:last-child td { border-bottom:0; }
+    thead th { color:var(--paper); font-weight:600; background:var(--ink2); }
+    tbody th { color:var(--paper); font-weight:500; }
+    td { color:var(--mist); }
+    .chat { display:flex; flex-direction:column; gap:8px; margin:16px 0; }
+    .msg { max-width:85%; padding:10px 14px; border-radius:16px; font-size:15px; }
+    .msg b { display:block; font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:var(--faint); margin-bottom:2px; }
+    .msg.cliente { align-self:flex-start; background:var(--ink2); color:var(--paper); }
+    .msg.agente { align-self:flex-end; background:#1d2108; color:var(--paper); border:1px solid #3a4110; }
     li { margin:6px 0; }
     a { color:var(--paper); }
     a:hover { color:var(--neo); }
@@ -404,6 +543,7 @@ export function renderAnswerPage(a, { ORG }) {
   <main class="wrap">
     <article>
       <h1>${esc(a.h1)}</h1>
+      ${a.updated ? `<p class="updated">Actualizado: <time datetime="${a.updated}">${humanDate(a.updated)}</time></p>` : ''}
       <p class="lead">${esc(a.direct)}</p>
       ${sections}
       <section>

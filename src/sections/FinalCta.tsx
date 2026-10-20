@@ -9,9 +9,10 @@ import { PartnerBadge } from '../components/PartnerBadge'
 const ANSWER_LINKS = [
   { href: '/agencia-de-agentes-de-ia-venezuela/', label: 'Agencia de agentes de IA en Venezuela' },
   { href: '/asesor-virtual-con-ia/', label: 'Asesor virtual con IA' },
-  { href: '/agente-de-ia-para-whatsapp/', label: 'Agente de IA para WhatsApp' },
+  { href: '/asistente-virtual-para-empresas/', label: 'Asistente virtual para empresas' },
+  { href: '/agente-de-ia-para-whatsapp/', label: 'Agentes de IA para WhatsApp' },
   { href: '/agente-de-ia-para-instagram/', label: 'Agente de IA para Instagram' },
-  { href: '/chatbot-vs-agente-de-ia/', label: 'Chatbot vs agente de IA' },
+  { href: '/chatbot-vs-agente-de-ia/', label: 'Agente de IA vs chatbot' },
   { href: '/cuanto-cuesta-un-agente-de-ventas-con-ia/', label: '¿Cuánto cuesta un agente de ventas con IA?' },
   { href: '/agente-de-ia-para-hoteles/', label: 'Agente de IA para hoteles' },
   { href: '/agente-de-ia-para-clinicas/', label: 'Agente de IA para clínicas' },
