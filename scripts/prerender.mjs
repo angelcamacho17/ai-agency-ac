@@ -111,9 +111,9 @@ async function main() {
    * for the default locale, so every locale-bearing tag is rewritten rather
    * than duplicated — one template, two outputs.
    */
-  const enTitle = 'Michelangelo Devs. AI agents that answer, qualify and close'
+  const enTitle = 'AI company in Venezuela: sales agents | Michelangelo Devs'
   const enDesc =
-    "Michelangelo Devs is an AI agents agency that builds production sales agents for WhatsApp, Instagram and web, live in less than two weeks. OpenAI Select Partner. Message us on WhatsApp."
+    "Michelangelo Devs is an AI company in Venezuela that builds production sales agents for WhatsApp, Instagram and web, live in less than two weeks. OpenAI Select Partner. Message us on WhatsApp."
   let enHtml = baseHtml
     .replace('<html lang="es"', '<html lang="en"')
     .replace(

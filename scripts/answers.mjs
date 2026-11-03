@@ -15,7 +15,7 @@
  *   - Spanish only: these target Spanish queries; the SPA carries the toggle.
  */
 
-import { SITE, WA_NUMBER, WA_E164 } from './seo-data.mjs'
+import { SITE, WA_NUMBER, WA_E164, ADDRESS } from './seo-data.mjs'
 
 const WA_TEXT = encodeURIComponent('Hola, vengo de michelangelodevs.com y quiero un agente de IA para mi negocio.')
 export const WA_URL = `https://wa.me/${WA_NUMBER}?text=${WA_TEXT}`
@@ -356,6 +356,7 @@ function jsonLd(a, ORG) {
         name: ORG.name,
         url: SITE,
         description: ORG.definition,
+        address: ADDRESS,
         sameAs: [ORG.instagram, ORG.linkedin],
         award: ORG.openAiPartner,
         memberOf: { '@type': 'Organization', name: ORG.openAiPartnerNetwork, url: ORG.openAiPartnerUrl },
@@ -557,7 +558,7 @@ export function renderAnswerPage(a, { ORG }) {
       <nav class="more" aria-label="Más respuestas">
         <h2>Más respuestas</h2>
         ${others.map((o) => `<a href="/${o.slug}/">${esc(o.h1)}</a>`).join('')}
-        <a href="/">Michelangelo Devs — la agencia</a>
+        <a href="/">Michelangelo Devs, empresa de IA en Venezuela</a>
       </nav>
       <div class="partner">
         <a href="${ORG.openAiPartnerUrl}" target="_blank" rel="noopener noreferrer"><img src="/partners/openai-select-partner.svg" alt="${esc(ORG.openAiPartner)}" /></a>
@@ -565,7 +566,7 @@ export function renderAnswerPage(a, { ORG }) {
       </div>
     </article>
   </main>
-  <footer><div class="wrap">${esc(ORG.name)}. Venezuela y Latinoamérica. WhatsApp <a href="${WA_URL}">${WA_E164}</a></div></footer>
+  <footer><div class="wrap">${esc(ORG.name)}. Empresa de IA en Venezuela. Atendemos toda Latinoamérica. WhatsApp <a href="${WA_URL}">${WA_E164}</a></div></footer>
 </body>
 </html>
 `

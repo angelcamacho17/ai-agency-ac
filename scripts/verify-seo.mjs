@@ -381,6 +381,7 @@ const TARGET_QUERIES = [
   'agencia de IA',
   'agencia de agentes de IA',
   'empresas de inteligencia artificial',
+  'empresa de IA en Venezuela',
   'agente de WhatsApp',
   'agente de Instagram',
   'asistente virtual',
@@ -397,6 +398,11 @@ for (const q of TARGET_QUERIES) {
   if (!new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(allHtml)) {
     fail(`Ninguna página construida contiene la consulta objetivo "${q}"`)
   }
+}
+
+// La landing es la página con más autoridad: es la que debe pelear esta consulta.
+if (!/<title>[^<]*Empresa de IA en Venezuela/.test(html)) {
+  fail('El <title> de la landing perdió "Empresa de IA en Venezuela"')
 }
 
 // Cada página citable debe ser alcanzable desde la landing, o los rastreadores

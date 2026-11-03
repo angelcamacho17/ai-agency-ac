@@ -9,8 +9,8 @@ import { CLIENTS as CLIENTS_ES, ORG as ORG_ES } from './offer'
 export const ORG = {
   ...ORG_ES,
   definition:
-    'Michelangelo Devs is an AI agents agency that builds production sales agents for WhatsApp, Instagram and web, live in less than two weeks.',
-  tagline: 'One AI agent that answers, qualifies and closes on WhatsApp, Instagram and your site.',
+    'Michelangelo Devs is an AI company in Venezuela that builds production sales agents for WhatsApp, Instagram and web, live in less than two weeks.',
+  tagline: 'AI company in Venezuela. Agents that close sales on WhatsApp, Instagram and your site.',
   areaServed: ['Venezuela', 'Latin America'],
 } as const
 
@@ -120,6 +120,10 @@ export const FAQ: readonly Faq[] = [
   {
     q: 'Does it work in Spanish and English?',
     a: 'Yes. The agent answers in the language the customer writes in, and switches mid-conversation if the customer does.',
+  },
+  {
+    q: 'Is Michelangelo Devs a Venezuelan AI company?',
+    a: 'Yes. Michelangelo Devs is an AI company in Venezuela, with its team here, serving all of Latin America. It works with Venezuelan companies such as Lidotel, Coloreal and Clínica Renaissence.',
   },
   {
     q: 'How do I start?',

@@ -24,6 +24,9 @@ const ROOT = resolve(HERE, '..')
 export const SITE = 'https://www.michelangelodevs.com'
 export const WA_NUMBER = '584227197216'
 export const WA_E164 = '+584227197216'
+// Solo el país: es lo que el sitio afirma. Ciudad y calle se agregan cuando
+// exista una dirección pública y verificable; nunca una inventada.
+export const ADDRESS = { '@type': 'PostalAddress', addressCountry: 'VE' }
 
 /**
  * Pull the exported literals out of src/content/offer.ts without a TS
@@ -116,8 +119,11 @@ export function buildJsonLd({ ORG, AGENTS, PHASES, FAQ }, { lang = 'es' } = {}) 
         '@id': orgId,
         name: ORG.name,
         url: SITE,
+        logo: `${SITE}/icon-512.png`,
+        image: `${SITE}/og.jpg`,
         description: ORG.definition,
         slogan: ORG.tagline,
+        address: ADDRESS,
         sameAs: [ORG.instagram, ORG.linkedin],
         areaServed: [
           { '@type': 'Country', name: 'Venezuela' },
