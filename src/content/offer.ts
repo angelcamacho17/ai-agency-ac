@@ -21,9 +21,9 @@ export const ORG = {
   url: 'https://www.michelangelodevs.com',
   /** The entity sentence. Must appear verbatim in the hero, JSON-LD and llms.txt. */
   definition:
-    'Michelangelo Devs es una agencia de agentes de IA que construye agentes de ventas en producción para WhatsApp, Instagram y web, en vivo en menos de dos semanas.',
+    'Michelangelo Devs es una empresa de IA en Venezuela que construye agentes de ventas en producción para WhatsApp, Instagram y web, en vivo en menos de dos semanas.',
   /** The H1. Its first words are what verify-seo looks for. */
-  tagline: 'Un agente de IA que responde, califica y cierra en WhatsApp, Instagram y tu web.',
+  tagline: 'Empresa de IA en Venezuela. Agentes que cierran ventas en WhatsApp, Instagram y tu web.',
   instagram: 'https://www.instagram.com/michelangelo.devs/',
   linkedin: 'https://www.linkedin.com/company/michelangelo-devs/',
   instagramHandle: '@michelangelo.devs',
@@ -251,6 +251,10 @@ export const FAQ: readonly Faq[] = [
   {
     q: '¿Funciona en español y en inglés?',
     a: 'Sí. El agente responde en el idioma en que escribe el cliente, y cambia a mitad de conversación si el cliente cambia.',
+  },
+  {
+    q: '¿Michelangelo Devs es una empresa de IA venezolana?',
+    a: 'Sí. Michelangelo Devs es una empresa de IA en Venezuela, con equipo aquí, y atiende a toda Latinoamérica. Trabaja con empresas venezolanas como Lidotel, Coloreal y Clínica Renaissence.',
   },
   {
     q: '¿Cómo empiezo?',

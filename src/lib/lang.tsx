@@ -32,7 +32,7 @@ export const UI = {
     faqH: ['Preguntas, ', 'respondidas sin rodeos.'],
     ctaH: 'Sigue el proceso en Instagram.',
     ctaP: 'Demos en vivo y cada cliente nuevo la semana que sale.',
-    footer: 'Venezuela y Latinoamérica. WhatsApp',
+    footer: 'Empresa de IA en Venezuela. Atendemos toda Latinoamérica. WhatsApp',
     langLabel: 'Cambiar a English',
   },
   en: {
@@ -50,7 +50,7 @@ export const UI = {
     faqH: ['Questions, ', 'answered straight.'],
     ctaH: 'Follow the build on Instagram.',
     ctaP: 'Live demos and every new client the week it goes live.',
-    footer: 'Venezuela and Latin America. WhatsApp',
+    footer: 'AI company in Venezuela, serving all of Latin America. WhatsApp',
     langLabel: 'Cambiar a español',
   },
 } as const
